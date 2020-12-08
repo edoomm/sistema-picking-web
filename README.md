@@ -5,7 +5,6 @@ Explico un poco desde el principio el workflow que tendremos en Github
 1. Descargarse e instalarse git
 2. Configurar en el git (username, password, etc)
 3. Hacerle fork al repo https://github.com/edoomm/sistema-picking-web (un fork crea una copia del repositorio en tu GitHub)
-4. 2.5. Pero antes de hacerle fork ya debe de haber algo en el repo, @Kevin ya solo es que cree la estructura de las páginas con los links, para toda la parte de navegación
 
 GitHub te permite trabajar un repositorio de manera local y actualizarlo de manera remota.
 
@@ -32,8 +31,14 @@ Un ejemplo para dar un push al repo remoto (que sería el que más utilizaríamo
 `git push origin fend-feautre`
 
 ## Nomenclatura de branches
-Como les dije las branches sirven para ramificar el repo, por lo que traten de simular esto, es decir el nombre de una branch podría quedar de la siguiente manera:
+Como les dije las branches sirven para ramificar el repo, por lo que traten de simular esto, es decir el nombre de una branch podría quedar de la siguiente manera: <br>
 _feature1-feature1.1-feature1.1.1_
+<br>
+Otra donde podría estar trabajando alguien más podría ser <br>
+_feature1-feature1.1-feature1.1.2_
+<br>
+E incluisve otra, donde puede estar trabajando otro equipo diferente puede ser <br>
+_feature1-feature-2.1_
 
 Por ejemplo una vez este la estructura, como trabajaremos la parte de _front end_, podríamos tener la branch principal _fend_ y a partir de esta, y dependiendo como se repartan el trabajo, podrían crear otras branches (ramificaciones) que desprendan de _fend_. Poniendo un ejemplo de como se podrían repartir el trabajo, quedaría algo así:
 
@@ -41,6 +46,22 @@ Por ejemplo una vez este la estructura, como trabajaremos la parte de _front end
 - _fend-login_: @Gabriel
 - _fend-menu_: @Kevin
 - _fend-operador_ : @Raymundo
+- _fend-operador-popup_ : @Esteban
 - etc.
 
 Una vez ya tengan completa su parte, ya dan pull request con `git push origin fend-feature`
+
+## ¿Y todo esto pa qué?
+Trabajar en branches, nos va a permitir estar trabajando al mismo tiempo, o cuando cada uno decida y no se tenga problemas por estar actualizando lo que otro ya hizo (para evitar conflictos con los `pull`)
+
+Ya cuando alguien haya terminado y testeado la funcionalidad (_feature_) que está implementando, ya GitHub une casi automaticamente el trabajo que vayamos haciendo 
+
+De forma gráfica, todo esto se vería así <br>
+![branches!](https://lh3.googleusercontent.com/pw/ACtC-3c4jecBnWHSWTKeDl0RfC00AYSgamnod8uA0ljKFy2nkgy2eJ_75B05onW1xBXxljbXgNGOl1zU1oBUvz_F29FXrmR4wlBGKZVkgPUv-7NjGQ9cLRe41vJ0gCWfHLLq9V-oWLWVGPlcXRXzjjoEv_-c=w576-h521-no?authuser=0)
+
+<br>
+
+# No olviden
+Llevar un estilo de programación similar al de todos, apoyense de recursos como [JSDocs](https://jsdoc.app/), [HTMLDocs](https://devdocs.io/html/) o [PHPManual](https://www.php.net/manual/en/index.php). Para que tengamos la misma nomenclatura en nuestras variables, funciones, etc.
+
+Yo, como propietario del repo, podré ir viendo lo que vayan mandando, ir revisandolo y dandoles retro si algo esta mal
