@@ -11,6 +11,42 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
+     <style>
+        .navbar-custom{
+            background-color:#1e4f9e;
+        }
+        .margin-custom{
+            margin-top: 80px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        #ButtonMenu{
+          margin: 10% ;
+        }
+
+        .ButtonWidth{
+            width: 260px; !important;
+            height: 42px; !important;
+        }
+
+        .Menu{
+           margin-top: 12%;
+           margin-left: 1.5%;
+           height: 48%;
+           width: 45%;
+           background-color: #ebebeb;
+        }
+        .Remesas{
+           margin-top: 16%;
+           height: 48%;
+           width: 45%;
+
+        }
+
+
+    </style>
+
+
 </head>
 
 <body>
@@ -21,15 +57,85 @@
 
 
     <main>
-        <div class="container">
-            <h1>Menu</h1>
-            <ul>
-                <li><a href="./operadores.html">Operadores</a></li>
-                <li><a href="#">Productos</a></li>
-                <li><a href="#">Dispositivos</a></li>
-                <li><a href="#">Remesas</a></li>
-            </ul>
+
+         <nav class="navbar  navbar-expand-lg navbar-custom fixed-top">
+            <div class="collapse navbar-collapse container-fluid">
+                <img src="./resources/grand_vision.jpg" alt="" width="100" class="d-inline-block align-top">
+                <h1 style="color:beige"> Menu principal</h1>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link nav-brand" href="#" style="color:beige">Cerrar sesión</a></li>
+                </ul>
+            </div>
+        </nav>
+
+
+
+        <div class="position-absolute start-0 ButtonMenu Menu ">
+                <div class = "row">
+                    <div class="col-md-4 text-right">
+                        <img src= "https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px; margin-left: 20%"/>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a class="btn btn-primary ButtonWidth" id = "ButtonMenu" href="./operadores.html" role="button"> Operadores </a>
+                    </div>
+                </div>
+
+
+                 <div class = "row">
+                    <div class="col-md-4 text-right">
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 20%"/>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a class="btn btn-primary ButtonWidth" id = "ButtonMenu" href="./productos.html" role="button"> Productos </a>
+                    </div>
+                </div>
+
+                 <div class = "row">
+                    <div class="col-md-4 text-right">
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 20% "/>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a class="btn btn-primary ButtonWidth" id = "ButtonMenu" href="./dispositivos.html" role="button"> Dispositivos </a>
+                    </div>
+                </div>
+
+
+                 <div class = "row">
+                    <div class="col-md-4 text-right">
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 20%"/>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a class="btn btn-primary ButtonWidth" id = "ButtonMenu" href="./remesas.html" role="button"> Remesas </a>
+                    </div>
+                </div>
         </div>
+
+
+        <div class = "position-absolute start-50 bg-white Remesas">
+
+            <div class="row">
+                <div class = "col-md-4">
+                    <h3 class = "text-secondary text-center"> Remesas pendientes</h3> <br>
+                        <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg" style="height: 16%;  margin-left: 20%"/>
+                 </div>
+
+                <div class = "col-md-4">
+                    <h3 class = "text-secondary text-center"> Remesas en progreso</h3> <br>
+                        <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg" style="height: 16%;  margin-left: 20%"/>
+                 </div>
+
+                <div class = "col-md-4">
+                    <h3 class = "text-secondary text-center"> Remesas en terminadas </h3> <br>
+                        <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg" style="height: 16%;  margin-left: 20%"/>
+                 </div>
+
+            </div>
+
+
     </main>
 
 
