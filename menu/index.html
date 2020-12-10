@@ -20,29 +20,11 @@
             margin-left: 10px;
             margin-right: 10px;
         }
-        #ButtonMenu{
-          margin: 10% ;
-        }
 
-        .ButtonWidth{
-            width: 260px; !important;
-            height: 42px; !important;
+        #Button-custom{
+            width: 55%; !important;
+            margin: 6%;
         }
-
-        .Menu{
-           margin-top: 12%;
-           margin-left: 1.5%;
-           height: 48%;
-           width: 45%;
-           background-color: #ebebeb;
-        }
-        .Remesas{
-           margin-top: 16%;
-           height: 48%;
-           width: 45%;
-
-        }
-
 
     </style>
 
@@ -69,71 +51,51 @@
         </nav>
 
 
+        <div class = "container-lg-12">
 
-        <div class="position-absolute start-0 ButtonMenu Menu ">
+        <div class = "col" style = "margin-top: 10%;">
                 <div class = "row">
-                    <div class="col-md-4 text-right">
-                        <img src= "https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px; margin-left: 20%"/>
-                    </div>
+                    <div class = "col" style = "margin-left: 2%; margin-right:2%; background-color: #c3c3c3">
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 10%"/>
+                        <a class="btn btn-primary rounded" id = "Button-custom" href="./operadores.html" role="button"> Operadores </a>
 
-                    <div class="col-md-4">
-                        <a class="btn btn-primary ButtonWidth" id = "ButtonMenu" href="./operadores.html" role="button"> Operadores </a>
-                    </div>
-                </div>
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 10%"/>
+                        <a class="btn btn-primary rounded" id = "Button-custom" href="./productos.html" role="button"> Productos </a>
 
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 10%"/>
+                        <a class="btn btn-primary rounded" id = "Button-custom" href="./dispositivos.html" role="button"> Dispositivos </a>
 
-                 <div class = "row">
-                    <div class="col-md-4 text-right">
-                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 20%"/>
-                    </div>
+                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 10%"/>
+                        <a class="btn btn-primary rounded" id= "Button-custom" href="./remesas.html" role="button"> Remesas </a>
+                    </div> 
 
-                    <div class="col-md-4">
-                        <a class="btn btn-primary ButtonWidth" id = "ButtonMenu" href="./productos.html" role="button"> Productos </a>
-                    </div>
-                </div>
+                <div class = "col align-self-center " style = "margin-right: 2%">
+                        <div class =  "row">
+                                <div class = "col text-center"> 
+                                    <h3 class = "text-secondary"> Remesas pendientes</h3> <br>
+                                    <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg" style="height: 70px;"/>     
+                                </div>
 
-                 <div class = "row">
-                    <div class="col-md-4 text-right">
-                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 20% "/>
-                    </div>
+                                <div class = "col text-center"> 
+                                    <h3 class = "text-secondary"> Remesas en progreso </h3> <br>
+                                    <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg" style="height: 70px;"/>     
+                                </div>
 
-                    <div class="col-md-4">
-                        <a class="btn btn-primary ButtonWidth" id = "ButtonMenu" href="./dispositivos.html" role="button"> Dispositivos </a>
-                    </div>
-                </div>
+                                <div class = "col text-center"> 
+                                    <h3 class = "text-secondary"> Remesas en terminadas </h3> <br>
+                                    <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg" style="height: 70px;"/>     
+                                </div>
 
-
-                 <div class = "row">
-                    <div class="col-md-4 text-right">
-                        <img src="https://logos-marcas.com/wp-content/uploads/2020/08/Google-Chrome-Logo.png" style="height: 70px;  margin-left: 20%"/>
-                    </div>
-
-                    <div class="col-md-4">
-                        <a class="btn btn-primary ButtonWidth" id = "ButtonMenu" href="./remesas.html" role="button"> Remesas </a>
-                    </div>
-                </div>
-        </div>
+                        </div>
+               </div>
 
 
-        <div class = "position-absolute start-50 bg-white Remesas">
+                </div> <!-- from the row -->
 
-            <div class="row">
-                <div class = "col-md-4">
-                    <h3 class = "text-secondary text-center"> Remesas pendientes</h3> <br>
-                        <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg" style="height: 16%;  margin-left: 20%"/>
-                 </div>
+                </div>  <!-- from the col -->
 
-                <div class = "col-md-4">
-                    <h3 class = "text-secondary text-center"> Remesas en progreso</h3> <br>
-                        <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg" style="height: 16%;  margin-left: 20%"/>
-                 </div>
+                </div > <!-- from the container -->
 
-                <div class = "col-md-4">
-                    <h3 class = "text-secondary text-center"> Remesas en terminadas </h3> <br>
-                        <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg" style="height: 16%;  margin-left: 20%"/>
-                 </div>
-
-            </div>
 
 
     </main>
