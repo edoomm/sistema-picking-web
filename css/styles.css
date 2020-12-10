@@ -1,0 +1,22 @@
+:root {
+  --dark: #16191c;
+  --dark-x: #1e2126;
+  --light: #ffffff;
+}
+
+body, .form-text{
+
+  font-family: 'Spartan', sans-serif;
+  font-weight: 300;
+  color: #1c50a4;
+}
+.form-control, .btn {
+  min-height: 3.125rem;
+  line-height: initial;
+}
+.f{
+
+  background: (0,0,0,.2);
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}
