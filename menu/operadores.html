@@ -35,8 +35,8 @@
                 <img src="./resources/grand_vision.jpg" alt="" width="100" class="d-inline-block align-top">
                 <h1 style="color:beige">Operadores</h1>
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link nav-brand" href="index.html" style="color:beige">Menú principal</a></li>
-                    <li class="nav-item"><a class="nav-link nav-brand" href="#" style="color:beige">Cerrar sesión</a></li>
+                    <li class="nav-item"><a class="nav-link nav-brand" href="menuPrincipal.html" style="color:beige">Menú principal</a></li>
+                    <li class="nav-item"><a class="nav-link nav-brand" href="../index.html" style="color:beige">Cerrar sesión</a></li>
                 </ul>
             </div>
         </nav>
@@ -47,42 +47,45 @@
                         Lista de operadores
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Número de empleado</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Activo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>123456</td>
-                                    <td>Juan Pérez</td>
-                                    <td>Sí</td>
-                                </tr>
-                                <tr>
-                                    <td>987654</td>
-                                    <td>María López</td>
-                                    <td>Sí</td>
-                                </tr> 
-                                <tr>
-                                    <td>987654</td>
-                                    <td>María López</td>
-                                    <td>Sí</td>
-                                </tr> 
-                                <tr>
-                                    <td>987654</td>
-                                    <td>María López</td>
-                                    <td>Sí</td>
-                                </tr> 
-                                <tr>
-                                    <td>987654</td>
-                                    <td>María López</td>
-                                    <td>Sí</td>
-                                </tr> 
-                            </tbody>
-                        </table>
+                        <div class="container">
+                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de empleado">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Número de empleado</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Activo</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="operador">
+                                    <tr>
+                                        <td>123456</td>
+                                        <td>Juan Pérez</td>
+                                        <td>Sí</td>
+                                    </tr>
+                                    <tr>
+                                        <td>987654</td>
+                                        <td>María López</td>
+                                        <td>Sí</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>987654</td>
+                                        <td>María López</td>
+                                        <td>Sí</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>987654</td>
+                                        <td>María López</td>
+                                        <td>Sí</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>987654</td>
+                                        <td>María López</td>
+                                        <td>Sí</td>
+                                    </tr> 
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -143,6 +146,28 @@
 
     <!-- For better performance this script should go at the very bottom of the body -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script>
+    function filtrar() {
+      // Declare variables
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("busqueda");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("operador");
+      tr = table.getElementsByTagName("tr");
+
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }        
+    </script>
 </body>
 
 </html>
