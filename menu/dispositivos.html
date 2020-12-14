@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Operadores</title>
+    <title>Productos</title>
     <meta name='viewport'
         content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' />
         
@@ -33,7 +33,7 @@
         <nav class="navbar  navbar-expand-lg navbar-custom fixed-top">
             <div class="collapse navbar-collapse container-fluid"> 
                 <img src="./resources/grand_vision.jpg" alt="" width="100" class="d-inline-block align-top">
-                <h1 style="color:beige">Operadores</h1>
+                <h1 style="color:beige">Dispositivos</h1>
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link nav-brand" href="menuPrincipal.html" style="color:beige">Menú principal</a></li>
                     <li class="nav-item"><a class="nav-link nav-brand" href="../index.html" style="color:beige">Cerrar sesión</a></li>
@@ -44,44 +44,39 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-header">
-                        Lista de operadores
+                        Lista de dispositivos
                     </div>
                     <div class="card-body">
                         <div class="container">
-                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de empleado">
+                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de serie del dispositivo">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Número de empleado</th>
-                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Número de serie</th>
+                                        <th scope="col">Encargado</th>
                                         <th scope="col">Activo</th>
                                     </tr>
                                 </thead>
-                                <tbody id="operador">
+                                <tbody id="serie">
                                     <tr>
                                         <td>123456</td>
-                                        <td>Juan Pérez</td>
-                                        <td>Sí</td>
+                                        <td>Juan Perez</td>
+                                        <td>Si</td>
                                     </tr>
                                     <tr>
-                                        <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Sí</td>
+                                        <td>123456</td>
+                                        <td>Juan Ignacio</td>
+                                        <td>Si</td>
                                     </tr> 
                                     <tr>
-                                        <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Sí</td>
+                                        <td>123456</td>
+                                        <td>Julian</td>
+                                        <td>No</td>
                                     </tr> 
                                     <tr>
-                                        <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Sí</td>
-                                    </tr> 
-                                    <tr>
-                                        <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Sí</td>
+                                        <td>123456</td>
+                                        <td>Pedro</td>
+                                        <td>No</td>
                                     </tr> 
                                 </tbody>
                             </table>
@@ -106,35 +101,28 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="text-center">
-                            <img src="./resources/example.png" alt="" width="150" class="img-fluid" style="padding:1%">
                             <h2>
-                                    Información del empleado seleccionado
+                                    Información del dispositivo seleccionado
                             </h2>
                         </div>
                     </div>
                     <div class="card-body">
                         <form>
                             <div class="mb-3">
-                                <label for="nombre_operador" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre_operador">
+                                <label for="nombre_producto" class="form-label">Tipo</label>
+                                <input type="text" class="form-control" id="nombre_producto">
                             </div>
                             <div class="mb-3">
-                                <label for="numero_empleado" class="form-label">Numero de empleado</label>
-                                <input type="text" class="form-control" id="numero_empleado">
+                                <label for="SKU_producto" class="form-label">Número de Serie</label>
+                                <input type="text" class="form-control" id="SKU_producto">
                             </div>
                             <div class="mb-3">
-                                <label for="correo_operador" class="form-label">Correo operador</label>
-                                <input type="email" class="form-control" id="correo_operador">
+                                <label for="ubicacion_producto" class="form-label">Encargado</label>
+                                <input type="text" class="form-control" id="ubicacion_producto">
                             </div>
-                            <div class="row">
-                                <div class="mb-3 col-sm-6">
-                                    <label for="horario_entrada" class="form-label">Horario entrada</label>
-                                    <input type="time" class="form-control" id="horario_entrada">
-                                </div>
-                                <div class="mb-3 col-sm-6">
-                                    <label for="horario_salida" class="form-label">Horario salida</label>
-                                    <input type="time" class="form-control" id="horario_salida">
-                                </div>
+                            <div class="mb-3">
+                                <label for="stock" class="form-label">Activo</label>
+                                <input type="number" class="form-control" id="stock">
                             </div>
                         </form>
                     </div>
@@ -155,7 +143,7 @@
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("busqueda");
       filter = input.value.toUpperCase();
-      table = document.getElementById("operador");
+      table = document.getElementById("serie");
       tr = table.getElementsByTagName("tr");
 
       for (i = 0; i < tr.length; i++) {
