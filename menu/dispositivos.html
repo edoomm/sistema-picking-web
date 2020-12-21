@@ -49,7 +49,7 @@
                     <div class="card-body">
                         <div class="container">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de serie del dispositivo">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="tablaDispositivos">
                                 <thead>
                                     <tr>
                                         <th scope="col">Número de serie</th>
@@ -59,23 +59,23 @@
                                 </thead>
                                 <tbody id="serie">
                                     <tr>
-                                        <td>123456</td>
+                                        <td id>123456</td>
                                         <td>Juan Perez</td>
                                         <td>Si</td>
                                     </tr>
                                     <tr>
-                                        <td>123456</td>
-                                        <td>Juan Ignacio</td>
+                                        <td>987654</td>
+                                        <td>María López</td>
                                         <td>Si</td>
                                     </tr> 
                                     <tr>
-                                        <td>123456</td>
-                                        <td>Julian</td>
+                                        <td>552648</td>
+                                        <td>José Mancera</td>
                                         <td>No</td>
                                     </tr> 
                                     <tr>
-                                        <td>123456</td>
-                                        <td>Pedro</td>
+                                        <td>987654</td>
+                                        <td>Josefina López</td>
                                         <td>No</td>
                                     </tr> 
                                 </tbody>
@@ -109,20 +109,20 @@
                     <div class="card-body">
                         <form>
                             <div class="mb-3">
-                                <label for="nombre_producto" class="form-label">Tipo</label>
-                                <input type="text" class="form-control" id="nombre_producto">
+                                <label for="tipo" class="form-label">Tipo</label>
+                                <input type="text" class="form-control" id="tipo">
                             </div>
                             <div class="mb-3">
-                                <label for="SKU_producto" class="form-label">Número de Serie</label>
-                                <input type="text" class="form-control" id="SKU_producto">
+                                <label for="numeroSerie" class="form-label">Número de Serie</label>
+                                <input type="text" class="form-control" id="numeroSerie">
                             </div>
                             <div class="mb-3">
-                                <label for="ubicacion_producto" class="form-label">Encargado</label>
-                                <input type="text" class="form-control" id="ubicacion_producto">
+                                <label for="encargado" class="form-label">Encargado</label>
+                                <input type="text" class="form-control" id="encargado">
                             </div>
                             <div class="mb-3">
-                                <label for="stock" class="form-label">Activo</label>
-                                <input type="number" class="form-control" id="stock">
+                                <label for="estado" class="form-label">Activo</label>
+                                <input type="text" class="form-control" id="estado">
                             </div>
                         </form>
                     </div>
@@ -188,6 +188,58 @@
         }
       }
     }        
+    function init(){
+        document.getElementById("tipo").value = "";
+        document.getElementById("tipo").disabled = true;
+        document.getElementById("numeroSerie").value = "";
+        document.getElementById("numeroSerie").disabled = true;
+        document.getElementById("encargado").value = "";
+        document.getElementById("encargado").disabled = true;
+        document.getElementById("estado").value = ""
+        document.getElementById("estado").disabled = true;
+        document.getElementById("busqueda").value="";
+        rowHandlers();
+    }
+    /* 
+        correo_operador
+        horario_entrada
+        horario_salida
+    */
+    function llenarFormulario(row){
+        console.log(row[0]);
+        console.log(row[1]);
+        console.log(row[2]);
+        document.getElementById("tipo").value = "Escaner";
+        document.getElementById("tipo").disabled = true;
+        document.getElementById("numeroSerie").value = row[0];
+        document.getElementById("numeroSerie").disabled = true;
+        document.getElementById("encargado").value = row[1];
+        document.getElementById("encargado").disabled = true;
+        document.getElementById("estado").value = row[2];
+        document.getElementById("estado").disabled = true;
+    }
+
+    function rowHandlers(){
+        //cleanForm();
+        var table = document.getElementById("tablaDispositivos");
+        var rows = table.getElementsByTagName("tr");
+        for(var i = 0; i < rows.length; i++){
+            var currentRow = table.rows[i];
+            var clickHandler = function(row){
+                return function(){
+                    var cells = row.getElementsByTagName("td");
+                    var fila = [];
+                    for(var j = 0; j < cells.length; j++){
+                        console.log(cells[j].innerHTML);
+                        fila.push(cells[j].innerHTML);
+                    }
+                    llenarFormulario(fila);
+                };
+            };
+            currentRow.onclick = clickHandler(currentRow);
+        }
+    }
+    window.onload = init();
     </script>
 </body>
 
