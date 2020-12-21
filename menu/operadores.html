@@ -48,7 +48,7 @@
                     </div>
                     <div class="card-body">
                         <div class="container">
-                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de empleado">
+                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el número de empleado">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -90,7 +90,7 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Registrar</button>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#registro">Registrar</button>
                             </div>
                             <div class="col-sm-4">
                                 <button class="btn btn-primary" type="button">Modificar</button>
@@ -119,7 +119,7 @@
                                 <input type="text" class="form-control" id="nombre_operador">
                             </div>
                             <div class="mb-3">
-                                <label for="numero_empleado" class="form-label">Numero de empleado</label>
+                                <label for="numero_empleado" class="form-label">Número de empleado</label>
                                 <input type="text" class="form-control" id="numero_empleado">
                             </div>
                             <div class="mb-3">
@@ -137,6 +137,41 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Registro de operador</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                    <div class="modal-body">
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label for="inputUsuario" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" id="inputUsuario" placeholder="Juanito">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="inputPassword" placeholder="25789">
+                            </div>
+                            <div class="col-12">
+                                <label for="inputNombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="Juan Perez Urrieta">
+                            </div>
+                            <div class="col-12">
+                                <label for="inputNumeroEmpleado" class="form-label">Número del empleado</label>
+                                <input type="text" class="form-control" id="inputNumeroEmpleado" placeholder="57268">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -169,6 +204,11 @@
           }
         }
       }
+    }
+    
+    function mostrarRegistro()
+    {
+        document.getElementById("registro").style.display = "block";
     }        
     </script>
 </body>

@@ -85,13 +85,13 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Registrar</button>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#registro">Registrar</button>
                             </div>
                             <div class="col-sm-4">
                                 <button class="btn btn-primary" type="button">Modificar</button>
                             </div>
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Eliminar</button>
+                                <button class="btn btn-primary" type="button">Cargar inventario</button>
                             </div>
                         </div>
                     </div>
@@ -129,7 +129,49 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Registro de productos</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                    <div class="modal-body">
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label for="inputSKU" class="form-label">SKU</label>
+                                <input type="text" class="form-control" id="inputSKU" placeholder="24986879">
+                            </div>
+                            <div class="col-6">
+                                <label for="inputNombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="Armazon">
+                            </div>
+                            <div class="col-6">
+                                <label for="inputStock" class="form-label">Stock</label>
+                                <input type="text" class="form-control" id="inputStock" placeholder="50">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Ubicacion</label>
+                                <select id="inputState" class="form-select">
+                                  <option selected>A28497</option>
+                                  <option selected>A28498</option>
+                                  <option selected>A28498</option>
+                                  <option selected>A28498</option>
+                                  <option selected>A28498</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </main>
 
     <footer>
