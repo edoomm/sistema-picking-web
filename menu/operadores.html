@@ -49,7 +49,7 @@
                     <div class="card-body">
                         <div class="container">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de empleado" pattern="^[0-9]{6}$">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="tablaOperadores">
                                 <thead>
                                     <tr>
                                         <th scope="col">Número de empleado</th>
@@ -59,7 +59,7 @@
                                 </thead>
                                 <tbody id="operador">
                                     <tr>
-                                        <td>123456</td>
+                                        <td id>123456</td>
                                         <td>Juan Pérez</td>
                                         <td>Sí</td>
                                     </tr>
@@ -69,18 +69,18 @@
                                         <td>Sí</td>
                                     </tr>
                                     <tr>
-                                        <td>987654</td>
-                                        <td>María López</td>
+                                        <td>552648</td>
+                                        <td>José Mancera</td>
+                                        <td>Sí</td>
+                                    </tr>
+                                    <tr>
+                                        <td>515151</td>
+                                        <td>Manuel Cisneros</td>
                                         <td>Sí</td>
                                     </tr>
                                     <tr>
                                         <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Sí</td>
-                                    </tr>
-                                    <tr>
-                                        <td>987654</td>
-                                        <td>María López</td>
+                                        <td>Josefina López</td>
                                         <td>Sí</td>
                                     </tr>
                                 </tbody>
@@ -170,6 +170,61 @@
         }
       }
     }
+    function init(){
+        document.getElementById("numero_empleado").value = "";
+        document.getElementById("numero_empleado").disabled = true;
+        document.getElementById("nombre_operador").value = "";
+        document.getElementById("nombre_operador").disabled = true;
+        document.getElementById("correo_operador").value = "";
+        document.getElementById("correo_operador").disabled = true;
+        document.getElementById("horario_entrada").value = ""
+        document.getElementById("horario_entrada").disabled = true;
+        document.getElementById("horario_salida").value = ""
+        document.getElementById("horario_salida").disabled = true;
+        document.getElementById("busqueda").value="";
+        rowHandlers();
+    }
+    /* 
+        correo_operador
+        horario_entrada
+        horario_salida
+    */
+    function llenarFormulario(row){
+        console.log(row[0]);
+        console.log(row[1]);
+        document.getElementById("numero_empleado").value = row[0];
+        document.getElementById("numero_empleado").disabled = true;
+        document.getElementById("nombre_operador").value = row[1];
+        document.getElementById("nombre_operador").disabled = true;
+        document.getElementById("correo_operador").value = "ejemplo@gmail.com"
+        document.getElementById("correo_operador").disabled = true;
+        document.getElementById("horario_entrada").value = "15:30"
+        document.getElementById("horario_entrada").disabled = true;
+        document.getElementById("horario_salida").value = "18:30"
+        document.getElementById("horario_salida").disabled = true;
+    }
+
+    function rowHandlers(){
+        //cleanForm();
+        var table = document.getElementById("tablaOperadores");
+        var rows = table.getElementsByTagName("tr");
+        for(var i = 0; i < rows.length; i++){
+            var currentRow = table.rows[i];
+            var clickHandler = function(row){
+                return function(){
+                    var cells = row.getElementsByTagName("td");
+                    var fila = [];
+                    for(var j = 0; j < cells.length; j++){
+                        console.log(cells[j].innerHTML);
+                        fila.push(cells[j].innerHTML);
+                    }
+                    llenarFormulario(fila);
+                };
+            };
+            currentRow.onclick = clickHandler(currentRow);
+        }
+    }
+    window.onload = init();
     </script>
 </body>
 
