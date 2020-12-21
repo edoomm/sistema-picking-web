@@ -7,7 +7,7 @@
     <title>Operadores</title>
     <meta name='viewport'
         content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' />
-        
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <style>
@@ -26,12 +26,12 @@
 <body>
 
     <header>
-        
+
     </header>
 
     <main>
         <nav class="navbar  navbar-expand-lg navbar-custom fixed-top">
-            <div class="collapse navbar-collapse container-fluid"> 
+            <div class="collapse navbar-collapse container-fluid">
                 <img src="./resources/grand_vision.jpg" alt="" width="100" class="d-inline-block align-top">
                 <h1 style="color:beige">Operadores</h1>
                 <ul class="navbar-nav">
@@ -48,8 +48,8 @@
                     </div>
                     <div class="card-body">
                         <div class="container">
-                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el número de empleado">
-                            <table class="table table-hover">
+                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el número de empleado" pattern="^[0-9]{6}$">
+                            <table class="table table-hover" id="tablaOperadores">
                                 <thead>
                                     <tr>
                                         <th scope="col">Número de empleado</th>
@@ -59,7 +59,7 @@
                                 </thead>
                                 <tbody id="operador">
                                     <tr>
-                                        <td>123456</td>
+                                        <td id>123456</td>
                                         <td>Juan Pérez</td>
                                         <td>Sí</td>
                                     </tr>
@@ -67,22 +67,22 @@
                                         <td>987654</td>
                                         <td>María López</td>
                                         <td>Sí</td>
-                                    </tr> 
+                                    </tr>
+                                    <tr>
+                                        <td>552648</td>
+                                        <td>José Mancera</td>
+                                        <td>Sí</td>
+                                    </tr>
+                                    <tr>
+                                        <td>515151</td>
+                                        <td>Manuel Cisneros</td>
+                                        <td>Sí</td>
+                                    </tr>
                                     <tr>
                                         <td>987654</td>
-                                        <td>María López</td>
+                                        <td>Josefina López</td>
                                         <td>Sí</td>
-                                    </tr> 
-                                    <tr>
-                                        <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Sí</td>
-                                    </tr> 
-                                    <tr>
-                                        <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Sí</td>
-                                    </tr> 
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -119,7 +119,7 @@
                                 <input type="text" class="form-control" id="nombre_operador">
                             </div>
                             <div class="mb-3">
-                                <label for="numero_empleado" class="form-label">Número de empleado</label>
+                                <label for="numero_empleado" class="form-label">Numero de empleado</label>
                                 <input type="text" class="form-control" id="numero_empleado">
                             </div>
                             <div class="mb-3">
@@ -205,11 +205,67 @@
         }
       }
     }
-    
+
     function mostrarRegistro()
     {
         document.getElementById("registro").style.display = "block";
     }        
+    
+    function init(){
+        document.getElementById("numero_empleado").value = "";
+        document.getElementById("numero_empleado").disabled = true;
+        document.getElementById("nombre_operador").value = "";
+        document.getElementById("nombre_operador").disabled = true;
+        document.getElementById("correo_operador").value = "";
+        document.getElementById("correo_operador").disabled = true;
+        document.getElementById("horario_entrada").value = ""
+        document.getElementById("horario_entrada").disabled = true;
+        document.getElementById("horario_salida").value = ""
+        document.getElementById("horario_salida").disabled = true;
+        document.getElementById("busqueda").value="";
+        rowHandlers();
+    }
+    /* 
+        correo_operador
+        horario_entrada
+        horario_salida
+    */
+    function llenarFormulario(row){
+        console.log(row[0]);
+        console.log(row[1]);
+        document.getElementById("numero_empleado").value = row[0];
+        document.getElementById("numero_empleado").disabled = true;
+        document.getElementById("nombre_operador").value = row[1];
+        document.getElementById("nombre_operador").disabled = true;
+        document.getElementById("correo_operador").value = "ejemplo@gmail.com"
+        document.getElementById("correo_operador").disabled = true;
+        document.getElementById("horario_entrada").value = "15:30"
+        document.getElementById("horario_entrada").disabled = true;
+        document.getElementById("horario_salida").value = "18:30"
+        document.getElementById("horario_salida").disabled = true;
+    }
+
+    function rowHandlers(){
+        //cleanForm();
+        var table = document.getElementById("tablaOperadores");
+        var rows = table.getElementsByTagName("tr");
+        for(var i = 0; i < rows.length; i++){
+            var currentRow = table.rows[i];
+            var clickHandler = function(row){
+                return function(){
+                    var cells = row.getElementsByTagName("td");
+                    var fila = [];
+                    for(var j = 0; j < cells.length; j++){
+                        console.log(cells[j].innerHTML);
+                        fila.push(cells[j].innerHTML);
+                    }
+                    llenarFormulario(fila);
+                };
+            };
+            currentRow.onclick = clickHandler(currentRow);
+        }
+    }
+    window.onload = init();
     </script>
 </body>
 
