@@ -93,7 +93,7 @@
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#registro">Registrar</button>
                             </div>
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Modificar</button>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modificar">Modificar</button>
                             </div>
                             <div class="col-sm-4">
                                 <button class="btn btn-primary" type="button">Eliminar</button>
@@ -119,12 +119,12 @@
                                 <input type="text" class="form-control" id="nombre_operador">
                             </div>
                             <div class="mb-3">
-                                <label for="numero_empleado" class="form-label">Numero de empleado</label>
+                                <label for="numero_empleado" class="form-label">Número de empleado</label>
                                 <input type="text" class="form-control" id="numero_empleado">
                             </div>
                             <div class="mb-3">
-                                <label for="correo_operador" class="form-label">Correo operador</label>
-                                <input type="email" class="form-control" id="correo_operador">
+                                <label for="usuario" class="form-label">Usuario</label>
+                                <input type="email" class="form-control" id="usuario">
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-sm-6">
@@ -175,6 +175,41 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modificar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modificar operador</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                    <div class="modal-body">
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label for="inputUsuario" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" id="inputUsuario" placeholder="Juanito">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="inputPassword" placeholder="25789">
+                            </div>
+                            <div class="col-12">
+                                <label for="inputNombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="Juan Perez Urrieta">
+                            </div>
+                            <div class="col-12">
+                                <label for="inputNumeroEmpleado" class="form-label">Número del empleado</label>
+                                <input type="text" class="form-control" id="inputNumeroEmpleado" placeholder="57268">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -185,6 +220,7 @@
     <!-- For better performance this script should go at the very bottom of the body -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script>
+
     function filtrar() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;
@@ -211,8 +247,8 @@
         document.getElementById("numero_empleado").disabled = true;
         document.getElementById("nombre_operador").value = "";
         document.getElementById("nombre_operador").disabled = true;
-        document.getElementById("correo_operador").value = "";
-        document.getElementById("correo_operador").disabled = true;
+        document.getElementById("usuario").value = "";
+        document.getElementById("usuario").disabled = true;
         document.getElementById("horario_entrada").value = ""
         document.getElementById("horario_entrada").disabled = true;
         document.getElementById("horario_salida").value = ""
@@ -221,10 +257,11 @@
         rowHandlers();
     }
     /* 
-        correo_operador
+        usuario
         horario_entrada
         horario_salida
     */
+
     function llenarFormulario(row){
         console.log(row[0]);
         console.log(row[1]);
@@ -232,8 +269,8 @@
         document.getElementById("numero_empleado").disabled = true;
         document.getElementById("nombre_operador").value = row[1];
         document.getElementById("nombre_operador").disabled = true;
-        document.getElementById("correo_operador").value = "ejemplo@gmail.com"
-        document.getElementById("correo_operador").disabled = true;
+        document.getElementById("usuario").value = "Juanito"
+        document.getElementById("usuario").disabled = true;
         document.getElementById("horario_entrada").value = "15:30"
         document.getElementById("horario_entrada").disabled = true;
         document.getElementById("horario_salida").value = "18:30"
