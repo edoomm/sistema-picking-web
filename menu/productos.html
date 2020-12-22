@@ -89,7 +89,7 @@
                     <div class="card-body">
                         <div class="container">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el SKU del producto">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="tablaProductos">
                                 <thead>
                                     <tr>
                                         <th scope="col">SKU</th>
@@ -99,24 +99,24 @@
                                 </thead>
                                 <tbody id="producto">
                                     <tr>
-                                        <td>123456</td>
-                                        <td>Armazón 1</td>
+                                        <td id>220568</td>
+                                        <td>Paño de microfibra</td>
                                         <td>3</td>
                                     </tr>
                                     <tr>
-                                        <td>123456</td>
-                                        <td>Armazón 2</td>
-                                        <td>3</td>
+                                        <td>503672</td>
+                                        <td>Sujetador de resorte</td>
+                                        <td>26</td>
                                     </tr> 
                                     <tr>
-                                        <td>123456</td>
-                                        <td>Armazón 2</td>
-                                        <td>3</td>
+                                        <td>507582</td>
+                                        <td>Lentes de vista cansada</td>
+                                        <td>13</td>
                                     </tr> 
                                     <tr>
-                                        <td>123456</td>
-                                        <td>Armazón 2</td>
-                                        <td>3</td>
+                                        <td>551294</td>
+                                        <td>Blue light</td>
+                                        <td>1510</td>
                                     </tr> 
                                 </tbody>
                             </table>
@@ -125,13 +125,13 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Registrar</button>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#registro">Registrar</button>
                             </div>
                             <div class="col-sm-4">
                                 <button class="btn btn-primary" type="button">Modificar</button>
                             </div>
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Eliminar</button>
+                                <button class="btn btn-primary" type="button">Cargar inventario</button>
                             </div>
                         </div>
                     </div>
@@ -170,6 +170,47 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Registro de productos</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                    <div class="modal-body">
+                        <form class="row g-3">
+                            <div class="col-md-6">
+                                <label for="inputSKU" class="form-label">SKU</label>
+                                <input type="text" class="form-control" id="inputSKU" placeholder="24986879">
+                            </div>
+                            <div class="col-6">
+                                <label for="inputNombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="inputNombre" placeholder="Armazon">
+                            </div>
+                            <div class="col-6">
+                                <label for="inputStock" class="form-label">Stock</label>
+                                <input type="text" class="form-control" id="inputStock" placeholder="50">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Ubicacion</label>
+                                <select id="inputState" class="form-select">
+                                  <option selected>A28497</option>
+                                  <option selected>A28498</option>
+                                  <option selected>A28498</option>
+                                  <option selected>A28498</option>
+                                  <option selected>A28498</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#subirArchivo">
             Cargar archivo CSV
         </button>
@@ -293,6 +334,59 @@
                 removeDragData(event);
             }
         }
+
+        function init(){
+        document.getElementById("nombre_producto").value = "";
+        document.getElementById("nombre_producto").disabled = true;
+        document.getElementById("SKU_producto").value = "";
+        document.getElementById("SKU_producto").disabled = true;
+        document.getElementById("ubicacion_producto").value = "";
+        document.getElementById("ubicacion_producto").disabled = true;
+        document.getElementById("stock").value = ""
+        document.getElementById("stock").disabled = true;
+        document.getElementById("busqueda").value="";
+        rowHandlers();
+    }
+    /* 
+        correo_operador
+        horario_entrada
+        horario_salida
+    */
+    function llenarFormulario(row){
+        console.log(row[0]);
+        console.log(row[1]);
+        console.log(row[2]);
+        document.getElementById("nombre_producto").value = row[1];
+        document.getElementById("nombre_producto").disabled = true;
+        document.getElementById("SKU_producto").value = row[0];
+        document.getElementById("SKU_producto").disabled = true;
+        document.getElementById("ubicacion_producto").value = "A2895";
+        document.getElementById("ubicacion_producto").disabled = true;
+        document.getElementById("stock").value = row[2];
+        document.getElementById("stock").disabled = true;
+    }
+
+    function rowHandlers(){
+        //cleanForm();
+        var table = document.getElementById("tablaProductos");
+        var rows = table.getElementsByTagName("tr");
+        for(var i = 0; i < rows.length; i++){
+            var currentRow = table.rows[i];
+            var clickHandler = function(row){
+                return function(){
+                    var cells = row.getElementsByTagName("td");
+                    var fila = [];
+                    for(var j = 0; j < cells.length; j++){
+                        console.log(cells[j].innerHTML);
+                        fila.push(cells[j].innerHTML);
+                    }
+                    llenarFormulario(fila);
+                };
+            };
+            currentRow.onclick = clickHandler(currentRow);
+        }
+    }
+    window.onload = init();
             
     </script>
 </body>

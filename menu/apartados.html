@@ -49,7 +49,7 @@
                     <div class="card-body">
                         <div class="container">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de control">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="tablaApartados">
                                 <thead>
                                     <tr>
                                         <th scope="col">Número de control</th>
@@ -59,23 +59,23 @@
                                 </thead>
                                 <tbody id="serie">
                                     <tr>
-                                        <td>123456</td>
-                                        <td>Juan Perez</td>
+                                       <td id>123456</td>
+                                        <td>Juan Pérez</td>
                                         <td>En progreso</td>
                                     </tr>
                                     <tr>
-                                        <td>223356</td>
-                                        <td>Ariel</td>
+                                       <td>987654</td>
+                                        <td>María López</td>
                                         <td>Terminada</td>
                                     </tr>
                                     <tr>
-                                        <td>324316</td>
-                                        <td>Pedro</td>
+                                        <td>552648</td>
+                                        <td>José Mancera</td>
                                         <td>En progreso</td>
                                     </tr>
                                     <tr>
-                                        <td>423451</td>
-                                        <td>Pedro</td>
+                                        <td>515151</td>
+                                        <td>Manuel Cisneros</td>
                                         <td>Pendiente</td>
                                     </tr>
                                 </tbody>
@@ -109,20 +109,20 @@
                     <div class="card-body">
                         <form>
                             <div class="mb-3">
-                                <label for="nombre_producto" class="form-label">Número de control</label>
-                                <input type="text" class="form-control" id="nombre_producto">
+                                <label for="numeroControl" class="form-label">Número de control</label>
+                                <input type="text" class="form-control" id="numeroControl">
                             </div>
                             <div class="mb-3">
-                                <label for="SKU_producto" class="form-label">Encargado</label>
-                                <input type="text" class="form-control" id="SKU_producto">
+                                <label for="encargado" class="form-label">Encargado</label>
+                                <input type="text" class="form-control" id="encargado">
                             </div>
                             <div class="mb-3">
-                                <label for="ubicacion_producto" class="form-label">Estado</label>
-                                <input type="text" class="form-control" id="ubicacion_producto">
+                                <label for="estado" class="form-label">Estado</label>
+                                <input type="text" class="form-control" id="estado">
                             </div>
                             <div class="mb-3">
-                                <label for="stock" class="form-label">Numero de productos</label>
-                                <input type="number" class="form-control" id="stock">
+                                <label for="numeroProductos" class="form-label">Número de productos</label>
+                                <input type="number" class="form-control" id="numeroProductos">
                             </div>
                         </form>
                     </div>
@@ -158,6 +158,58 @@
         }
       }
     }
+    function init(){
+        document.getElementById("numeroControl").value = "";
+        document.getElementById("numeroControl").disabled = true;
+        document.getElementById("numeroProductos").value = "";
+        document.getElementById("numeroProductos").disabled = true;
+        document.getElementById("encargado").value = "";
+        document.getElementById("encargado").disabled = true;
+        document.getElementById("estado").value = ""
+        document.getElementById("estado").disabled = true;
+        document.getElementById("busqueda").value="";
+        rowHandlers();
+    }
+    /* 
+        correo_operador
+        horario_entrada
+        horario_salida
+    */
+    function llenarFormulario(row){
+        console.log(row[0]);
+        console.log(row[1]);
+        console.log(row[2]);
+        document.getElementById("numeroControl").value = row[0];
+        document.getElementById("numeroControl").disabled = true;
+        document.getElementById("numeroProductos").value = "25";
+        document.getElementById("numeroProductos").disabled = true;
+        document.getElementById("encargado").value = row[1];
+        document.getElementById("encargado").disabled = true;
+        document.getElementById("estado").value = row[2];
+        document.getElementById("estado").disabled = true;
+    }
+
+    function rowHandlers(){
+        //cleanForm();
+        var table = document.getElementById("tablaApartados");
+        var rows = table.getElementsByTagName("tr");
+        for(var i = 0; i < rows.length; i++){
+            var currentRow = table.rows[i];
+            var clickHandler = function(row){
+                return function(){
+                    var cells = row.getElementsByTagName("td");
+                    var fila = [];
+                    for(var j = 0; j < cells.length; j++){
+                        console.log(cells[j].innerHTML);
+                        fila.push(cells[j].innerHTML);
+                    }
+                    llenarFormulario(fila);
+                };
+            };
+            currentRow.onclick = clickHandler(currentRow);
+        }
+    }
+    window.onload = init();
     </script>
 </body>
 
