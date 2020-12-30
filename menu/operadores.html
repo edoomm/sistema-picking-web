@@ -25,6 +25,10 @@
 
 <body>
 
+    <?php
+    $link = new PDO('mysql:host=localhost; dbname=pickingdb', 'root', ''); // el campo vaciío es para la password.
+    ?>
+
     <header>
 
     </header>
@@ -58,31 +62,17 @@
                                     </tr>
                                 </thead>
                                 <tbody id="operador">
-                                    <tr>
-                                        <td id>123456</td>
-                                        <td>Juan Pérez</td>
-                                        <td>Sí</td>
-                                    </tr>
-                                    <tr>
-                                        <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Sí</td>
-                                    </tr>
-                                    <tr>
-                                        <td>552648</td>
-                                        <td>José Mancera</td>
-                                        <td>Sí</td>
-                                    </tr>
-                                    <tr>
-                                        <td>515151</td>
-                                        <td>Manuel Cisneros</td>
-                                        <td>Sí</td>
-                                    </tr>
-                                    <tr>
-                                        <td>987654</td>
-                                        <td>Josefina López</td>
-                                        <td>Sí</td>
-                                    </tr>
+
+                                </thead>
+                                <?php foreach ($link->query('SELECT * from Operador') as $row){ // aca puedes hacer la consulta e iterarla con each. ?>
+                                <tr>
+                                  <td><?php echo $row['num_empleado'] ?></td>
+                                  <td><?php echo $row['nombre'] ?></td>
+                                 </tr>
+                                <?php
+                                	}
+                                ?>
+                              
                                 </tbody>
                             </table>
                         </div>
