@@ -16,7 +16,7 @@ CREATE TABLE `Operador` (
 CREATE TABLE `Usuario` (
     `operador_num_empleado` VARCHAR(6) NOT NULL,
     `usuario` VARCHAR(20),
-    `contrasena` VARCHAR(20),
+    `contrasena` VARCHAR(32),
     `tipo_usuario` INT NOT NULL, -- 1: Lider de almacen
     PRIMARY KEY (`operador_num_empleado`),
     FOREIGN KEY (`operador_num_empleado`) REFERENCES `Operador` (`num_empleado`)
@@ -61,7 +61,7 @@ CREATE TABLE `Ubicacion` (
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE Contenedor (
-    `contenedor_id` INT NOT NULL,
+    `contenedor_id` INT NOT NULL AUTO_INCREMENT,
     `medida` INT,
     `estado` BOOLEAN,
     `ubicacion` VARCHAR(15),
