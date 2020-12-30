@@ -1,0 +1,4 @@
+# Ignore all sql files excpet database.sql (which is the main script)
+
+*.sql
+!database.sql
