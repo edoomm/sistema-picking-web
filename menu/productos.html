@@ -245,7 +245,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
+                    <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
                 </div>
             </div>
         </div>
@@ -300,7 +300,6 @@
         document.addEventListener("drop",function(event){
             event.preventDefault();
             if(event.target.className == "box hover"){
-                console.log("Nice");
                 event.target.classList.remove("hover");
                 dropHandler(event);
             }
@@ -316,18 +315,20 @@
         }
         var archivo;
         function sendFile(){
-            console.log('Llegamos aqui');
+            document.getElementById("btn-archivo").disabled = true;
             const uri = "./cargar.php";
             const xhr  = new XMLHttpRequest();
             const fd = new FormData();
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4 && xhr.status == 200){
-                    alert(xhr.responseText);
+                    //alert(xhr.responseText);
+                    console.log(xhr.responseText);
                 }
             };
             fd.append('file_name', archivo);
             xhr.send(fd);
+            console.log('El archivo '+ archivo.name + ' fue enviado');
         }
         function dropHandler(event){
             event.preventDefault();
@@ -337,7 +338,6 @@
                     if(event.dataTransfer.items[i].kind == 'file'){
                         var file = event.dataTransfer.items[i].getAsFile();
                         archivo = event.dataTransfer.items[i].getAsFile();
-                        //console.log('...file[' + i + '].name = ' + file.name);
                         nombreDeArchivos.push(file.name);
                     }
                 }
@@ -350,17 +350,17 @@
         }
 
         function init(){
-        document.getElementById("nombre_producto").value = "";
-        document.getElementById("nombre_producto").disabled = true;
-        document.getElementById("SKU_producto").value = "";
-        document.getElementById("SKU_producto").disabled = true;
-        document.getElementById("ubicacion_producto").value = "";
-        document.getElementById("ubicacion_producto").disabled = true;
-        document.getElementById("stock").value = ""
-        document.getElementById("stock").disabled = true;
-        document.getElementById("busqueda").value="";
-        rowHandlers();
-    }
+            document.getElementById("nombre_producto").value = "";
+            document.getElementById("nombre_producto").disabled = true;
+            document.getElementById("SKU_producto").value = "";
+            document.getElementById("SKU_producto").disabled = true;
+            document.getElementById("ubicacion_producto").value = "";
+            document.getElementById("ubicacion_producto").disabled = true;
+            document.getElementById("stock").value = ""
+            document.getElementById("stock").disabled = true;
+            document.getElementById("busqueda").value="";
+            rowHandlers();
+        }
     /* 
         correo_operador
         horario_entrada
@@ -381,7 +381,6 @@
     }
 
     function rowHandlers(){
-        //cleanForm();
         var table = document.getElementById("tablaProductos");
         var rows = table.getElementsByTagName("tr");
         for(var i = 0; i < rows.length; i++){
