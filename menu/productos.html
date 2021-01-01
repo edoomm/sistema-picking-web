@@ -245,7 +245,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Cargar archivo</button>
+                    <button type="button" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
                 </div>
             </div>
         </div>
@@ -258,6 +258,7 @@
     <!-- For better performance this script should go at the very bottom of the body -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script>
+    
     function filtrar() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;
@@ -313,6 +314,21 @@
                 event.dataTransfer.clearData();
             }
         }
+        var archivo;
+        function sendFile(){
+            console.log('Llegamos aqui');
+            const uri = "./cargar.php";
+            const xhr  = new XMLHttpRequest();
+            const fd = new FormData();
+            xhr.open("POST", uri, true);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4 && xhr.status == 200){
+                    alert(xhr.responseText);
+                }
+            };
+            fd.append('file_name', archivo);
+            xhr.send(fd);
+        }
         function dropHandler(event){
             event.preventDefault();
             var nombreDeArchivos = [];
@@ -320,7 +336,8 @@
                 for(var i = 0; i < event.dataTransfer.items.length; i++){
                     if(event.dataTransfer.items[i].kind == 'file'){
                         var file = event.dataTransfer.items[i].getAsFile();
-                        console.log('...file[' + i + '].name = ' + file.name);
+                        archivo = event.dataTransfer.items[i].getAsFile();
+                        //console.log('...file[' + i + '].name = ' + file.name);
                         nombreDeArchivos.push(file.name);
                     }
                 }
