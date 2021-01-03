@@ -316,14 +316,13 @@
         var archivo;
         function sendFile(){
             document.getElementById("btn-archivo").disabled = true;
-            const uri = "./cargar.php";
+            const uri = "../php/cargar.php";
             const xhr  = new XMLHttpRequest();
             const fd = new FormData();
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4 && xhr.status == 200){
-                    //alert(xhr.responseText);
-                    console.log(xhr.responseText);
+                     console.log(xhr.responseText);
                 }
             };
             fd.append('file_name', archivo);
@@ -396,7 +395,9 @@
                     llenarFormulario(fila);
                 };
             };
-            currentRow.onclick = clickHandler(currentRow);
+            if(i != 0){
+                currentRow.onclick = clickHandler(currentRow);
+            }
         }
     }
     window.onload = init();
