@@ -1,6 +1,6 @@
 <?php
 function obtener_contenido(){
-    $directory = "contents/";
+    $directory = "../menu/contents/";
     $target_file = $directory . $_FILES['file_name']['name'];
     $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $numero_de_fila = -1;
@@ -13,7 +13,7 @@ function obtener_contenido(){
                     if($numero_de_fila === 0){
                         continue;
                     }
-                    array[$numero_de_fila - 1] = $fila;
+                    $datos[$numero_de_fila - 1] = $fila;
                 }
                 fclose($gestor);
             }

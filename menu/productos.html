@@ -218,6 +218,7 @@
 
     <!-- For better performance this script should go at the very bottom of the body -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="../js/initFile.js"></script>
     <script>
     
     function filtrar() {
@@ -308,60 +309,7 @@
                 removeDragData(event);
             }
         }
-
-        function init(){
-            document.getElementById("nombre_producto").value = "";
-            document.getElementById("nombre_producto").disabled = true;
-            document.getElementById("SKU_producto").value = "";
-            document.getElementById("SKU_producto").disabled = true;
-            document.getElementById("ubicacion_producto").value = "";
-            document.getElementById("ubicacion_producto").disabled = true;
-            document.getElementById("stock").value = ""
-            document.getElementById("stock").disabled = true;
-            document.getElementById("busqueda").value="";
-            rowHandlers();
-        }
-    /* 
-        correo_operador
-        horario_entrada
-        horario_salida
-    */
-    function llenarFormulario(row){
-        console.log(row[0]);
-        console.log(row[1]);
-        console.log(row[2]);
-        document.getElementById("nombre_producto").value = row[1];
-        document.getElementById("nombre_producto").disabled = true;
-        document.getElementById("SKU_producto").value = row[0];
-        document.getElementById("SKU_producto").disabled = true;
-        document.getElementById("ubicacion_producto").value = "A2895";
-        document.getElementById("ubicacion_producto").disabled = true;
-        document.getElementById("stock").value = row[2];
-        document.getElementById("stock").disabled = true;
-    }
-
-    function rowHandlers(){
-        var table = document.getElementById("tablaProductos");
-        var rows = table.getElementsByTagName("tr");
-        for(var i = 0; i < rows.length; i++){
-            var currentRow = table.rows[i];
-            var clickHandler = function(row){
-                return function(){
-                    var cells = row.getElementsByTagName("td");
-                    var fila = [];
-                    for(var j = 0; j < cells.length; j++){
-                        console.log(cells[j].innerHTML);
-                        fila.push(cells[j].innerHTML);
-                    }
-                    llenarFormulario(fila);
-                };
-            };
-            if(i != 0){
-                currentRow.onclick = clickHandler(currentRow);
-            }
-        }
-    }
-    window.onload = init();
+    window.onload = init("nombre_producto", "SKU_producto", "stock", "ubicacion_producto", "busqueda", "tablaProductos");
             
     </script>
 </body>
