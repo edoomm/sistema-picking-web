@@ -21,6 +21,12 @@
             margin-left: 10px;
             margin-right: 10px;
         }
+
+        .table-wrapper {
+            max-height: 443px;
+            overflow: auto;
+            display:inline-block;
+        }
     </style>
 
 </head>
@@ -51,20 +57,22 @@
                     <div class="card-body">
                         <div class="container">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el SKU del producto">
-                            <table class="table table-hover" id="tablaProductos">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">SKU</th>
-                                        <th scope="col">ID Línea</th>
-                                        <th scope="col">Genérico</th>
-                                        <th scope="col">Unidad de medida</th>
-                                        <th scope="col">Descripción</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="producto">
-
-                                </tbody>
-                            </table>
+                            <div class="table-wrapper">
+                                <table class="table table-hover" id="tablaProductos">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">SKU</th>
+                                            <th scope="col">ID Línea</th>
+                                            <th scope="col">Genérico</th>
+                                            <th scope="col">Unidad de medida</th>
+                                            <th scope="col">Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="producto">
+    
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -265,7 +273,7 @@
         var archivo;
         function sendFile(){
             document.getElementById("btn-archivo").disabled = true;
-            const uri = "../php/cargar.php";
+            const uri = "../php/cargarProductos.php";
             const xhr  = new XMLHttpRequest();
             const fd = new FormData();
             xhr.open("POST", uri, true);
@@ -276,6 +284,8 @@
             };
             fd.append('file_name', archivo);
             xhr.send(fd);
+
+            location.reload();
         }
         function dropHandler(event){
             event.preventDefault();
