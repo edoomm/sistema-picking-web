@@ -11,7 +11,6 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link href="../css/dropFile.css" rel="stylesheet" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .navbar-custom{
             background-color:#1e4f9e;
@@ -55,14 +54,31 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">SKU</th>
-                                        <th scope="col">ID Línea</th>
-                                        <th scope="col">Genérico</th>
-                                        <th scope="col">Unidad de medida</th>
-                                        <th scope="col">Descripción</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Stock</th>
                                     </tr>
                                 </thead>
                                 <tbody id="producto">
-
+                                    <tr>
+                                        <td id>220568</td>
+                                        <td>Paño de microfibra</td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>503672</td>
+                                        <td>Sujetador de resorte</td>
+                                        <td>26</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>507582</td>
+                                        <td>Lentes de vista cansada</td>
+                                        <td>13</td>
+                                    </tr> 
+                                    <tr>
+                                        <td>551294</td>
+                                        <td>Blue light</td>
+                                        <td>1510</td>
+                                    </tr> 
                                 </tbody>
                             </table>
                         </div>
@@ -95,24 +111,20 @@
                     <div class="card-body">
                         <form>
                             <div class="mb-3">
+                                <label for="nombre_producto" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre_producto">
+                            </div>
+                            <div class="mb-3">
                                 <label for="SKU_producto" class="form-label">SKU</label>
                                 <input type="text" class="form-control" id="SKU_producto">
                             </div>
                             <div class="mb-3">
-                                <label for="id_linea" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="id_linea">
+                                <label for="ubicacion_producto" class="form-label">Ubicación del producto</label>
+                                <input type="text" class="form-control" id="ubicacion_producto">
                             </div>
                             <div class="mb-3">
-                                <label for="generico" class="form-label">Ubicación del producto</label>
-                                <input type="text" class="form-control" id="generico">
-                            </div>
-                            <div class="mb-3">
-                                <label for="unidad_de_medida" class="form-label">Stock</label>
-                                <input type="number" class="form-control" id="unidad_de_medida">
-                            </div>
-                            <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripción</label>
-                                <input type="text" class="form-control" id="descripcion">
+                                <label for="stock" class="form-label">Stock</label>
+                                <input type="number" class="form-control" id="stock">
                             </div>
                         </form>
                     </div>
@@ -254,6 +266,7 @@
                 dropHandler(event);
             }
         });
+
         function removeDragData(event){
             if(event.dataTransfer.items){
                 event.dataTransfer.items.clear();
@@ -276,6 +289,7 @@
             };
             fd.append('file_name', archivo);
             xhr.send(fd);
+            console.log('El archivo '+ archivo.name + ' fue enviado');
         }
         function dropHandler(event){
             event.preventDefault();
@@ -295,11 +309,8 @@
                 removeDragData(event);
             }
         }
-    window.onload = init(
-        ["SKU_producto", "id_linea", "generico", "unidad_de_medida", "descripcion"], 
-        "Producto",
-        "producto"
-    );
+    window.onload = init("nombre_producto", "SKU_producto", "stock", "ubicacion_producto", "busqueda", "tablaProductos");
+            
     </script>
 </body>
 
