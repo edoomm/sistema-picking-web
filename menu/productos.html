@@ -276,9 +276,9 @@
             }
         }
         var archivo;
-        function sendFile(){
+        async function sendFile(){
             document.getElementById("btn-archivo").disabled = true;
-            const uri = "../php/cargar.php";
+            const uri = "../php/cargarProductos.php";
             const xhr  = new XMLHttpRequest();
             const fd = new FormData();
             xhr.open("POST", uri, true);
