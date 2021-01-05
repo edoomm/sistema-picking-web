@@ -62,7 +62,7 @@
                 <tbody id="operador">
                   <?php
                         $link = open_database();
-                        foreach ($link->query('SELECT * from Operador') as $row){
+                        foreach ($link->query('SELECT * from operador') as $row){
                   ?>
                   <tr>
                     <td><?php echo $row['nombre'] ?></td>
@@ -130,164 +130,168 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="modal fade" name="registro" id="registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Registro de operador</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-            </div>
-            <div class="modal-body">
-              <em id="operadoresMsg"></em>
-              <form class="row g-3" name="Registrar" id="Registrar" method="POST" onSubmit="return false;">
-                <div class="col-md-6">
-                  <label for="inputUsuario" class="form-label">Usuario <span class="text-danger">*</span> </label>
-                  <input type="text" class="form-control" id="inputUsuario" name="inputUsuario" placeholder="Usuario" data-required>
-                </div>
-                <div class="col-md-6">
-                  <label for="inputPassword" class="form-label">Contraseña <span class="text-danger">*</span> </label>
-                  <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Contraseña del usuario" data-required>
-                </div>
-                <div class="col-md-12">
-                  <label for="inputCorreo" class="form-label"> Correo <span class="text-danger">*</span> </label>
-                  <input type="email" class="form-control" id="inputCorreo" name="inputCorreo" placeholder="Correo" data-required>
-                </div>
-                <div class="col-12">
-                  <label for="inputNombre" class="form-label">Nombre <span class="text-danger">*</span> </label>
-                  <input type="text" class="form-control" id="inputNombre" name="inputUsuario" placeholder="Nombre completo del empleado" data-required>
-                </div>
-                <div class="col-12">
-                  <label for="inputNumeroEmpleado" class="form-label">Número del empleado <span class="text-danger">*</span> </label>
-                  <input type="text" class="form-control" id="inputNumeroEmpleado" name="inputNumeroEmpleado" placeholder="Número del empleado" data-required>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Registrar')">Cerrar</button>
-              <button type="button" name="submit2" id="submit2" class="btn btn-primary" onClick="return formValidate('#Registrar','#operadoresMsg',$('#inputNumeroEmpleado').val());">Guardar</button>
-            </div>
+    <div class="modal fade" name="registro" id="registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Registro de operador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+          </div>
+          <div class="modal-body">
+            <em id="operadoresMsg"></em>
+            <form class="row g-3" name="Registrar" id="Registrar" method="POST" onSubmit="return false;">
+              <div class="col-12">
+                <label for="inputNombre" class="form-label">Nombre <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" id="inputNombre" name="inputNombre" placeholder="Nombre completo del empleado" data-required>
+              </div>
+              <div class="col-12">
+                <label for="inputNumeroEmpleado" class="form-label">Número del empleado <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" id="inputNumeroEmpleado" name="inputNumeroEmpleado" placeholder="Número del empleado" data-required>
+              </div>
+              <div class="col-md-12">
+                <label for="inputCorreo" class="form-label"> Correo <span class="text-danger">*</span> </label>
+                <input class="form-control" id="inputCorreo" name="inputCorreo" placeholder="Correo">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Registrar')">Cerrar</button>
+            <button type="button" name="submit2" id="submit2" class="btn btn-primary" onClick="return formValidate('#Registrar','#operadoresMsg',$('#inputNumeroEmpleado').val());">Guardar</button>
           </div>
         </div>
       </div>
+    </div>
 
 
-      <div class="modal fade" id="exito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Anuncio</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-              </button>
-            </div>
-            <div class="modal-body">
-              <h5 class="modal-title text-center" id="exampleModalLabel"> Operación realizada con exito </h5>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick=" location.reload();">Cerrar</button>
-            </div>
+    <div class="modal fade" id="exito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Anuncio</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5 class="modal-title text-center" id="exampleModalLabel"> Operación realizada con exito </h5>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick=" location.reload();">Cerrar</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="modal fade" name="modificar1" id="modificar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modificar operador</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-            </div>
-            <div class="modal-body">
-              <em id="CambiarMsg"></em>
-              <form class="row g-3" name="Cambiar" id="Cambiar" method="POST" onSubmit="return false;">
-                <div class="col-md-12">
-                  <label for="inputCambiar" class="form-label"> Número de empleado <span class="text-danger">*</span> </label>
-                  <input type="text" class="form-control" id="inputCambiar" name="inputCambiar" placeholder="Número de empleado" data-required>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Cambiar')" >Cerrar</button>
-              <button type="button" name="submit4" id="submit4" class="btn btn-primary" onClick="return Validate_Modify('#Cambiar','#CambiarMsg',$('#inputCambiar').val());"> Buscar </button>
-            </div>
+    <div class="modal fade" name="modificar1" id="modificar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modificar operador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+          </div>
+          <div class="modal-body">
+            <em id="CambiarMsg"></em>
+            <form class="row g-3" name="Cambiar" id="Cambiar" method="POST" onSubmit="return false;">
+              <div class="col-md-12">
+                <label for="inputCambiar" class="form-label"> Número de empleado <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" id="inputCambiar" name="inputCambiar" placeholder="Número de empleado" data-required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Cambiar')">Cerrar</button>
+            <button type="button" name="submit4" id="submit4" class="btn btn-primary" onClick="return Validate_Modify('#Cambiar','#CambiarMsg',$('#inputCambiar').val());"> Buscar </button>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="modal fade" id="modificar2" name="modificar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <form action="" method="POST">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modificar operador</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-              </div>
 
-              <div class="modal-body">
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" name="submit1" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-bf-dismiss="modal"> Buscar </button>
-              </div>
-            </div>
+    <div class="modal fade" name="modificar2" id="modificar2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modificación o de operador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
           </div>
-        </form>
+          <div class="modal-body">
+            <em id="ModificarMsg2"></em>
+            <form class="row g-3" name="Modificar" id="Modificar" method="POST" onSubmit="return false;">
+              <div class="col-md-12">
+                <label for="modificarCorreo" class="form-label"> Correo <span class="text-danger">*</span> </label>
+                <input type="email" class="form-control" id="modificarCorreo" name="modificarCorreo" placeholder="Correo">
+              </div>
+              <div class="col-12">
+                <label for="modificarNombre" class="form-label">Nombre <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" id="modificarNombre" name="modificarNombre" placeholder="Nombre completo del empleado" data-required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Modificar')">Cerrar</button>
+            <button type="button" name="submit5" id="submit5" class="btn btn-primary" onClick="return Validate_Form2('#Modificar','#ModificarMsg2',$('#inputCambiar').val());">Guardar</button>
+          </div>
+        </div>
       </div>
+    </div>
 
 
-      <div class="modal fade" name="eliminar1" id="eliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+    <div class="modal fade" name="eliminar1" id="eliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Eliminar operador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+          </div>
+          <div class="modal-body">
+            <em id="EliminarMsg"></em>
+            <form class="row g-3" name="Eliminar" id="Eliminar" method="POST" onSubmit="return false;">
+              <div class="col-md-12">
+                <label for="inputEliminar" class="form-label"> Número de empleado <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" id="inputEliminar" name="inputEliminar" placeholder="Número de empleado" data-required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Eliminar')">Cerrar</button>
+            <button type="button" name="submit3" id="submit3" class="btn btn-primary" onClick="return Validate_Delete('#Eliminar','#EliminarMsg',$('#inputEliminar').val());"> Eliminar </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="eliminar2" name="eliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <form name="ChangeSubject" id="ChangeSubject" method="post">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Eliminar operador</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
             </div>
+
             <div class="modal-body">
-              <em id="EliminarMsg"></em>
-              <form class="row g-3" name="Eliminar" id="Eliminar" method="POST" onSubmit="return false;">
-                <div class="col-md-12">
-                  <label for="inputEliminar" class="form-label"> Número de empleado <span class="text-danger">*</span> </label>
-                  <input type="text" class="form-control" id="inputEliminar" name="inputEliminar" placeholder="Número de empleado" data-required>
-                </div>
-              </form>
+              <div class="col-md-12">
+                <h5> Seguro que desea eliminar al operador : <em id="SE" name="SE"></em> </h5>
+              </div>
             </div>
+
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Eliminar')" >Cerrar</button>
-              <button type="button" name="submit3" id="submit3" class="btn btn-primary" onClick="return Validate_Delete('#Eliminar','#EliminarMsg',$('#inputEliminar').val());"> Eliminar </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button class="btn btn-primary" type="button" onclick="return DeleteOperador($('#inputEliminar').val());"> Borrar </button>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="modal fade" id="eliminar2" name="eliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <form name="ChangeSubject" id="ChangeSubject" method="post">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar operador</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-              </div>
-
-              <div class="modal-body">
-                <div class="col-md-12">
-                  <h5> Seguro que desea eliminar al operador : <em id="SE" name = "SE"></em> </h5>
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button class="btn btn-primary" type="button" onclick="return DeleteOperador($('#inputEliminar').val());" > Borrar </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
+      </form>
+    </div>
 
 
-      <div class="col align-self-center container ">
-        <canvas id="myChart"></canvas>
-      </div>
+
+    <div class="col align-self-center container ">
+      <canvas id="miGrafico"></canvas>
+    </div>
 
 
   </main>
@@ -303,12 +307,6 @@
   <script src="../js/operadores.js"></script>
 
   <script>
-
-    function e1(){
-      var input = document.getElementById("inputEliminar").val;
-      document.getElementById("SE").value = input;
-    }
-
     function filtrar() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;
@@ -389,45 +387,55 @@
   </script>
 
   <script>
-    var datosTotal = 6;
-    var coloR = [];
+    $(document).ready(function() {
+      var datosTotal = 6;
+      var coloR = [];
 
-    for (var i = 0; i < datosTotal; i++) {
-      var r = Math.floor(Math.random() * 255);
-      var g = Math.floor(Math.random() * 255);
-      var b = Math.floor(Math.random() * 255);
-      coloR.push("rgb(" + r + "," + g + "," + b + ")");
-    }
-
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: coloR,
-          borderColor: coloR,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        legend: {
-          display: true,
-          labels: {
-            backgroundColor: coloR,
-          }
-        },
-
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
+      for (var i = 0; i < datosTotal; i++) {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        coloR.push("rgb(" + r + "," + g + "," + b + ")");
       }
+
+      $.ajax({
+        url: "../php/operadores/operadoresGrafica.php",
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        method: "POST",
+        success: function(data) {
+          var mostrar = $("#miGrafico");
+          var grafico = new Chart(mostrar, {
+            type: 'bar',
+            data: {
+              labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+              datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: coloR,
+                borderColor: coloR,
+                borderWidth: 1
+              }]
+            },
+            options: {
+              legend: {
+                display: true,
+                labels: {
+                  backgroundColor: coloR,
+                }
+              },
+
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }]
+              }
+            }
+          });
+        }
+      });
     });
   </script>
 

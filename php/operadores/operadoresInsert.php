@@ -1,11 +1,8 @@
 <?php
   include_once "../db.php";
 
-  $usr = $_POST['inputUsuario'];
-  $pass = $_POST['inputPassword'];
-
-  $nom = $_POST['inputNombre'];
   $num = $_POST['inputNumeroEmpleado'];
+  $nom = $_POST['inputNombre'];
   $mail = $_POST['inputCorreo'];
 
   $link = open_database();
