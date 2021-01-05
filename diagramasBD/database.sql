@@ -46,7 +46,7 @@ CREATE TABLE `Producto` (
     `id_linea` VARCHAR(3) NOT NULL,
     `generico` CHAR(1) NOT NULL,
     `unidad_medida` INT NOT NULL, -- 1:Para aquellos que no tengan UM
-    `descripcion` VARCHAR(50),
+    `descripcion` VARCHAR(100),
     PRIMARY KEY (`sku`)
 );
 
@@ -366,8 +366,6 @@ insert into control
 insert into operador values
     ("123456", "Donaldo", null),
     ("111111", "Eduardo", null);
-
-
 
 insert into ubicacion values 
     ("A.01.01.09", 10053, 'A', 1, 1, 1),
