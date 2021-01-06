@@ -83,7 +83,7 @@ CREATE TABLE `Control` (
 CREATE TABLE `Operador_has_control` (
     `control_id` INT NOT NULL,
     `num_empleado` VARCHAR(6) NOT NULL,
-    `contenedor_id` INT NOT NULL,
+    `contenedor_id` INT,
     `prioridad` INT NOT NULL,
     FOREIGN KEY (`control_id`) REFERENCES `Control` (`control_id`),
     FOREIGN KEY (`num_empleado`) REFERENCES `Operador` (`num_empleado`),
