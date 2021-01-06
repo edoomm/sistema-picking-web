@@ -1,6 +1,5 @@
 /*
     camposFormulario : un arreglo de strings con el id de los elementos del formulario
-    tableId : id de la tabla de elementos
     tableBD : nombre de la tabla en la BD de la que se cargan los archivos
     tableBodyId : id del body en donde se van a poner los elementos de la base de datos
 */

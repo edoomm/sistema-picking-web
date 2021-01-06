@@ -249,7 +249,7 @@
         };
         fd.append('file_name', archivo);
         xhr.send(fd);
-        console.log('El archivo '+ archivo.name + ' fue enviado');
+        location.reload();
     }
     function dropHandler(event){
         event.preventDefault();
@@ -269,7 +269,11 @@
             removeDragData(event);
         }
     }
-    window.onload = init("numeroControl", "encargado", "estado", "numeroProductos","tablaApartados");
+    window.onload = init(
+        ["numeroControl", "encargado", "estado", "numeroProductos"],
+        "Control",
+        "serie"
+    );
     </script>
 </body>
 

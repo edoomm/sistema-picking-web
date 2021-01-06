@@ -3,11 +3,7 @@
 function open_database() {
     $host = "localhost";
     $user = "root";
-<<<<<<< HEAD
-    $pwd = "1234";
-=======
     $pwd = "";
->>>>>>> 65c4804d2a7205a0ed70ef8ad54e95fc03823c50
     $db = "pickingdb";
 
     $conn = mysqli_connect($host, $user, $pwd, $db);
