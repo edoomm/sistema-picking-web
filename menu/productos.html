@@ -10,6 +10,8 @@
         
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="../css/dropFile.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .navbar-custom{
             background-color:#1e4f9e;
@@ -19,46 +21,12 @@
             margin-left: 10px;
             margin-right: 10px;
         }
-        .box{
-            font-size: 1.25rem;
-			background-color: #c8dadf;
-			position: relative;
-			padding: 50px 20px;
-            margin: 50px 10px 10px 10px;
-            border-radius: 25px;
+
+        .table-wrapper {
+            max-height: 443px;
+            overflow: auto;
+            display:inline-block;
         }
-        .hover{
-            background-color: antiquewhite;
-        }
-        .box-center{
-            margin-right: auto;
-            margin-left: auto;
-            pointer-events: none;
-        }
-        .box-file{
-            width: 0.1px;
-			height: 0.1px;
-			opacity: 0;
-			overflow: hidden;
-			position: absolute;
-			z-index: -1;
-            pointer-events: none;
-        }
-        .svg-container{
-            position: relative;
-            height: 15;
-            width: 20%;
-            padding: 1;
-            padding-bottom: 10%;
-            pointer-events: none;
-        }
-        .scaling-svg{
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            pointer-events: none;
-        }
-    
     </style>
 
 </head>
@@ -89,37 +57,22 @@
                     <div class="card-body">
                         <div class="container">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el SKU del producto">
-                            <table class="table table-hover" id="tablaProductos">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">SKU</th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Stock</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="producto">
-                                    <tr>
-                                        <td id>220568</td>
-                                        <td>Paño de microfibra</td>
-                                        <td>3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>503672</td>
-                                        <td>Sujetador de resorte</td>
-                                        <td>26</td>
-                                    </tr> 
-                                    <tr>
-                                        <td>507582</td>
-                                        <td>Lentes de vista cansada</td>
-                                        <td>13</td>
-                                    </tr> 
-                                    <tr>
-                                        <td>551294</td>
-                                        <td>Blue light</td>
-                                        <td>1510</td>
-                                    </tr> 
-                                </tbody>
-                            </table>
+                            <div class="table-wrapper">
+                                <table class="table table-hover" id="tablaProductos">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">SKU</th>
+                                            <th scope="col">ID Línea</th>
+                                            <th scope="col">Genérico</th>
+                                            <th scope="col">Unidad de medida</th>
+                                            <th scope="col">Descripción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="producto">
+    
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -150,20 +103,24 @@
                     <div class="card-body">
                         <form>
                             <div class="mb-3">
-                                <label for="nombre_producto" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre_producto">
-                            </div>
-                            <div class="mb-3">
                                 <label for="SKU_producto" class="form-label">SKU</label>
                                 <input type="text" class="form-control" id="SKU_producto">
                             </div>
                             <div class="mb-3">
-                                <label for="ubicacion_producto" class="form-label">Ubicación del producto</label>
-                                <input type="text" class="form-control" id="ubicacion_producto">
+                                <label for="id_linea" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="id_linea">
                             </div>
                             <div class="mb-3">
-                                <label for="stock" class="form-label">Stock</label>
-                                <input type="number" class="form-control" id="stock">
+                                <label for="generico" class="form-label">Ubicación del producto</label>
+                                <input type="text" class="form-control" id="generico">
+                            </div>
+                            <div class="mb-3">
+                                <label for="unidad_de_medida" class="form-label">Stock</label>
+                                <input type="number" class="form-control" id="unidad_de_medida">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <input type="text" class="form-control" id="descripcion">
                             </div>
                         </form>
                     </div>
@@ -245,7 +202,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Cargar archivo</button>
+                    <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
                 </div>
             </div>
         </div>
@@ -257,7 +214,9 @@
 
     <!-- For better performance this script should go at the very bottom of the body -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="../js/initFile.js"></script>
     <script>
+    
     function filtrar() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;
@@ -299,12 +258,10 @@
         document.addEventListener("drop",function(event){
             event.preventDefault();
             if(event.target.className == "box hover"){
-                console.log("Nice");
                 event.target.classList.remove("hover");
                 dropHandler(event);
             }
         });
-
         function removeDragData(event){
             if(event.dataTransfer.items){
                 event.dataTransfer.items.clear();
@@ -313,6 +270,23 @@
                 event.dataTransfer.clearData();
             }
         }
+        var archivo;
+        function sendFile(){
+            document.getElementById("btn-archivo").disabled = true;
+            const uri = "../php/cargarProductos.php";
+            const xhr  = new XMLHttpRequest();
+            const fd = new FormData();
+            xhr.open("POST", uri, true);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4 && xhr.status == 200){
+                     console.log(xhr.responseText);
+                }
+            };
+            fd.append('file_name', archivo);
+            xhr.send(fd);
+
+            location.reload();
+        }
         function dropHandler(event){
             event.preventDefault();
             var nombreDeArchivos = [];
@@ -320,7 +294,7 @@
                 for(var i = 0; i < event.dataTransfer.items.length; i++){
                     if(event.dataTransfer.items[i].kind == 'file'){
                         var file = event.dataTransfer.items[i].getAsFile();
-                        console.log('...file[' + i + '].name = ' + file.name);
+                        archivo = event.dataTransfer.items[i].getAsFile();
                         nombreDeArchivos.push(file.name);
                     }
                 }
@@ -331,60 +305,11 @@
                 removeDragData(event);
             }
         }
-
-        function init(){
-        document.getElementById("nombre_producto").value = "";
-        document.getElementById("nombre_producto").disabled = true;
-        document.getElementById("SKU_producto").value = "";
-        document.getElementById("SKU_producto").disabled = true;
-        document.getElementById("ubicacion_producto").value = "";
-        document.getElementById("ubicacion_producto").disabled = true;
-        document.getElementById("stock").value = ""
-        document.getElementById("stock").disabled = true;
-        document.getElementById("busqueda").value="";
-        rowHandlers();
-    }
-    /* 
-        correo_operador
-        horario_entrada
-        horario_salida
-    */
-    function llenarFormulario(row){
-        console.log(row[0]);
-        console.log(row[1]);
-        console.log(row[2]);
-        document.getElementById("nombre_producto").value = row[1];
-        document.getElementById("nombre_producto").disabled = true;
-        document.getElementById("SKU_producto").value = row[0];
-        document.getElementById("SKU_producto").disabled = true;
-        document.getElementById("ubicacion_producto").value = "A2895";
-        document.getElementById("ubicacion_producto").disabled = true;
-        document.getElementById("stock").value = row[2];
-        document.getElementById("stock").disabled = true;
-    }
-
-    function rowHandlers(){
-        //cleanForm();
-        var table = document.getElementById("tablaProductos");
-        var rows = table.getElementsByTagName("tr");
-        for(var i = 0; i < rows.length; i++){
-            var currentRow = table.rows[i];
-            var clickHandler = function(row){
-                return function(){
-                    var cells = row.getElementsByTagName("td");
-                    var fila = [];
-                    for(var j = 0; j < cells.length; j++){
-                        console.log(cells[j].innerHTML);
-                        fila.push(cells[j].innerHTML);
-                    }
-                    llenarFormulario(fila);
-                };
-            };
-            currentRow.onclick = clickHandler(currentRow);
-        }
-    }
-    window.onload = init();
-            
+    window.onload = init(
+        ["SKU_producto", "id_linea", "generico", "unidad_de_medida", "descripcion"], 
+        "Producto",
+        "producto"
+    );
     </script>
 </body>
 

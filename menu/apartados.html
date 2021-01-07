@@ -10,6 +10,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="../css/dropFile.css" rel="stylesheet" type="text/css">
     <style>
         .navbar-custom{
             background-color:#1e4f9e;
@@ -94,6 +95,10 @@
                             <div class="col-sm-4">
                                 <button class="btn btn-primary" type="button">Terminadas</button>
                             </div>
+                            <!-- TODO: Cambiar la ubicación del botón -->
+                            <div class="col-sm-4">
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo">Cargar inventario</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -130,6 +135,43 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="subirArchivo" tabindex="-1" aria-labelledby="subirArchivoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="subirArchivoLabel">Cargar archivo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container box-center" style="display: none;" id="archivoCargado">
+                        <div class="svg-container box-center" id="imagenSubido">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload scaling-svg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                            </svg>
+                        </div>
+                        <div style="text-align: center;">
+                            <p id="mostrarNombreArchivo">Se cargó correctamente el archivo: </p>
+                        </div>
+                    </div>
+                    <div class="box" method="post" enctype="multipart/form-data" id="targetLayer">
+                        <div class="svg-container box-center" id="imagen-drop">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download scaling-svg" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                    <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                        </div>
+                        <div class="box-center" style="text-align: center;">
+                            <p style="text-align: center;">Arrastra tus archivos aquí</p>
+                        </div> 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -138,7 +180,33 @@
 
     <!-- For better performance this script should go at the very bottom of the body -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="../js/initFile.js"></script>
     <script>
+    document.addEventListener("drag", function(event){
+        event.preventDefault();
+    }, false);
+    document.addEventListener("dragenter", function(event){
+        event.preventDefault();
+        if(event.target.className == "box"){
+            event.target.classList.add("hover");
+        }
+    }, false);
+    document.addEventListener("dragover", function(event){
+        event.preventDefault();
+    }, false);
+    document.addEventListener("dragleave", function(){
+        event.preventDefault();
+        if(event.target.className == "box hover"){
+            event.target.classList.remove("hover");
+        }
+    },false);
+    document.addEventListener("drop",function(event){
+        event.preventDefault();
+        if(event.target.className == "box hover"){
+            event.target.classList.remove("hover");
+            dropHandler(event);
+        }
+    });
     function filtrar() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;
@@ -159,58 +227,49 @@
         }
       }
     }
-    function init(){
-        document.getElementById("numeroControl").value = "";
-        document.getElementById("numeroControl").disabled = true;
-        document.getElementById("numeroProductos").value = "";
-        document.getElementById("numeroProductos").disabled = true;
-        document.getElementById("encargado").value = "";
-        document.getElementById("encargado").disabled = true;
-        document.getElementById("estado").value = ""
-        document.getElementById("estado").disabled = true;
-        document.getElementById("busqueda").value="";
-        rowHandlers();
-    }
-    /* 
-        correo_operador
-        horario_entrada
-        horario_salida
-    */
-    function llenarFormulario(row){
-        console.log(row[0]);
-        console.log(row[1]);
-        console.log(row[2]);
-        document.getElementById("numeroControl").value = row[0];
-        document.getElementById("numeroControl").disabled = true;
-        document.getElementById("numeroProductos").value = "25";
-        document.getElementById("numeroProductos").disabled = true;
-        document.getElementById("encargado").value = row[1];
-        document.getElementById("encargado").disabled = true;
-        document.getElementById("estado").value = row[2];
-        document.getElementById("estado").disabled = true;
-    }
-
-    function rowHandlers(){
-        //cleanForm();
-        var table = document.getElementById("tablaApartados");
-        var rows = table.getElementsByTagName("tr");
-        for(var i = 0; i < rows.length; i++){
-            var currentRow = table.rows[i];
-            var clickHandler = function(row){
-                return function(){
-                    var cells = row.getElementsByTagName("td");
-                    var fila = [];
-                    for(var j = 0; j < cells.length; j++){
-                        console.log(cells[j].innerHTML);
-                        fila.push(cells[j].innerHTML);
-                    }
-                    llenarFormulario(fila);
-                };
-            };
-            currentRow.onclick = clickHandler(currentRow);
+    function removeDragData(event){
+        if(event.dataTransfer.items){
+            event.dataTransfer.items.clear();
+        }
+        else{
+            event.dataTransfer.clearData();
         }
     }
-    window.onload = init();
+    var archivo;
+    function sendFile(){
+        document.getElementById("btn-archivo").disabled = true;
+        const uri = "../php/cargarApartado.php";
+        const xhr  = new XMLHttpRequest();
+        const fd = new FormData();
+        xhr.open("POST", uri, true);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                    console.log(xhr.responseText);
+            }
+        };
+        fd.append('file_name', archivo);
+        xhr.send(fd);
+        console.log('El archivo '+ archivo.name + ' fue enviado');
+    }
+    function dropHandler(event){
+        event.preventDefault();
+        var nombreDeArchivos = [];
+        if(event.dataTransfer.items){
+            for(var i = 0; i < event.dataTransfer.items.length; i++){
+                if(event.dataTransfer.items[i].kind == 'file'){
+                    var file = event.dataTransfer.items[i].getAsFile();
+                    archivo = event.dataTransfer.items[i].getAsFile();
+                    nombreDeArchivos.push(file.name);
+                }
+            }
+            for(var i = 0; i < nombreDeArchivos.length; i++){
+                document.getElementById("mostrarNombreArchivo").textContent += nombreDeArchivos[i] + " ";
+            }
+            document.getElementById("targetLayer").innerHTML = document.getElementById("archivoCargado").innerHTML;
+            removeDragData(event);
+        }
+    }
+    window.onload = init("numeroControl", "encargado", "estado", "numeroProductos","tablaApartados");
     </script>
 </body>
 
