@@ -1,12 +1,12 @@
 <?php
 function obtener_contenido(){
-    $directory = "../menu/contents/";
-    $target_file = $directory . $_FILES['file_name']['name'];
+    $directory = getcwd().DIRECTORY_SEPARATOR;
+    $target_file = $directory . basename($_FILES['file_name']['name']);
     $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $numero_de_fila = -1;
     $datos = array();
     if($file_type == "csv"){
-        if(move_uploaded_file($_FILES['file_name']['tmp_name'], $target_file)){
+        if(@move_uploaded_file($_FILES['file_name']['tmp_name'], $target_file)){
             if(($gestor = fopen($target_file,"r")) !== FALSE){
                 while(($fila = fgetcsv($gestor)) !== FALSE){
                     $numero_de_fila++;
