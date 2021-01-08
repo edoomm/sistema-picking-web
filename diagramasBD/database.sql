@@ -75,7 +75,7 @@ CREATE TABLE `Control` (
     `numero_control` INT NOT NULL,
     `id_sucursal` INT NOT NULL,
     `apartado` INT NOT NULL, -- Cantidad que pide la sucursal del sku
-    `asignado` BOOLEAN NOT NULL DEFAULT 0,
+    `asignado` BOOLEAN NOT NULL DEFAULT 0, -- 0: sin asignar; 1: asignado, -1: cancelado; (2: terminado)
     PRIMARY KEY (`control_id`),
     FOREIGN KEY (`sku`) REFERENCES `Producto` (`sku`)
 );
