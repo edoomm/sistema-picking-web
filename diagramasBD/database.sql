@@ -47,7 +47,7 @@ CREATE TABLE `Producto` (
     `generico` CHAR(1) NOT NULL,
     `unidad_medida` INT NOT NULL, -- 1:Para aquellos que no tengan UM
     `descripcion` VARCHAR(100),
-    'stock' INT NOT NULL,
+    `stock` INT NOT NULL,
     PRIMARY KEY (`sku`)
 );
 
