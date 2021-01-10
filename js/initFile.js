@@ -18,10 +18,9 @@ function aux(){
 }
 function rowHandlers(camposFormulario, tableBodyId){
     let table = document.getElementById(tableBodyId);
-    console.log(tableBodyId);
-    console.log(table.innerHTML);
+
     let rows = table.getElementsByTagName("tr");
-    console.log(rows.length);
+
     for(var index = 0; index < rows.length; index++){
         rows[index].addEventListener("click", function(){
             let cells = this.getElementsByTagName("td");
@@ -52,7 +51,6 @@ async function load_table(table_db, table_name){
             },
             function(data){
                 if(data != ""){
-                    console.log(table_name);
                     document.getElementById(table_name).innerHTML = data;
                 }
             }
