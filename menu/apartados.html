@@ -4,13 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Productos</title>
+    <title>Apartados</title>
     <meta name='viewport'
         content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' />
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link href="../css/dropFile.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .navbar-custom{
             background-color:#1e4f9e;
@@ -19,6 +20,11 @@
             margin-top: 120px;
             margin-left: 10px;
             margin-right: 10px;
+        }
+        .table-wrapper {
+            max-height: 443px;
+            overflow: auto;
+            display:inline-block;
         }
     </style>
 
@@ -48,39 +54,20 @@
                         Lista de apartados
                     </div>
                     <div class="card-body">
-                        <div class="container">
-
+                        <div class="container table-wrapper">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de control">
                             <table class="table table-hover" id="tablaApartados">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Número de control</th>
-                                        <th scope="col">Encargado</th>
-                                        <th scope="col">Estado</th>
+                                        <th scope="col">ID Control</th>
+                                        <th scope="col">SKU</th>
+                                        <th scope="col">Número control</th>
+                                        <th scope="col">ID sucursal</th>
+                                        <th scope="col">Apartado</th>
+                                        <th scope="col">Asignado</th>
                                     </tr>
                                 </thead>
-                                <tbody id="serie">
-                                    <tr>
-                                       <td id>123456</td>
-                                        <td>Juan Pérez</td>
-                                        <td>En progreso</td>
-                                    </tr>
-                                    <tr>
-                                       <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Terminada</td>
-                                    </tr>
-                                    <tr>
-                                        <td>552648</td>
-                                        <td>José Mancera</td>
-                                        <td>En progreso</td>
-                                    </tr>
-                                    <tr>
-                                        <td>515151</td>
-                                        <td>Manuel Cisneros</td>
-                                        <td>Pendiente</td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="serie"></tbody>
                             </table>
                         </div>
                     </div>
@@ -94,10 +81,6 @@
                             </div>
                             <div class="col-sm-4">
                                 <button class="btn btn-primary" type="button">Terminadas</button>
-                            </div>
-                            <!-- TODO: Cambiar la ubicación del botón -->
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo">Cargar inventario</button>
                             </div>
                         </div>
                     </div>
@@ -115,22 +98,37 @@
                     <div class="card-body">
                         <form>
                             <div class="mb-3">
-                                <label for="numeroControl" class="form-label">Número de control</label>
-                                <input type="text" class="form-control" id="numeroControl">
+                                <label for="control_id" class="form-label">ID Control</label>
+                                <input type="text" class="form-control" id="control_id">
                             </div>
                             <div class="mb-3">
-                                <label for="encargado" class="form-label">Encargado</label>
-                                <input type="text" class="form-control" id="encargado">
+                                <label for="id_sucursal" class="form-label">ID sucursal</label>
+                                <input type="text" class="form-control" id="id_sucursal">
                             </div>
                             <div class="mb-3">
-                                <label for="estado" class="form-label">Estado</label>
-                                <input type="text" class="form-control" id="estado">
+                                <label for="apartado" class="form-label">Apartado</label>
+                                <input type="text" class="form-control" id="apartado">
                             </div>
                             <div class="mb-3">
-                                <label for="numeroProductos" class="form-label">Número de productos</label>
-                                <input type="number" class="form-control" id="numeroProductos">
+                                <label for="sku" class="form-label">SKU</label>
+                                <input type="text" class="form-control" id="sku">
+                            </div>
+                            <div class="mb-3">
+                                <label for="numero_control" class="form-label">Número control</label>
+                                <input type="number" class="form-control" id="numero_control">
                             </div>
                         </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo">Cargar apartados</button>
+                            </div>
+                            <!--TODO: asignar funcionalidad a este botón-->
+                            <div class="col-sm-4">
+                                <button class="btn btn-primary" type="button" onclick="asignacionAutomatica()">Asignar apartados</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -249,7 +247,7 @@
         };
         fd.append('file_name', archivo);
         xhr.send(fd);
-        location.reload();
+        //location.reload();
     }
     function dropHandler(event){
         event.preventDefault();
@@ -269,8 +267,14 @@
             removeDragData(event);
         }
     }
+    function asignacionAutomatica(){
+        $.post("../php/asignacionAutomatica.php", function(data){
+            console.log(data);
+        }
+        );
+    }
     window.onload = init(
-        ["numeroControl", "encargado", "estado", "numeroProductos"],
+        ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
         "Control",
         "serie"
     );

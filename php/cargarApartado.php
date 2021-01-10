@@ -17,8 +17,10 @@ if(isset($_FILES['file_name'])){
         $id_linea = $fila[3];
         $apartado = $fila[4];
         //$sql_query debe tener la query para insersión de datos
-        $sql_query = "INSERT INTO Control (id_sucursal, apartado, sku, asignado) VALUES ('".$id_sucursal."','".$apartado"','".$sku."','0')"; 
-        mysqli_query($conn, $sql_query);
+        $sql_query = "INSERT INTO Control (id_sucursal, apartado, sku, asignado, numero_control) VALUES ('".$id_sucursal."','".$apartado."','".$sku."',FALSE, '1')"; 
+        if(mysqli_query($conn, $sql_query) === FALSE){
+            echo "No se pudo completar la transacción\n";
+        }
     }
     mysqli_close($conn);
 }

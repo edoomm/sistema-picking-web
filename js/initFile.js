@@ -12,19 +12,13 @@ async function init(camposFormulario, tableBD, tableBodyId){
     }
     rowHandlers(camposFormulario, tableBodyId);
 }
-function aux(){
-    console.log(this);
-}
 function rowHandlers(camposFormulario, tableBodyId){
     let table = document.getElementById(tableBodyId);
-    console.log(tableBodyId);
-    console.log(table.innerHTML);
     let rows = table.getElementsByTagName("tr");
     console.log(rows.length);
     for(var index = 0; index < rows.length; index++){
         rows[index].addEventListener("click", function(){
             let cells = this.getElementsByTagName("td");
-            console.log(cells);
             let fila = [];
             for(let j = 0; j < cells.length; j++){
                 fila.push(cells[j].innerHTML);
@@ -51,7 +45,6 @@ async function load_table(table_db, table_name){
             },
             function(data){
                 if(data != ""){
-                    console.log(table_name);
                     document.getElementById(table_name).innerHTML = data;
                 }
             }
