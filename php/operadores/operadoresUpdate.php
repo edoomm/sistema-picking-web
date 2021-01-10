@@ -7,7 +7,8 @@
 
   $link = open_database();
 
-  $sql = 'UPDATE operador SET nombre ="'.$nom.'", correo = "'.$mail.'" WHERE num_empleado ="'.$num.'";';
+  $sql = 'UPDATE Operador SET nombre ="'.$nom.'", correo = "'.$mail.'" WHERE num_empleado ="'.$num.'";';
   $result = $link->query($sql);
+
   $link->close();
 ?>

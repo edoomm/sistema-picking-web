@@ -4,7 +4,7 @@
   $num = $_POST['numero_empleado'];
   $link = open_database();
 
-  $sql = 'DELETE FROM operador WHERE num_empleado ="'.$num.'";';
+  $sql = 'DELETE FROM Operador WHERE num_empleado ="'.$num.'";';
 
   $result = $link->query($sql);
   $link->close();
