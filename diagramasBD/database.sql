@@ -47,6 +47,7 @@ CREATE TABLE `Producto` (
     `generico` CHAR(1) NOT NULL,
     `unidad_medida` INT NOT NULL, -- 1:Para aquellos que no tengan UM
     `descripcion` VARCHAR(100),
+    `stock` INT,
     PRIMARY KEY (`sku`)
 );
 
@@ -106,7 +107,7 @@ CREATE TABLE `Transaccion` (
     FOREIGN KEY (`control_id`) REFERENCES `Control` (`control_id`)
 );
 
-insert into producto values
+insert into producto (sku, id_linea, generico, unidad_medida, descripcion) values
     (508748 , "AJG" , "E", 1, "TRENZADO AMARILLO"),
     (508749 , "AJG" , "E", 1, "TRENZADO ROSA"),
     (508752 , "AJG" , "E", 1, "CORDON AMARILLO"),

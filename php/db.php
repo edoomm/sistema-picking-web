@@ -2,8 +2,8 @@
 
 function open_database() {
     $host = "localhost";
-    $user = "phpmyadmin";
-    $pwd = "Yunue080899";
+    $user = "gabriel";
+    $pwd = "57425595";
     $db = "pickingdb";
 
     $conn = mysqli_connect($host, $user, $pwd, $db);
