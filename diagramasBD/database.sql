@@ -7,6 +7,7 @@ USE pickingdb;
 CREATE TABLE `Operador` (
     `num_empleado` VARCHAR(6) NOT NULL,
     `nombre` VARCHAR(50) NOT NULL,
+    `activo` TINYINT(1), -- Con miras a nuevas funcionalidades
     PRIMARY KEY (`num_empleado`)
 )  ;
 
@@ -35,7 +36,7 @@ CREATE TABLE `Dispositivo` (
     `dispositivo_id` VARCHAR(17) NOT NULL,
     `operador_num_empleado` VARCHAR(6),
     `tipo` VARCHAR(15),
-    `activo` BOOLEAN,
+    `activo` TINYINT(1),
     PRIMARY KEY (`dispositivo_id`),
     FOREIGN KEY (`operador_num_empleado`) REFERENCES `Operador` (`num_empleado`)
 )  ;
@@ -65,7 +66,7 @@ CREATE TABLE `Ubicacion` (
 CREATE TABLE `Contenedor` (
     `contenedor_id` INT NOT NULL AUTO_INCREMENT,
     `medida` INT,
-    `estado` BOOLEAN,
+    `estado` TINYINT(1),
     `ubicacion` VARCHAR(15),
     PRIMARY KEY (`contenedor_id`)
 );
@@ -76,7 +77,7 @@ CREATE TABLE `Control` (
     `numero_control` INT NOT NULL,
     `id_sucursal` INT NOT NULL,
     `apartado` INT NOT NULL, -- Cantidad que pide la sucursal del sku
-    `estado` BOOLEAN NOT NULL DEFAULT 0, -- 0: sin asignar; 1: asignado, -1: cancelado; (2: terminado)
+    `estado` TINYINT(1) NOT NULL DEFAULT 0, -- 0: sin asignar; 1: asignado, -1: cancelado; (2: terminado)
     PRIMARY KEY (`control_id`),
     FOREIGN KEY (`sku`) REFERENCES `Producto` (`sku`)
 );
@@ -363,7 +364,7 @@ insert into control
     (220568, 4, 12148, 2, 0),
     (220568, 4, 12077, 1, 0);
 
-insert into operador values
+insert into operador (num_empleado, nombre) values
     ("123456", "Donaldo"),
     ("111111", "Eduardo");
 
