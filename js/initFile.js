@@ -15,7 +15,7 @@ async function init(camposFormulario, tableBD, tableBodyId){
 function rowHandlers(camposFormulario, tableBodyId){
     let table = document.getElementById(tableBodyId);
     let rows = table.getElementsByTagName("tr");
-    console.log(rows.length);
+
     for(var index = 0; index < rows.length; index++){
         rows[index].addEventListener("click", function(){
             let cells = this.getElementsByTagName("td");

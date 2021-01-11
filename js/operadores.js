@@ -1,34 +1,150 @@
-function formValidate(formId, formMsg, numeroEmpleado) {
-  var flag = 0;
+$(document).ready(function() {
+  resetForm('#Registrar');
+  $('#Dm').html("Semanal");
+  graphic_Change("Semanal");
+});
 
-  $(formId).find('[data-required]').each(function() {
-    var actual = $(this).val();
+function graphic_Change(selection){
+  $('#Dm').html(selection);
 
-    if (actual === "") {
-      $(this).addClass('is-invalid');
-      flag = 1;
-    } else {
-      if (actual == numeroEmpleado) {
-        if (!Validate_NumeroEmpleado(actual)) flag = 2;
+  if (selection == "Semanal"){
+    Graphic(7, 20);
+  }
+  else if (selection == "Mensual"){
+    Graphic(12, 80);
+  }
+  else{
+    Graphic(6, 120);
+  }
+  return false;
+}
+
+var grafico;
+
+function Graphic(total, max1){
+  var pos;
+
+  if (grafico){
+    pos = $(document).scrollTop();
+    grafico.destroy();
+  }
+
+  var datosTotal = total;
+  var coloR = [];
+  var datos = [];
+  var nombres = [];
+
+  if (total == 7){
+    nombres = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
+  }
+  else if (total == 12){
+    nombres = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  }
+  else{
+    nombres = ["2016", "2017", "2018", "2019", "2020", "2021"];
+  }
+
+
+
+  for (var i = 0; i < datosTotal; i++) {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    var c = Math.floor(Math.random() * max1) + 1;
+
+    coloR.push("rgb(" + r + "," + g + "," + b + ")");
+    datos.push( c );
+
+  }
+
+  var mostrar = $("#miGrafico");
+  grafico = new Chart(mostrar, {
+    type: 'bar',
+    data: {
+      labels: nombres,
+      datasets: [{
+        label: '# de apartados realizados',
+        data: datos,
+        backgroundColor: coloR,
+        borderColor: coloR,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive:true,
+      legend: {
+        display: true,
+        labels: {
+          backgroundColor: coloR,
+        }
+      },
+
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
       }
     }
   });
+  $(document).scrollTop(pos);
+}
 
-  if (flag == 1) {
-    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
-    return false;
-  } else if (flag == 2) {
-    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Error con el número de empleado! </div>');
-    $(inputNumeroEmpleado).addClass('is-invalid');
-    return false;
-  } else {
-    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> </div>');
-    $(formId).find('[data-required]').each(function() {
-      $(this).removeClass('is-invalid');
-      $(this).addClass('is-valid');
-    });
-    insert(formId);
+
+function filtrar() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("busqueda");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("operador");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
   }
+}
+
+function formValidate(formId, formMsg, numeroEmpleado) {
+  var flag = 0;
+
+$(formId).find('[data-required]').each(function() {
+  var actual = $(this).val();
+
+  if (actual === "") {
+    $(this).addClass('is-invalid');
+    flag = 1;
+  } else {
+    if (actual == numeroEmpleado) {
+      if (!Validate_NumeroEmpleado(actual)) flag = 2;
+    }
+  }
+});
+
+if (flag == 1) {
+  $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
+  return false;
+} else if (flag == 2) {
+  $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Error con el número de empleado! </div>');
+  $(inputNumeroEmpleado).addClass('is-invalid');
+  return false;
+}
+else {
+  $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> </div>');
+  $(formId).find('[data-required]').each(function() {
+    $(this).removeClass('is-invalid');
+    $(this).addClass('is-valid');
+  });
+  insert(formId);
+}
 }
 
 function insert(formID) {
@@ -39,8 +155,15 @@ function insert(formID) {
     success: function(data) {
       $('#registro').modal('hide');
       $('#exito').modal('show');
+      $('#inputCorreo').val('');
     }
   });
+}
+
+function liderButton() {
+  $('#registro').modal('hide');
+  $('#lider1').modal('show');
+  $('#numeroLider').val('');
 }
 
 
@@ -61,7 +184,6 @@ function Validate_Delete(formId, formMsg, numeroEmpleado) {
     $('#eliminar2').modal('show');
     $('#SE').html('<b>' + numeroEmpleado + '</b>');
   }
-  return false;
 }
 
 function DeleteOperador(numeroEmpleado) {
@@ -72,25 +194,51 @@ function DeleteOperador(numeroEmpleado) {
     data: dataString,
     success: function(value) {
       $('#eliminar2').modal('hide');
+      $('#inputEliminar').val('');
       $('#exito').modal('show');
     }
   });
 }
 
-
 function Validate_Modify(formId, formMsg, numeroEmpleado) {
   var valido = Validate_NumeroEmpleado(numeroEmpleado);
-  // of validao == false i can work with it
+
+  //valido == false, it exists in the database
   if (valido) {
     $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> No existe el número de empleado! </div>');
     $(formId).find('[data-required]').each(function() {
       $(this).addClass('is-invalid');
     });
   } else {
-    $('#modificar1').modal('hide');
-    fillForm(formId, formMsg, numeroEmpleado);
+      $('#modificar1').modal('hide');
+      fillForm(formId, formMsg, numeroEmpleado);
   }
-  return false;
+}
+
+function Validate_ModifyLider(formId, formMsg, numeroEmpleado) {
+  var num = Validate_NumeroEmpleado(numeroEmpleado);
+
+  if (num){
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> No existe el número de empleado! </div>');
+    $(formId).find('[data-required]').each(function() {
+      $(this).addClass('is-invalid');
+    });
+  }
+  else{
+    var usr = Validate_NumeroUsr(numeroEmpleado);
+
+    if (!usr){
+      $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> El número de empleado ya es líder de almacén! </div>');
+      $(formId).find('[data-required]').each(function() {
+      $(this).addClass('is-invalid');
+      });
+    }
+    else{
+      $('#lider1').modal('hide');
+      $('#lider2').modal('show');
+    }
+
+  }
 }
 
 //Aqui lleno el formulario con los datos que ya tengo
@@ -133,10 +281,43 @@ function Validate_Form2(formId, formMsg, numeroEmpleado) {
       success: function(data) {
         $('#modificar2').modal('hide');
         $('#exito').modal('show');
+        $('#inputCambiar').val('');
       }
     });
   }
 }
+
+
+function Validate_Lider(formId, formMsg, numeroEmpleado) {
+  var flag = 0;
+
+  $(formId).find('[data-required]').each(function() {
+    var actual = $(this).val();
+
+    if (actual === "") {
+      $(this).addClass('is-invalid');
+      flag = 1;
+    }
+  });
+  if (flag == 1) {
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
+    return false;
+  } else {
+    var dataString = 'numero_empleado=' + numeroEmpleado + "&" + $(formId).serialize();
+
+    $.ajax({
+      url: '../php/operadores/operadoresLider.php',
+      type: 'post',
+      data: dataString,
+      success: function(data) {
+        $('#lider2').modal('hide');
+        $('#exito').modal('show');
+        resetForm(formId);
+      }
+    });
+  }
+}
+
 
 function resetForm(formActual) {
   $(formActual).find('[data-required]').each(function() {
@@ -147,7 +328,7 @@ function resetForm(formActual) {
 function Validate_NumeroEmpleado(actual) {
   var valueReturn;
 
-  if (actual.length == 6 && !isNaN(actual)) {
+  if (actual.length == 6 && Validate_Number(actual)) {
     var dataString = 'numero_empleado=' + actual;
     $.ajax({
       async: false,
@@ -155,7 +336,7 @@ function Validate_NumeroEmpleado(actual) {
       type: 'post',
       data: dataString,
       success: function(value) {
-        valueReturn = (value) ? true : false;
+        valueReturn = (value == 0) ? true : false;
       }
     });
   } else {
@@ -163,4 +344,32 @@ function Validate_NumeroEmpleado(actual) {
   }
 
   return valueReturn;
+}
+
+
+function Validate_NumeroUsr(actual) {
+  var valueReturn;
+
+  if (actual.length == 6 && Validate_Number(actual)) {
+    var dataString = 'numero_empleado=' + actual;
+    $.ajax({
+      async: false,
+      url: '../php/operadores/operadoresUsuario.php',
+      type: 'post',
+      data: dataString,
+      success: function(value) {
+        valueReturn = (value == 0) ? true : false;
+      }
+    });
+  } else {
+    valueReturn = false;
+  }
+
+  return valueReturn;
+}
+
+
+function Validate_Number(numero){
+  let isnum = /^\d+$/.test(numero);
+  return isnum;
 }
