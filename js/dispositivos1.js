@@ -1,4 +1,4 @@
-function formValidate(formId, formMsg, numeroEmpleado) {
+function formValidate(formId, formMsg, numeroDeSerie) {
   var flag = 0;
 
   $(formId).find('[data-required]').each(function() {
@@ -8,8 +8,8 @@ function formValidate(formId, formMsg, numeroEmpleado) {
       $(this).addClass('is-invalid');
       flag = 1;
     } else {
-      if (actual == numeroEmpleado) {
-        if (!Validate_NumeroEmpleado(actual)) flag = 2;
+      if (actual == numeroDeSerie) {
+        if (!Validate_NumeroDeSerie(actual)) flag = 2;
       }
     }
   });
@@ -18,8 +18,8 @@ function formValidate(formId, formMsg, numeroEmpleado) {
     $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
     return false;
   } else if (flag == 2) {
-    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Error con el número de empleado! </div>');
-    $(inputNumeroEmpleado).addClass('is-invalid');
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Error con el número de serie del dispositivo! </div>');
+    $(inputNumeroSerie).addClass('is-invalid');
     return false;
   } else {
     $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> </div>');
@@ -31,10 +31,10 @@ function formValidate(formId, formMsg, numeroEmpleado) {
   }
 }
 
-function insert(formId) {
+function insert(formID) {
   $.ajax({
     type: 'POST',
-    url: '../php/operadores/operadoresInsert.php',
+    url: '../php/dispositivos/dispositivosInsert1.php',
     data: $(formID).serialize(),
     success: function(data) {
       $('#registro').modal('hide');
@@ -44,11 +44,11 @@ function insert(formId) {
 }
 
 
-function Validate_Delete(formId, formMsg, numeroEmpleado) {
-  var valido = Validate_NumeroEmpleado(numeroEmpleado);
+function Validate_Delete(formId, formMsg, numeroDeSerie) {
+  var valido = Validate_NumeroDeSerie(numeroDeSerie);
 
   if (valido) {
-    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> No existe el número de empleado! </div>');
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> ¡No existe el número de serie del dispositivo! </div>');
     $(formId).find('[data-required]').each(function() {
       $(this).addClass('is-invalid');
     });
@@ -59,15 +59,15 @@ function Validate_Delete(formId, formMsg, numeroEmpleado) {
     });
     $('#eliminar1').modal('hide');
     $('#eliminar2').modal('show');
-    $('#SE').html('<b>' + numeroEmpleado + '</b>');
+    $('#SE').html('<b>' + numeroDeSerie + '</b>');
   }
   return false;
 }
 
-function DeleteOperador(numeroEmpleado) {
-  var dataString = 'numero_empleado=' + numeroEmpleado;
+function DeleteDispositivo(numeroDeSerie) {
+  var dataString = 'numeroSerie=' + numeroDeSerie;
   $.ajax({
-    url: '../php/operadores/operadoresDelete.php',
+    url: '../php/dispositivos/dispositivosDelete1.php',
     type: 'post',
     data: dataString,
     success: function(value) {
@@ -78,39 +78,39 @@ function DeleteOperador(numeroEmpleado) {
 }
 
 
-function Validate_Modify(formId, formMsg, numeroEmpleado) {
-  var valido = Validate_NumeroEmpleado(numeroEmpleado);
+function Validate_Modify(formId, formMsg, numeroDeSerie) {
+  var valido = Validate_NumeroDeSerie(numeroDeSerie);
   // of validao == false i can work with it
   if (valido) {
-    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> No existe el número de empleado! </div>');
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> ¡No existe el número de serie del dispositivo! </div>');
     $(formId).find('[data-required]').each(function() {
       $(this).addClass('is-invalid');
     });
   } else {
     $('#modificar1').modal('hide');
-    fillForm(formId, formMsg, numeroEmpleado);
+    fillForm(formId, formMsg, numeroDeSerie);
   }
   return false;
 }
 
 //Aqui lleno el formulario con los datos que ya tengo
-function fillForm(formID, formMsg, numeroEmpleado) {
-  var dataString = 'numero_empleado=' + numeroEmpleado;
+function fillForm(formID, formMsg, numeroDeSerie) {
+  var dataString = 'numeroSerie=' + numeroDeSerie;
   $.ajax({
-    url: '../php/operadores/operadoresModify.php',
+    url: '../php/dispositivos/dispositivosModify1.php',
     type: 'post',
     data: dataString,
     dataType: "json",
     success: function(data) {
-      $('#modificarNombre').val(data[0]);
-      $('#modificarCorreo').val(data[1]);
+      $('#modificarEncargado').val(data[0]);
+      $('#modificarEstado').val(data[2]);
     }
   });
   $('#modificar2').modal('show');
 }
 
 //Aqui tengo que hacer el update de el usuario en la base de datos
-function Validate_Form2(formId, formMsg, numeroEmpleado) {
+function Validate_Form2(formId, formMsg, numeroDeSerie) {
   var flag = 0;
 
   $(formId).find('[data-required]').each(function() {
@@ -122,12 +122,12 @@ function Validate_Form2(formId, formMsg, numeroEmpleado) {
     }
   });
   if (flag == 1) {
-    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> ¡Todos los campos son necesarios! </div>');
     return false;
   } else {
-    var dataString = 'numero_empleado=' + numeroEmpleado + "&" + $(formId).serialize();
+    var dataString = 'numeroSerie=' + numeroDeSerie + "&" + $(formId).serialize();
     $.ajax({
-      url: '../php/operadores/operadoresUpdate.php',
+      url: '../php/dispositivos/dispositivosUpdate1.php',
       type: 'post',
       data: dataString,
       success: function(data) {
@@ -144,14 +144,14 @@ function resetForm(formActual) {
   });
 }
 
-function Validate_NumeroEmpleado(actual) {
+function Validate_NumeroDeSerie(actual) {
   var valueReturn;
 
   if (actual.length == 6 && !isNaN(actual)) {
-    var dataString = 'numero_empleado=' + actual;
+    var dataString = 'numeroSerie=' + actual;
     $.ajax({
       async: false,
-      url: '../php/operadores/operadoresR.php',
+      url: '../php/dispositivos/dispositivosR1.php',
       type: 'post',
       data: dataString,
       success: function(value) {

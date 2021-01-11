@@ -27,13 +27,12 @@
             <form action="./menu/menuPrincipal.html"> <!--LINK A MENU INICIAL -->
               <div class="mb-4">
                 <label for="usuario" class="form-label font-weight-bold">Usuario</label>
-                  <input type="text" class="form-control" placeholder="Ingresa tu número de empleado" id="usuario" aria-describedby="emailHelp" required = ""
-                  pattern="^[0-9]{6}$"> <!--Se requiere que el campo sea llenado y que siga una expresión regular, SOLO SE PUEDEN USAR 6 NUMEROS-->
-                <div id="usuario" class="form-text">EmpresaNúm.empleado [EENNNN]</div>
+                  <input type="text" class="form-control" placeholder="Ingresa tu usuario" id="usuario" aria-describedby="emailHelp" required
+                  pattern="[a-zA-Z]*"> <!--Se requiere que el campo sea llenado y que siga una expresión regular-->
               </div>
               <div class="mb-4">
                 <label for="contraseña" class="form-label font-weight-bold">Contraseña</label>
-                <input type="password" class="form-control" placeholder="Ingresa tu contraseña" id="contraseña" required="">
+                <input type="password" class="form-control" placeholder="Ingresa tu contraseña" id="contraseña" data-required>
               </div>
                 <!--<button type="submit" class="btn btn-primary w-100"> Iniciar sesión </button>-->
             <a href="./menu/menuPrincipal.html" class="mb-4 btn btn-primary w-100 py-lg-3">Iniciar sesión</a>
