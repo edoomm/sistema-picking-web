@@ -1,3 +1,7 @@
+<!--
+    TODO crear asignado manual
+    Mensajes de error y de éxito
+-->
 <!DOCTYPE html>
 <html>
 
@@ -124,14 +128,47 @@
                             <div class="col-sm-4">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo">Cargar apartados</button>
                             </div>
-                            <!--TODO: asignar funcionalidad a este botón-->
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" onclick="asignacionAutomatica()">Asignar apartados</button>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#asignarApartados" onclick="asignacionAutomatica()">Asignar apartados</button>
+                            </div>
+                            <div class="col-sm-4">
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#asignarManual">Asignar manual</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="modal fade" id="asignarApartados" tabindex="-1" aria-labelledby="asignarApartadosLable" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container box-center" id="cargando">
+                        <div style="text-align: center;" id="asignarApartadosMensaje">
+                            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
+                            <p>Cargando</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="asignarApartadosBoton" onclick="location.reload(); document.getElementById('asignarApartadosBoton').disabled=true;" class="btn btn-secondary" data-bs-dismiss="modal" disabled=true>Cerrar</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="modal fade" id="asignarManual" tabindex="-1" aria-labelledby="asignarManualLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-cancelar-archivo" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
+                </div>
+            </div>
+        </div>
         </div>
         <div class="modal fade" id="subirArchivo" tabindex="-1" aria-labelledby="subirArchivoLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -152,7 +189,8 @@
                             <p id="mostrarNombreArchivo">Se cargó correctamente el archivo: </p>
                         </div>
                     </div>
-                    <div class="box" method="post" enctype="multipart/form-data" id="targetLayer">
+                    
+                    <div class="box" method="post" enctype="multipart/form-data" id="targetLayer" >
                         <div class="svg-container box-center" id="imagen-drop">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download scaling-svg" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -165,7 +203,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" id="btn-cancelar-archivo" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
                 </div>
             </div>
@@ -214,7 +252,7 @@
       tr = table.getElementsByTagName("tr");
 
       for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
+        td = tr[i].getElementsByTagName("td")[3];
         if (td) {
           txtValue = td.textContent || td.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -235,7 +273,9 @@
     }
     var archivo;
     function sendFile(){
+        document.getElementById("targetLayer").innerHTML = document.getElementById("cargando").innerHTML;
         document.getElementById("btn-archivo").disabled = true;
+        document.getElementById("btn-cancelar-archivo").disabled = true;
         const uri = "../php/cargarApartado.php";
         const xhr  = new XMLHttpRequest();
         const fd = new FormData();
@@ -243,11 +283,14 @@
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4 && xhr.status == 200){
                     console.log(xhr.responseText);
+                    location.reload();
             }
         };
         fd.append('file_name', archivo);
         xhr.send(fd);
-        //location.reload();
+    }
+    function asignacionManual(){
+        
     }
     function dropHandler(event){
         event.preventDefault();
@@ -269,9 +312,13 @@
     }
     function asignacionAutomatica(){
         $.post("../php/asignacionAutomatica.php", function(data){
-            console.log(data);
         }
-        );
+        ).fail(function(){
+            alert('Hubo un error')
+        }).done(function(){
+            document.getElementById("asignarApartadosMensaje").innerHTML="<p> Se han asignado con éxito</p>";
+            document.getElementById("asignarApartadosBoton").disabled = false;
+        })
     }
     window.onload = init(
         ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
