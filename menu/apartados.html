@@ -68,7 +68,6 @@
                                         <th scope="col">Número control</th>
                                         <th scope="col">ID sucursal</th>
                                         <th scope="col">Apartado</th>
-                                        <th scope="col">Asignado</th>
                                     </tr>
                                 </thead>
                                 <tbody id="serie"></tbody>
@@ -78,13 +77,10 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Pendientes</button>
+                                <button class="btn btn-primary" type="button" onclick="mostrarAsignadas()">Asignadas</button>
                             </div>
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Progreso</button>
-                            </div>
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Terminadas</button>
+                                <button class="btn btn-primary" type="button" onclick="mostrarSinAsignar()">Sin asignar</button>
                             </div>
                         </div>
                     </div>
@@ -126,13 +122,10 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo">Cargar apartados</button>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo" onclick="initModal()">Cargar apartados</button>
                             </div>
                             <div class="col-sm-4">
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#asignarApartados" onclick="asignacionAutomatica()">Asignar apartados</button>
-                            </div>
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#asignarManual">Asignar manual</button>
                             </div>
                         </div>
                     </div>
@@ -156,28 +149,15 @@
             </div>
         </div>
         </div>
-        <div class="modal fade" id="asignarManual" tabindex="-1" aria-labelledby="asignarManualLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btn-cancelar-archivo" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
-                </div>
-            </div>
-        </div>
-        </div>
         <div class="modal fade" id="subirArchivo" tabindex="-1" aria-labelledby="subirArchivoLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="subirArchivoLabel">Cargar archivo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>-->
                 </div>
                 <div class="modal-body">
+                    <div class="box" method="post" enctype="multipart/form-data" id="targetLayer"></div>
                     <div class="container box-center" style="display: none;" id="archivoCargado">
                         <div class="svg-container box-center" id="imagenSubido">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload scaling-svg" viewBox="0 0 16 16">
@@ -189,8 +169,7 @@
                             <p id="mostrarNombreArchivo">Se cargó correctamente el archivo: </p>
                         </div>
                     </div>
-                    
-                    <div class="box" method="post" enctype="multipart/form-data" id="targetLayer" >
+                    <div class="container box-center" style="display: none;" id="modalInicio">
                         <div class="svg-container box-center" id="imagen-drop">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download scaling-svg" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -203,7 +182,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btn-cancelar-archivo" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <!--TODO terminar esto-->
+                    <button type="button" id="btn-cancelar-archivo" class="btn btn-secondary" data-bs-dismiss="modal" onclick="initModal();">Cancelar</button>
                     <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
                 </div>
             </div>
@@ -283,17 +263,22 @@
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4 && xhr.status == 200){
                     console.log(xhr.responseText);
+                    if(xhr.responseText == "ERROR_CSV"){
+                        alert("Se debe subir un archivo CSV");
+                    }
+                    else if(xhr.responseText == "ERROR_COLUMNAS"){
+                        alert("El archivo CSV debe tener 4 columnas");
+                    }
                     location.reload();
             }
         };
         fd.append('file_name', archivo);
+        fd.append('num_cols',4);
         xhr.send(fd);
-    }
-    function asignacionManual(){
-        
     }
     function dropHandler(event){
         event.preventDefault();
+        document.getElementById("btn-archivo").disabled = false;
         var nombreDeArchivos = [];
         if(event.dataTransfer.items){
             for(var i = 0; i < event.dataTransfer.items.length; i++){
@@ -320,10 +305,64 @@
             document.getElementById("asignarApartadosBoton").disabled = false;
         })
     }
+    async function mostrarAsignadas(){        
+        await $.post("../php/mostrarElementosBD.php", {
+                variable: "Control",
+                columnas : "control_id,sku,numero_control,id_sucursal,apartado",
+                condicion : "estado=1",
+            },
+            function(data){
+                if(data==""){
+                    alert("No hay apartados asignados");
+                }
+                else{
+                    document.getElementById("serie").innerHTML = data;
+                    rowHandlers(
+                        ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
+                        "control_id,sku,numero_control,id_sucursal,apartado",
+                        "serie",
+                        ["control_id",0],
+                        "Control"
+                    );
+                }
+            }
+        );
+
+    }
+    async function mostrarSinAsignar(){
+        await $.post("../php/mostrarElementosBD.php", {
+                variable: "Control",
+                columnas : "control_id,sku,numero_control,id_sucursal,apartado",
+                condicion : "estado=0",
+            },
+            function(data){
+                if(data==""){
+                    alert("No hay apartados sin asignar");
+                }
+                else{
+                    document.getElementById("serie").innerHTML = data;
+                    rowHandlers(
+                        ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
+                        "control_id,sku,numero_control,id_sucursal,apartado",
+                        "serie",
+                        ["control_id",0],
+                        "Control"
+                    );
+                }
+            }
+        );
+    }
+    function initModal(){
+        document.getElementById("btn-archivo").disabled=true;
+        document.getElementById("targetLayer").innerHTML = document.getElementById("modalInicio").innerHTML;
+    }
     window.onload = init(
         ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
+        "control_id,sku,numero_control,id_sucursal,apartado",
         "Control",
-        "serie"
+        "serie",
+        "control_id,sku,numero_control,id_sucursal,apartado",
+        ["control_id",0]
     );
     </script>
 </body>
