@@ -156,7 +156,6 @@ function insert(formID) {
     success: function(data) {
       $('#registro').modal('hide');
       $('#exito').modal('show');
-      $('#inputCorreo').val('');
     }
   });
 }
@@ -252,7 +251,6 @@ function fillForm(formID, formMsg, numeroEmpleado) {
     dataType: "json",
     success: function(data) {
       $('#modificarNombre').val(data[0]);
-      $('#modificarCorreo').val(data[1]);
     }
   });
   $('#modificar2').modal('show');
