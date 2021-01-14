@@ -1,11 +1,10 @@
 $(document).ready(function() {
   resetForm('#Registrar');
   $('#Dm').html("Pickup");
-  graphic_Change("Pickup",'P');
+  graphic_Change("Pickup", 'P');
 });
 
-
-function graphic_Change(selection, opcion){
+function graphic_Change(selection, opcion) {
   $('#Dm').html(selection);
 
   let empleado = new Array();
@@ -33,11 +32,11 @@ function graphic_Change(selection, opcion){
 
 var grafico;
 
-function Graphic(total, nombres, datos, opcion){
+function Graphic(total, nombres, datos, opcion) {
   var pos;
   var accion;
 
-  if (grafico){
+  if (grafico) {
     pos = $(document).scrollTop();
     grafico.destroy();
   }
@@ -47,7 +46,7 @@ function Graphic(total, nombres, datos, opcion){
 
 
   var coloR = [];
-  var dataLabel = "# de "+ accion +" realizados";
+  var dataLabel = "# de " + accion + " realizados";
 
   for (var i = 0; i < total; i++) {
     var r = Math.floor(Math.random() * 255);
@@ -71,7 +70,7 @@ function Graphic(total, nombres, datos, opcion){
       }]
     },
     options: {
-      responsive:true,
+      responsive: true,
       legend: {
         display: true,
         labels: {
@@ -90,7 +89,6 @@ function Graphic(total, nombres, datos, opcion){
   });
   $(document).scrollTop(pos);
 }
-
 
 
 function filtrar() {
@@ -117,35 +115,33 @@ function filtrar() {
 function formValidate(formId, formMsg, numeroEmpleado) {
   var flag = 0;
 
-$(formId).find('[data-required]').each(function() {
-  var actual = $(this).val();
-
-  if (actual === "") {
-    $(this).addClass('is-invalid');
-    flag = 1;
-  } else {
-    if (actual == numeroEmpleado) {
-      if (!Validate_NumeroEmpleado(actual)) flag = 2;
-    }
-  }
-});
-
-if (flag == 1) {
-  $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
-  return false;
-} else if (flag == 2) {
-  $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Error con el número de empleado! </div>');
-  $(inputNumeroEmpleado).addClass('is-invalid');
-  return false;
-}
-else {
-  $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> </div>');
   $(formId).find('[data-required]').each(function() {
-    $(this).removeClass('is-invalid');
-    $(this).addClass('is-valid');
+    var actual = $(this).val();
+
+    if (actual === "") {
+      $(this).addClass('is-invalid');
+      flag = 1;
+    } else {
+      if (actual == numeroEmpleado) {
+        if (!Validate_NumeroEmpleado(actual)) flag = 2;
+      }
+    }
   });
-  insert(formId);
-}
+
+  if (flag == 1) {
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
+    return false;
+  } else if (flag == 2) {
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Error con el número de empleado! </div>');
+    $(inputNumeroEmpleado).addClass('is-invalid');
+    return false;
+  } else {
+    $(formId).find('[data-required]').each(function() {
+      $(this).removeClass('is-invalid');
+      $(this).addClass('is-valid');
+    });
+    insert(formId);
+  }
 }
 
 function insert(formID) {
@@ -171,33 +167,51 @@ function Validate_Delete(formId, formMsg, numeroEmpleado) {
   var valido = Validate_NumeroEmpleado(numeroEmpleado);
 
   if (valido) {
-    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> No existe el número de empleado! </div>');
+    $(formMsg).html('<div class="text-danger"> No existe el número de empleado! </div>');
     $(formId).find('[data-required]').each(function() {
       $(this).addClass('is-invalid');
     });
   } else {
-    $(formId).find('[data-required]').each(function() {
-      $(this).removeClass('is-invalid');
-      $(this).addClass('is-valid');
-    });
+    var usr = Validate_NumeroUsr(numeroEmpleado);
+
     $('#eliminar1').modal('hide');
     $('#eliminar2').modal('show');
-    $('#SE').html('<b>' + numeroEmpleado + '</b>');
+
+    if (!usr) {
+      $('#SE').html('<h5> Seguro que desea eliminar a: <b>' + numeroEmpleado + '</b> ? <p> es líder de almacén! </h5>');
+      $(formMsg).html('');
+      $(formId).find('[data-required]').each(function() {
+        $(this).addClass('is-invalid');
+      });
+    } else {
+      $('#SE').html('<h5> Seguro que desea eliminar al operador: <b>' + numeroEmpleado + '</b>? </h5>');
+    }
+
   }
 }
 
 function DeleteOperador(numeroEmpleado) {
-  var dataString = 'numero_empleado=' + numeroEmpleado;
-  $.ajax({
-    url: '../php/operadores/operadoresDelete.php',
-    type: 'post',
-    data: dataString,
-    success: function(value) {
-      $('#eliminar2').modal('hide');
-      $('#inputEliminar').val('');
-      $('#exito').modal('show');
-    }
-  });
+
+  var posible = Validate_Cantidad(numeroEmpleado);
+
+  if (posible > 1) {
+
+    var dataString = 'numero_empleado=' + numeroEmpleado;
+    $.ajax({
+      url: '../php/operadores/operadoresDelete.php',
+      type: 'post',
+      data: dataString,
+      success: function(value) {
+        $('#eliminar2').modal('hide');
+        $('#inputEliminar').val('');
+        $('#exito').modal('show');
+      }
+    });
+  } else {
+    $('#eliminar2').modal('hide');
+    resetForm('#eliminar1');
+    alert("No es posible borrar al líder de almacén");
+  }
 }
 
 function Validate_Modify(formId, formMsg, numeroEmpleado) {
@@ -210,33 +224,29 @@ function Validate_Modify(formId, formMsg, numeroEmpleado) {
       $(this).addClass('is-invalid');
     });
   } else {
-      $('#modificar1').modal('hide');
-      fillForm(formId, formMsg, numeroEmpleado);
+    $('#modificar1').modal('hide');
+    fillForm(formId, formMsg, numeroEmpleado);
   }
 }
 
 function Validate_ModifyLider(formId, formMsg, numeroEmpleado) {
   var num = Validate_NumeroEmpleado(numeroEmpleado);
 
-  if (num){
+  if (num) {
     $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> No existe el número de empleado! </div>');
     $(formId).find('[data-required]').each(function() {
       $(this).addClass('is-invalid');
     });
-  }
-  else{
+  } else {
     var usr = Validate_NumeroUsr(numeroEmpleado);
 
-    if (!usr){
+    if (!usr) {
       $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> El número de empleado ya es líder de almacén! </div>');
-      $(formId).find('[data-required]').each(function() {
-      $(this).addClass('is-invalid');
-      });
     }
-    else{
-      $('#lider1').modal('hide');
-      $('#lider2').modal('show');
-    }
+
+    resetForm('#lider2Form');
+    $('#lider1').modal('hide');
+    $('#lider2').modal('show');
 
   }
 }
@@ -298,12 +308,21 @@ function Validate_Lider(formId, formMsg, numeroEmpleado) {
       flag = 1;
     }
   });
+
+  var pwd2 = $('#lider2Password').val();
+  var pwd1 = $('#lider2Password2').val();
+
+  if (pwd1 != pwd2) flag = 2;
+
   if (flag == 1) {
     $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
     return false;
+  } else if (flag == 2) {
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> La contraseña no es la misma! </div>');
+    $('#lider2Password2').addClass('text-danger');
   } else {
     var dataString = 'numero_empleado=' + numeroEmpleado + "&" + $(formId).serialize();
-
+    console.log(dataString);
     $.ajax({
       url: '../php/operadores/operadoresLider.php',
       type: 'post',
@@ -356,8 +375,9 @@ function Validate_NumeroUsr(actual) {
       url: '../php/operadores/operadoresUsuario.php',
       type: 'post',
       data: dataString,
+      dataType: "json",
       success: function(value) {
-        valueReturn = (value == 0) ? true : false;
+        valueReturn = (value[0] == 0) ? true : false;
       }
     });
   } else {
@@ -368,7 +388,27 @@ function Validate_NumeroUsr(actual) {
 }
 
 
-function Validate_Number(numero){
+function Validate_Cantidad(actual) {
+  var valueReturn;
+
+  var dataString = 'numero_empleado=' + actual;
+  $.ajax({
+    async: false,
+    url: '../php/operadores/operadoresUsuario.php',
+    type: 'post',
+    data: dataString,
+    dataType: "json",
+    success: function(value) {
+      valueReturn = value[1];
+    }
+  });
+
+  return valueReturn;
+}
+
+
+
+function Validate_Number(numero) {
   let isnum = /^\d+$/.test(numero);
   return isnum;
 }

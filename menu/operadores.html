@@ -60,30 +60,30 @@
           <div class="card-header">
             Lista de operadores
           </div>
-            <div class="card-body">
-                <div class="container table-wrapper">
-                  <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el número de empleado" pattern="^[0-9]{6}$">
-                    <table class="table table-hover" id="tablaOperadores">
-                        <thead>
-                            <tr>
-                              <th scope="col"> Nombre </th>
-                              <th scope="col"> Número de empleado </th>
-                            </tr>
-                        </thead>
-                        <tbody id="operador"></tbody>
-                    </table>
-                </div>
+          <div class="card-body">
+            <div class="container table-wrapper">
+              <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el número de empleado" pattern="^[0-9]{6}$">
+              <table class="table table-hover" id="tablaOperadores">
+                <thead>
+                  <tr>
+                    <th scope="col"> Nombre </th>
+                    <th scope="col"> Número de empleado </th>
+                  </tr>
+                </thead>
+                <tbody id="operador"></tbody>
+              </table>
             </div>
+          </div>
           <div class="card-footer">
             <div class="row">
               <div class="col-sm-4">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#registro">Registrar</button>
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#registro" onClick="resetForm('#Registrar')"> Registrar</button>
               </div>
               <div class="col-sm-4">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modificar1">Modificar</button>
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modificar1" onClick="resetForm('#modificar1')">Modificar</button>
               </div>
               <div class="col-sm-4">
-                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#eliminar1"> Eliminar </button>
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#eliminar1" onClick="resetForm('#eliminar1')"> Eliminar </button>
               </div>
             </div>
           </div>
@@ -162,8 +162,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
           </div>
           <div class="modal-body">
-            <em id="lider1Msg"></em>
-
+            <em id="lider1Msg">
+              <div class="text-secondary"> El número de empleado debe ser parte de los operadores</div>
+            </em>
             <form class="row g-3" name="numeroLiderForm" id="numeroLiderForm" method="POST" onSubmit="return false;">
               <div class="col-md-12">
                 <label for="numeroLider" class="form-label"> Número de empleado del nuevo líder de almacén <span class="text-danger">*</span> </label>
@@ -191,15 +192,19 @@
           <div class="modal-body">
             <em id="lider2Msg"></em>
 
-            <form class="row g-3" name="lider2Form" id="lider2Form" method="POST" onSubmit="return false;">
-              <div class="col-md-6">
+            <form class="row g-4" name="lider2Form" id="lider2Form" method="POST" onSubmit="return false;" oninput='lider2Password2.setCustomValidity(lider2Password2.value != lider2Password.value ? "Passwords do not match." : "")'>
+              <div class="col-lg-6">
+
                 <label for="lider2Usuario" class="form-label">Usuario</label>
                 <input type="text" class="form-control" id="lider2Usuario" name="lider2Usuario" placeholder="Usuario" data-required>
+                <p>
+                  <label for="lider2Password" class="form-label">Contraseña:</label>
+                  <input id="lider2Password" type=password data-required name="lider2Password" placeholder="********">
+                <p>
+                  <label for="lider2Password2" class="form-label">Confirmación de contraseña:</label>
+                  <input id="lider2Password2" type=password name="lider2Password2" placeholder="********">
               </div>
-              <div class="col-md-6">
-                <label for="lider2Password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="lider2Password" name="lider2Password" placeholder="****" data-required>
-              </div>
+
             </form>
 
           </div>
@@ -218,7 +223,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Anuncio</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick=" location.reload();">
             </button>
           </div>
           <div class="modal-body">
@@ -264,7 +269,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
           </div>
           <div class="modal-body">
-            <em id="ModificarMsg2"></em>
+
             <form class="row g-3" name="Modificar" id="Modificar" method="POST" onSubmit="return false;">
               <div class="col-12">
                 <label for="modificarNombre" class="form-label">Nombre <span class="text-danger">*</span> </label>
@@ -274,7 +279,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Modificar')">Cerrar</button>
-            <button type="button" name="submit5" id="submit5" class="btn btn-primary" onClick="return Validate_Form2('#Modificar','#ModificarMsg2',$('#inputCambiar').val());">Guardar</button>
+            <button type="button" id="submit5" class="btn btn-primary" onClick="return Validate_Form2('#Modificar','#ModificarMsg2',$('#inputCambiar').val());">Guardar</button>
           </div>
         </div>
       </div>
@@ -316,7 +321,7 @@
 
             <div class="modal-body">
               <div class="col-md-12">
-                <h5> Seguro que desea eliminar al operador : <em id="SE" name="SE"></em> </h5>
+                <em id="SE" name="SE"></em>
               </div>
             </div>
 
@@ -364,11 +369,11 @@
 
   <script>
     window.onload = init(
-      ["numero_empleado","nombre_operador"],
+      ["numero_empleado", "nombre_operador"],
       "num_empleado,nombre",
       "Operador",
       "operador",
-      "numero,nombre",
+      "num_empleado,nombre",
       ["num_empleado", 0]
     );
   </script>
