@@ -1,60 +1,60 @@
 $(document).ready(function() {
   resetForm('#Registrar');
-  $('#Dm').html("Semanal");
-  graphic_Change("Semanal");
+  $('#Dm').html("Pickup");
+  graphic_Change("Pickup",'P');
 });
 
-function graphic_Change(selection){
+
+function graphic_Change(selection, opcion){
   $('#Dm').html(selection);
 
-  if (selection == "Semanal"){
-    Graphic(7, 20);
-  }
-  else if (selection == "Mensual"){
-    Graphic(12, 80);
-  }
-  else{
-    Graphic(6, 120);
-  }
+  let empleado = new Array();
+  let accion = new Array();
+
+  var dataString = 'tipo_movimiento=' + opcion;
+
+  $.ajax({
+    url: '../php/operadores/operadoresGrafica.php',
+    type: 'post',
+    data: dataString,
+    dataType: "json",
+    success: function(data) {
+      empleado = data.numero;
+      cantidad = data.cantidad;
+
+      Graphic(empleado.length, empleado, cantidad, opcion);
+    }
+  });
+
   return false;
 }
 
+
+
 var grafico;
 
-function Graphic(total, max1){
+function Graphic(total, nombres, datos, opcion){
   var pos;
+  var accion;
 
   if (grafico){
     pos = $(document).scrollTop();
     grafico.destroy();
   }
 
-  var datosTotal = total;
+  if (opcion == 'P') accion = "Pickeos";
+  else accion = "Reabastos";
+
+
   var coloR = [];
-  var datos = [];
-  var nombres = [];
+  var dataLabel = "# de "+ accion +" realizados";
 
-  if (total == 7){
-    nombres = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
-  }
-  else if (total == 12){
-    nombres = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-  }
-  else{
-    nombres = ["2016", "2017", "2018", "2019", "2020", "2021"];
-  }
-
-
-
-  for (var i = 0; i < datosTotal; i++) {
+  for (var i = 0; i < total; i++) {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
-    var c = Math.floor(Math.random() * max1) + 1;
 
     coloR.push("rgb(" + r + "," + g + "," + b + ")");
-    datos.push( c );
-
   }
 
   var mostrar = $("#miGrafico");
@@ -63,7 +63,7 @@ function Graphic(total, max1){
     data: {
       labels: nombres,
       datasets: [{
-        label: '# de apartados realizados',
+        label: dataLabel,
         data: datos,
         backgroundColor: coloR,
         borderColor: coloR,
@@ -90,6 +90,7 @@ function Graphic(total, max1){
   });
   $(document).scrollTop(pos);
 }
+
 
 
 function filtrar() {
