@@ -178,7 +178,7 @@ function Validate_Delete(formId, formMsg, numeroEmpleado) {
     $('#eliminar2').modal('show');
 
     if (!usr) {
-      $('#SE').html('<h5> Seguro que desea eliminar a: <b>' + numeroEmpleado + '</b> ? <p> es líder de almacén! </h5>');
+      $('#SE').html('<h5> Seguro que desea eliminar a: <b>' + numeroEmpleado + '</b> ? <p> Es líder de almacén! </h5>');
       $(formMsg).html('');
       $(formId).find('[data-required]').each(function() {
         $(this).addClass('is-invalid');
@@ -191,7 +191,6 @@ function Validate_Delete(formId, formMsg, numeroEmpleado) {
 }
 
 function DeleteOperador(numeroEmpleado) {
-
   var posible = Validate_Cantidad(numeroEmpleado);
 
   if (posible > 1) {
@@ -399,6 +398,7 @@ function Validate_Cantidad(actual) {
     data: dataString,
     dataType: "json",
     success: function(value) {
+      if (value[1] == 0) value[1] += 2;
       valueReturn = value[1];
     }
   });

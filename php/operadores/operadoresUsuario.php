@@ -20,6 +20,10 @@
   $data[0] = $cantidad;
   $data[1] = $cantidad2;
 
+  if ($data[0] != $data[1]){
+    $data[1] += 10;
+  }
+
   echo json_encode($data);
   exit();
 
