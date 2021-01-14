@@ -40,6 +40,7 @@ function insert(formID) {
       $('#registro').modal('hide');
       $('#exito').modal('show');
     }
+    
   });
 }
 

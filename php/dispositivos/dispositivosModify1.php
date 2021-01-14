@@ -11,12 +11,12 @@
   // output data of each row
   $actual = $result->fetch_assoc();
   $n = $actual["operador_num_empleado"];
-
+  $e = $actual["activo"];
 
   $data = array();
 
   $data[0] = $n;
-  
+  $data[1] = $e;
 
   echo json_encode($data);
   exit();

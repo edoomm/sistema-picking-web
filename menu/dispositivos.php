@@ -70,6 +70,8 @@
                                     <td><?php echo $row['dispositivo_id'] ?></td>
                                     <td><?php echo $row['operador_num_empleado'] ?></td>
                                     <td><?php echo $row['activo'] ?></td>
+                                    <td style="display:none;"><?php echo $row['tipo'] ?></td>
+
                                   </tr>
                                   <?php
                                       }
@@ -143,8 +145,39 @@
                       <input type="text" class="form-control" id="inputNumeroSerie" name="inputNumeroSerie" placeholder="Número de serie del dispositivo" data-required>
                     </div>
                     <div class="col-12">
-                      <label for="inputEncargado" class="form-label">Número del empleado encargado<span class="text-danger">*</span> </label>
-                      <input type="text" class="form-control" id="inputEncargado" name="inputEncargado" placeholder="Número del empleado encargado" data-required>
+                      <label for="inputEncargado" class="form-label">Número del empleado encargado.<span class="text-danger">*</span> </label>
+
+                      <label><select class="form-select" id="inputEncargado" name="inputEncargado" type="text" data-required>
+                        <option value="">Seleccione al encargado de este dispositivo.</option>
+                        <?php
+                              $link = open_database();
+                              foreach ($link->query('SELECT * from operador') as $row){
+                        ?>
+
+                              <option value="<?php echo $row['num_empleado'] ?>"><?php echo $row['num_empleado'] ?>
+                                <label> Operador: </label><?php echo $row['nombre'] ?>
+                              </option>
+                        <?php
+                            }
+                            $link->close();
+                        ?>
+                      </select> </label>
+                    </div>
+                    <div class="col-12">
+                      <label for="inputEncargado" class="form-label">Tipo (Seleccione una opción)<span class="text-danger">*</span> </label>
+                      <select class="form-select" id="inputTipo" name="inputTipo" type="text" data-required>
+                        <option value="">Seleccione el tipo del dispositivo</option>
+                        <option selected>Escáner</option>
+                        <option selected>Tablet</option>
+                      </select>
+                    </div>
+                    <div class="col-12">
+                      <label for="inputEstado" class="form-label">Activo (Seleccione una opción)<span class="text-danger">*</span> </label>
+                      <select class="form-select" id="inputEstado" name="inputEstado" type="text" data-required>
+                        <option value="">Seleccione el estado del dispositivo</option>
+                        <option selected>Si</option>
+                        <option selected>No</option>
+                      </select>
                     </div>
 
                   </form>
@@ -211,9 +244,35 @@
                   <div class="modal-body">
                     <em id="ModificarMsg2"></em>
                     <form class="row g-3" name="Modificar" id="Modificar" method="POST" onSubmit="return false;">
-                      <div class="col-md-12">
+                      <!--<div class="col-md-12">
                         <label for="modificarEncargado" class="form-label">Encargado del dispositivo<span class="text-danger">*</span> </label>
                         <input type="text" class="form-control" id="modificarEncargado" name="modificarEncargado" placeholder="Encargado del dispositivo">
+                      </div>-->
+                      <div class="col-md-12">
+                        <label for="modificarEncargado" class="form-label">Número del nuevo encargado.<span class="text-danger">*</span> </label>
+
+                        <label><select class="form-select" id="modificarEncargado" name="modificarEncargado" type="text" data-required>
+                          <option value="">Seleccione al encargado de este dispositivo.</option>
+                          <?php
+                                $link = open_database();
+                                foreach ($link->query('SELECT * from operador') as $row){
+                          ?>
+
+                                <option value="<?php echo $row['num_empleado'] ?>"><?php echo $row['num_empleado'] ?>
+                                  <label> Operador: </label><?php echo $row['nombre'] ?>
+                                </option>
+                          <?php
+                              }
+                              $link->close();
+                          ?>
+                        </select> </label>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="modificarEstado" class="form-label">Activo<span class="text-danger">*</span> </label>
+                        <select class="form-control" id="modificarEstado" name="modificarEstado" type="text" data-required>
+                          <option selected>Si</option>
+                          <option selected>No</option>
+                        </select>
                       </div>
                     </form>
                   </div>
@@ -283,7 +342,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"> </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../js/dispositivos1.js"></script>
-
+    
     <script>
     function filtrar() {
       // Declare variables
@@ -326,7 +385,8 @@
         console.log(row[0]);
         console.log(row[1]);
         console.log(row[2]);
-        document.getElementById("tipo").value = "Escaner";
+        console.log(row[3]);
+        document.getElementById("tipo").value = row[3];
         document.getElementById("tipo").disabled = true;
         document.getElementById("numeroSerie").value = row[0];
         document.getElementById("numeroSerie").disabled = true;
@@ -356,6 +416,8 @@
             currentRow.onclick = clickHandler(currentRow);
         }
     }
+
+
     window.onload = init();
     </script>
 </body>

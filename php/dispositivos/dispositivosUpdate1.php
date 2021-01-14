@@ -3,7 +3,7 @@
 
   $num = $_POST['numeroSerie'];
   $enc = $_POST['modificarEncargado'];
-  
+  $est = $_POST['modificarEstado'];
 
   $link = open_database();
 
