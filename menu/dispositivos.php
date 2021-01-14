@@ -175,8 +175,8 @@
                       <label for="inputEstado" class="form-label">Activo (Seleccione una opción)<span class="text-danger">*</span> </label>
                       <select class="form-select" id="inputEstado" name="inputEstado" type="text" data-required>
                         <option value="">Seleccione el estado del dispositivo</option>
-                        <option selected>Si</option>
-                        <option selected>No</option>
+                        <option selected>1 <label for="">SI</label></option>
+                        <option selected>0 <label for="">NO</label></option>
                       </select>
                     </div>
 
@@ -267,11 +267,13 @@
                           ?>
                         </select> </label>
                       </div>
+                    
                       <div class="col-md-12">
-                        <label for="modificarEstado" class="form-label">Activo<span class="text-danger">*</span> </label>
-                        <select class="form-control" id="modificarEstado" name="modificarEstado" type="text" data-required>
-                          <option selected>Si</option>
-                          <option selected>No</option>
+                        <label for="modificarEstado" class="form-label">Activo (Seleccione una opción)<span class="text-danger">*</span> </label>
+                        <select class="form-select" id="modificarEstado" name="modificarEstado" type="text" data-required>
+                          <option value="">Seleccione el estado del dispositivo</option>
+                          <option selected>1 <label for="">SI</label></option>
+                          <option selected>0 <label for="">NO</label></option>
                         </select>
                       </div>
                     </form>
@@ -342,7 +344,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"> </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../js/dispositivos1.js"></script>
-    
+
     <script>
     function filtrar() {
       // Declare variables
