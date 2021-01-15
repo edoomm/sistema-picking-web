@@ -1,3 +1,7 @@
+<!--
+    TODO crear asignado manual
+    Mensajes de error y de éxito
+-->
 <!DOCTYPE html>
 <html>
 
@@ -11,6 +15,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link href="../css/dropFile.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .navbar-custom{
             background-color:#1e4f9e;
@@ -19,6 +24,11 @@
             margin-top: 120px;
             margin-left: 10px;
             margin-right: 10px;
+        }
+        .table-wrapper {
+            max-height: 443px;
+            overflow: auto;
+            display:inline-block;
         }
     </style>
 
@@ -48,56 +58,29 @@
                         Lista de apartados
                     </div>
                     <div class="card-body">
-                        <div class="container">
-
-                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de control">
+                        <div class="container table-wrapper">
+                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el número de control">
                             <table class="table table-hover" id="tablaApartados">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Número de control</th>
-                                        <th scope="col">Encargado</th>
-                                        <th scope="col">Estado</th>
+                                        <th scope="col">ID Control</th>
+                                        <th scope="col">SKU</th>
+                                        <th scope="col">Número control</th>
+                                        <th scope="col">ID sucursal</th>
+                                        <th scope="col">Apartado</th>
                                     </tr>
                                 </thead>
-                                <tbody id="serie">
-                                    <tr>
-                                       <td id>123456</td>
-                                        <td>Juan Pérez</td>
-                                        <td>En progreso</td>
-                                    </tr>
-                                    <tr>
-                                       <td>987654</td>
-                                        <td>María López</td>
-                                        <td>Terminada</td>
-                                    </tr>
-                                    <tr>
-                                        <td>552648</td>
-                                        <td>José Mancera</td>
-                                        <td>En progreso</td>
-                                    </tr>
-                                    <tr>
-                                        <td>515151</td>
-                                        <td>Manuel Cisneros</td>
-                                        <td>Pendiente</td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="serie"></tbody>
                             </table>
                         </div>
                     </div>
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Pendientes</button>
+                                <button class="btn btn-primary" type="button" onclick="mostrarAsignadas()">Asignadas</button>
                             </div>
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Progreso</button>
-                            </div>
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Terminadas</button>
-                            </div>
-                            <!-- TODO: Cambiar la ubicación del botón -->
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo">Cargar inventario</button>
+                                <button class="btn btn-primary" type="button" onclick="mostrarSinAsignar()">Sin asignar</button>
                             </div>
                         </div>
                     </div>
@@ -115,34 +98,66 @@
                     <div class="card-body">
                         <form>
                             <div class="mb-3">
-                                <label for="numeroControl" class="form-label">Número de control</label>
-                                <input type="text" class="form-control" id="numeroControl">
+                                <label for="control_id" class="form-label">ID Control</label>
+                                <input type="text" class="form-control" id="control_id">
                             </div>
                             <div class="mb-3">
-                                <label for="encargado" class="form-label">Encargado</label>
-                                <input type="text" class="form-control" id="encargado">
+                                <label for="id_sucursal" class="form-label">ID sucursal</label>
+                                <input type="text" class="form-control" id="id_sucursal">
                             </div>
                             <div class="mb-3">
-                                <label for="estado" class="form-label">Estado</label>
-                                <input type="text" class="form-control" id="estado">
+                                <label for="apartado" class="form-label">Apartado</label>
+                                <input type="text" class="form-control" id="apartado">
                             </div>
                             <div class="mb-3">
-                                <label for="numeroProductos" class="form-label">Número de productos</label>
-                                <input type="number" class="form-control" id="numeroProductos">
+                                <label for="sku" class="form-label">SKU</label>
+                                <input type="text" class="form-control" id="sku">
+                            </div>
+                            <div class="mb-3">
+                                <label for="numero_control" class="form-label">Número control</label>
+                                <input type="number" class="form-control" id="numero_control">
                             </div>
                         </form>
                     </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo" onclick="initModal()">Cargar apartados</button>
+                            </div>
+                            <div class="col-sm-4">
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#asignarApartados" onclick="asignacionAutomatica()">Asignar apartados</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="modal fade" id="asignarApartados" tabindex="-1" aria-labelledby="asignarApartadosLable" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container box-center" id="cargando">
+                        <div style="text-align: center;" id="asignarApartadosMensaje">
+                            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
+                            <p>Cargando</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="asignarApartadosBoton" onclick="location.reload(); document.getElementById('asignarApartadosBoton').disabled=true;" class="btn btn-secondary" data-bs-dismiss="modal" disabled=true>Cerrar</button>
+                </div>
+            </div>
+        </div>
         </div>
         <div class="modal fade" id="subirArchivo" tabindex="-1" aria-labelledby="subirArchivoLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="subirArchivoLabel">Cargar archivo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>-->
                 </div>
                 <div class="modal-body">
+                    <div class="box" method="post" enctype="multipart/form-data" id="targetLayer"></div>
                     <div class="container box-center" style="display: none;" id="archivoCargado">
                         <div class="svg-container box-center" id="imagenSubido">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload scaling-svg" viewBox="0 0 16 16">
@@ -154,7 +169,7 @@
                             <p id="mostrarNombreArchivo">Se cargó correctamente el archivo: </p>
                         </div>
                     </div>
-                    <div class="box" method="post" enctype="multipart/form-data" id="targetLayer">
+                    <div class="container box-center" style="display: none;" id="modalInicio">
                         <div class="svg-container box-center" id="imagen-drop">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download scaling-svg" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -167,7 +182,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <!--TODO terminar esto-->
+                    <button type="button" id="btn-cancelar-archivo" class="btn btn-secondary" data-bs-dismiss="modal" onclick="initModal();">Cancelar</button>
                     <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
                 </div>
             </div>
@@ -216,7 +232,7 @@
       tr = table.getElementsByTagName("tr");
 
       for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
+        td = tr[i].getElementsByTagName("td")[3];
         if (td) {
           txtValue = td.textContent || td.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -237,7 +253,9 @@
     }
     var archivo;
     function sendFile(){
+        document.getElementById("targetLayer").innerHTML = document.getElementById("cargando").innerHTML;
         document.getElementById("btn-archivo").disabled = true;
+        document.getElementById("btn-cancelar-archivo").disabled = true;
         const uri = "../php/cargarApartado.php";
         const xhr  = new XMLHttpRequest();
         const fd = new FormData();
@@ -245,14 +263,23 @@
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4 && xhr.status == 200){
                     console.log(xhr.responseText);
+                    if(xhr.responseText == "ERROR_CSV"){
+                        alert("Se debe subir un archivo CSV");
+                    }
+                    else if(xhr.responseText == "ERROR_TIPO"){
+                        alert("Verifica que el archivo sea del control de distribución");
+                    }
+                    alert(xhr.responseText);
+                    location.reload();
             }
         };
         fd.append('file_name', archivo);
+        fd.append('num_cols',3);
         xhr.send(fd);
-        console.log('El archivo '+ archivo.name + ' fue enviado');
     }
     function dropHandler(event){
         event.preventDefault();
+        document.getElementById("btn-archivo").disabled = false;
         var nombreDeArchivos = [];
         if(event.dataTransfer.items){
             for(var i = 0; i < event.dataTransfer.items.length; i++){
@@ -269,7 +296,75 @@
             removeDragData(event);
         }
     }
-    window.onload = init("numeroControl", "encargado", "estado", "numeroProductos","tablaApartados");
+    function asignacionAutomatica(){
+        $.post("../php/asignacionAutomatica.php", function(data){
+        }
+        ).fail(function(){
+            alert('Hubo un error')
+        }).done(function(){
+            document.getElementById("asignarApartadosMensaje").innerHTML="<p> Se han asignado con éxito</p>";
+            document.getElementById("asignarApartadosBoton").disabled = false;
+        })
+    }
+    async function mostrarAsignadas(){        
+        await $.post("../php/mostrarElementosBD.php", {
+                variable: "Control",
+                columnas : "control_id,sku,numero_control,id_sucursal,apartado",
+                condicion : "estado=1",
+            },
+            function(data){
+                if(data==""){
+                    alert("No hay apartados asignados");
+                }
+                else{
+                    document.getElementById("serie").innerHTML = data;
+                    rowHandlers(
+                        ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
+                        "control_id,sku,numero_control,id_sucursal,apartado",
+                        "serie",
+                        ["control_id",0],
+                        "Control"
+                    );
+                }
+            }
+        );
+
+    }
+    async function mostrarSinAsignar(){
+        await $.post("../php/mostrarElementosBD.php", {
+                variable: "Control",
+                columnas : "control_id,sku,numero_control,id_sucursal,apartado",
+                condicion : "estado=0",
+            },
+            function(data){
+                if(data==""){
+                    alert("No hay apartados sin asignar");
+                }
+                else{
+                    document.getElementById("serie").innerHTML = data;
+                    rowHandlers(
+                        ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
+                        "control_id,sku,numero_control,id_sucursal,apartado",
+                        "serie",
+                        ["control_id",0],
+                        "Control"
+                    );
+                }
+            }
+        );
+    }
+    function initModal(){
+        document.getElementById("btn-archivo").disabled=true;
+        document.getElementById("targetLayer").innerHTML = document.getElementById("modalInicio").innerHTML;
+    }
+    window.onload = init(
+        ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
+        "control_id,sku,numero_control,id_sucursal,apartado",
+        "Control",
+        "serie",
+        "control_id,sku,numero_control,id_sucursal,apartado",
+        ["control_id",0]
+    );
     </script>
 </body>
 

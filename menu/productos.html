@@ -55,36 +55,38 @@
                         Lista de productos
                     </div>
                     <div class="card-body">
-                        <div class="container">
+                        <div class="container table-wrapper">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el SKU del producto">
-                            <div class="table-wrapper">
-                                <table class="table table-hover" id="tablaProductos">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">SKU</th>
-                                            <th scope="col">ID Línea</th>
-                                            <th scope="col">Genérico</th>
-                                            <th scope="col">Unidad de medida</th>
-                                            <th scope="col">Descripción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="producto">
-    
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table class="table table-hover" id="tablaProductos">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">SKU</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Unidad de medida</th>
+                                        <th scope="col">Ubicación</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="producto">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#registro">Registrar</button>
+                        <div class = "row">    
+                            <div class="col-4">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registro" style="margin-bottom: 10px">Registrar</button>
                             </div>
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button">Modificar</button>
+                            <div class="col-4">
+                                <button class="btn btn-primary btn-lg" type="button" style="margin-bottom: 10px">Modificar</button>
                             </div>
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo">Cargar inventario</button>
+                            <div class="col-4">
+                                <button class="btn btn-primary btn-lg" type="button" style="margin-bottom: 10px">Eliminar</button>
+                            </div>
+                            <div class="col-7">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo" style="margin-bottom: 10px">Cargar inventario</button>
+                            </div>
+                            <div class="col-5">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo" style="margin-bottom: 10px">Cargar ubicaciones</button>
                             </div>
                         </div>
                     </div>
@@ -101,26 +103,34 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="SKU_producto" class="form-label">SKU</label>
-                                <input type="text" class="form-control" id="SKU_producto">
+                        <form class ="row g-3">
+                            <div class="col-6">
+                                <label for="sku" class="form-label">SKU</label>
+                                <input type="text" class="form-control" id="sku" disabled>
                             </div>
-                            <div class="mb-3">
-                                <label for="id_linea" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="id_linea">
-                            </div>
-                            <div class="mb-3">
-                                <label for="generico" class="form-label">Ubicación del producto</label>
-                                <input type="text" class="form-control" id="generico">
-                            </div>
-                            <div class="mb-3">
-                                <label for="unidad_de_medida" class="form-label">Stock</label>
-                                <input type="number" class="form-control" id="unidad_de_medida">
-                            </div>
-                            <div class="mb-3">
+                            <div class="col-6">
+                                <label for="ubicacion" class="form-label">Ubicación</label>
+                                <input type="text" class="form-control" id="ubicacion" disabled>
+                            </div> 
+                            <div class="col-12">
                                 <label for="descripcion" class="form-label">Descripción</label>
-                                <input type="text" class="form-control" id="descripcion">
+                                <input type="text" class="form-control" id="descripcion" disabled>
+                            </div>
+                            <div class="col-6">
+                                <label for="stock" class="form-label">Stock</label>
+                                <input type="text" class="form-control" id="stock" disabled>
+                            </div>
+                            <div class="col-6">
+                                <label for="medida" class="form-label">Unidad de medida</label>
+                                <input type="text" class="form-control" id="medida" disabled>
+                            </div>
+                            <div class="col-6">
+                                <label for="id_linea" class="form-label">ID Línea</label>
+                                <input type="text" class="form-control" id="id_linea" disabled>
+                            </div>
+                            <div class="col-6">
+                                <label for="generico" class="form-label">Genérico</label>
+                                <input type="text" class="form-control" id="generico" disabled>
                             </div>
                         </form>
                     </div>
@@ -137,27 +147,33 @@
                         </div>
                     <div class="modal-body">
                         <form class="row g-3">
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <label for="inputSKU" class="form-label">SKU</label>
-                                <input type="text" class="form-control" id="inputSKU" placeholder="24986879">
+                                <input type="textarea" class="form-control" id="inputSKU" placeholder="24986879">
                             </div>
                             <div class="col-6">
-                                <label for="inputNombre" class="form-label">Nombre</label>
+                                <label for="inputNombre" class="form-label">Ubicación</label>
                                 <input type="text" class="form-control" id="inputNombre" placeholder="Armazon">
                             </div>
                             <div class="col-6">
                                 <label for="inputStock" class="form-label">Stock</label>
-                                <input type="text" class="form-control" id="inputStock" placeholder="50">
+                                <input type="text" class="form-control" id="inputStock" placeholder="200">
                             </div>
-                            <div class="col-md-6">
-                                <label for="inputState" class="form-label">Ubicacion</label>
-                                <select id="inputState" class="form-select">
-                                  <option selected>A28497</option>
-                                  <option selected>A28498</option>
-                                  <option selected>A28498</option>
-                                  <option selected>A28498</option>
-                                  <option selected>A28498</option>
-                                </select>
+                            <div class="col-6">
+                                <label for="inputMedida" class="form-label">Unidad de medida</label>
+                                <input type="text" class="form-control" id="inputMedida" placeholder="1">                                
+                            </div>
+                            <div class="col-6">
+                                <label for="inputLinea" class="form-label">ID de línea</label>
+                                <input type="text" class="form-control" id="inputLinea" placeholder="AJG">                                
+                            </div>
+                            <div class="col-6">
+                                <label for="inputGenerico" class="form-label">Génerico</label>
+                                <input type="text" class="form-control" id="inputGenerico" placeholder="E">                                
+                            </div>
+                            <div class="col-12">
+                                <label for="inputDescripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="inputDescripcion" rows="2" placeholder="Microfibras Lux Cortesía"></textarea>
                             </div>
                         </form>
                     </div>
@@ -279,14 +295,22 @@
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4 && xhr.status == 200){
-                     console.log(xhr.responseText);
+                    console.log(xhr.responseText);
+                    if(xhr.responseText == "ERROR_CSV"){
+                        alert("Se debe subir un archivo CSV");
+                    }
+                    else if(xhr.responseText == "ERROR_TIPO"){
+                        alert("Verifica que el archivo sea del inventario");
+                    }
+                    alert(xhr.responseText);
+                    location.reload();
                 }
             };
             fd.append('file_name', archivo);
+            fd.append('num_cols',1);
             xhr.send(fd);
-
-            location.reload();
         }
+
         function dropHandler(event){
             event.preventDefault();
             var nombreDeArchivos = [];
@@ -306,9 +330,12 @@
             }
         }
     window.onload = init(
-        ["SKU_producto", "id_linea", "generico", "unidad_de_medida", "descripcion"], 
+        ["sku", "descripcion", "stock", "medida","id_linea","generico"], 
+        "sku,descripcion,stock,unidad_medida,id_linea,generico",
         "Producto",
-        "producto"
+        "producto",
+        "sku,stock,unidad_medida",
+        ["sku",0]
     );
     </script>
 </body>

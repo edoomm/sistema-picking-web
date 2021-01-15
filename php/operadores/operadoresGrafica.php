@@ -1,33 +1,40 @@
 <?php
   include_once "../db.php";
-  header('Content-Type: application/json');
 
   $link = open_database();
+  $accion = $_POST['tipo_movimiento'];
 
-  $sql1 = 'SELECT num_empleado FROM operador';
-  $sql2 = 'SELECT nombre FROM operador';
+  $sql = 'SELECT num_empleado from Operador';
+  $result = $link->query($sql);
 
-  $r1 = $link->query($sql1);
-  $r2 = $link->query($sql2);
 
-  $data = array();
+  $numero = array();
+  $cantidad = array();
 
-  $r3 = [];
+  $i = 0;
 
-  foreach ($link->query($sql1) as $row){
-    $sqlTMP = 'SELECT * FROM transaccion WHERE num_empleado ="'.$row['num_empleado'].'";';
-    $ansTMP = $link->query($sqlTMP);
-    $cantidad = mysqli_num_rows($ansTMP);
-    array_push($r3,$cantidad);
+  foreach ($result as $row){
+     $num =  $row['num_empleado'];
+
+     $numero[$i] = $num;
+
+     $sql2 = 'SELECT * from Transaccion WHERE num_empleado = "'.$num .'" AND tipo_movimiento = "'. $accion.'";  ';
+     $result2 = $link->query($sql2);
+     $actual = mysqli_num_rows($result2);
+
+     $cantidad[$i] = $actual;
+
+     $i++;
   }
 
-  array_push($r3, $r1, $r2);
-
   $link->close();
-  $r1->close();
-  $r2->close();
 
-// Mostramos los datos en formato JSON
-print json_encode($data);
+  $regresar = array();
 
-//var_dump($data);
+  $regresar['numero'] = $numero;
+  $regresar['cantidad'] = $cantidad;
+
+  echo json_encode($regresar);
+
+  exit();
+?>
