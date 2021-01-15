@@ -3,26 +3,29 @@ include 'db.php';
 include 'leerCSV.php';
 if(isset($_FILES['file_name'])){
     /*
-        0  -> id_almacen
+        0  -> id_sucursal
         1  -> sku
-        2  -> id_linea
+        2  -> numero_control
         3  -> apartado
     */
     $datos = obtener_contenido();
-    $conn = open_database();
-    foreach($datos as $fila){
-        $id_almacen = $fila[0];
-        $sku = $fila[1];
-        $id_linea = $fila[2];
-        $apartado = $fila[3];
-        $sql_query = "";
-        echo "id_almacen: " . $id_almacen . " SKU: " . $sku . " id_linea " . $id_linea . " apartado: " . $apartado . "\n";
-        //$sql_query debe tener la query para insersión de datos
-        //mysqli_query($conn, $sql_query);
+    if($datos !== FALSE){
+        $conn = open_database();
+        foreach($datos as $fila){
+            $id_sucursal = $fila[0];
+            $sku = $fila[1];
+            $numero_control = $fila[2];
+            $apartado = $fila[3];
+            $sql_query = "INSERT INTO Control (id_sucursal, apartado, sku, numero_control) VALUES ('".$id_sucursal."','".$apartado."','".$sku."','".$numero_control."')"; 
+            echo $sql_query . "\n";
+            if(mysqli_query($conn, $sql_query) === FALSE){
+                echo "ERROR_QUERY";
+            }
+        }
+        mysqli_close($conn);
     }
-    mysqli_close($conn);
 }
 else{
-    echo "El archivo no pudo ser cargado con éxito\n";
+    echo "ERROR_ARCHIVO";
 }
 ?>

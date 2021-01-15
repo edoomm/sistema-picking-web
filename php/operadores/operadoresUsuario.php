@@ -6,9 +6,25 @@
 
   $sql = 'SELECT * FROM  Usuario WHERE operador_num_empleado ="'.$num.'";';
   $result = $link->query($sql);
-  $link->close();
-  $cantidad = mysqli_num_rows($result);
 
-  echo $cantidad;
+  $sql2 = 'SELECT * FROM  Usuario;';
+  $result2 = $link->query($sql2);
+
+  $link->close();
+
+  $cantidad = mysqli_num_rows($result);
+  $cantidad2 = mysqli_num_rows($result2);
+
+  $data = array();
+
+  $data[0] = $cantidad;
+  $data[1] = $cantidad2;
+
+  if ($data[0] != $data[1]){
+    $data[1] += 10;
+  }
+
+  echo json_encode($data);
+  exit();
 
 ?>

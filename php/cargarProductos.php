@@ -18,7 +18,6 @@ if(isset($_FILES['file_name'])){
         $generico = $fila[3];
         $unidad_medida = 1; 
         $sql_query = "INSERT INTO Producto (sku, id_linea, generico, unidad_medida, descripcion) VALUES('".$sku."','".$id_linea."','".$generico."','".$unidad_medida."','".$descripcion."')";
-        echo $sql_query . "\n";
         mysqli_query($conn, $sql_query);
     }
     mysqli_close($con);
