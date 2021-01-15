@@ -36,9 +36,5 @@
 
   echo json_encode($regresar);
 
-<<<<<<< HEAD
-//var_dump($data);
-=======
   exit();
 ?>
->>>>>>> 4e75a162ec513e4f0627733356a94cb475de0ade

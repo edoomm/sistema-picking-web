@@ -7,10 +7,6 @@ USE pickingdb;
 CREATE TABLE `Operador` (
     `num_empleado` VARCHAR(6) NOT NULL,
     `nombre` VARCHAR(50) NOT NULL,
-<<<<<<< HEAD
-    `correo` VARCHAR(50),
-=======
->>>>>>> 4e75a162ec513e4f0627733356a94cb475de0ade
     `activo` TINYINT(1), -- Con miras a nuevas funcionalidades
     PRIMARY KEY (`num_empleado`)
 )  ;
@@ -62,11 +58,7 @@ CREATE TABLE `Ubicacion` (
     `rack` TINYINT NOT NULL,
     `columna` TINYINT NOT NULL,
     `nivel` TINYINT NOT NULL,
-<<<<<<< HEAD
-    `prioridad` int,
-=======
     `prioridad` INT,
->>>>>>> 4e75a162ec513e4f0627733356a94cb475de0ade
     PRIMARY KEY (`ubicacion`),
     FOREIGN KEY (`sku`) REFERENCES `Producto` (`sku`)
 );

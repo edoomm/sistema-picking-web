@@ -6,14 +6,6 @@
 
   $sql = 'SELECT * FROM  Usuario WHERE operador_num_empleado ="'.$num.'";';
   $result = $link->query($sql);
-<<<<<<< HEAD
-  $link->close();
-  $cantidad = mysqli_num_rows($result);
-
-  echo $cantidad;
-
-?>
-=======
 
   $sql2 = 'SELECT * FROM  Usuario;';
   $result2 = $link->query($sql2);
@@ -36,4 +28,3 @@
   exit();
 
 ?>
->>>>>>> 4e75a162ec513e4f0627733356a94cb475de0ade
