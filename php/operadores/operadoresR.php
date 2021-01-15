@@ -10,5 +10,4 @@
   $cantidad = mysqli_num_rows($result);
 
   echo $cantidad;
-
 ?>
