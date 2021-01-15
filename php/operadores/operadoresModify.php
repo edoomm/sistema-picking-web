@@ -4,11 +4,10 @@
   $num = $_POST['numero_empleado'];
   $link = open_database();
 
-  $sql = 'SELECT * FROM operador WHERE num_empleado ="'.$num.'";';
+  $sql = 'SELECT * FROM Operador WHERE num_empleado ="'.$num.'";';
   $result = $link->query($sql);
   $link->close();
 
-  // output data of each row
   $actual = $result->fetch_assoc();
   $f = $actual["nombre"];
   $s = $actual["correo"];

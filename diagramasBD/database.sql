@@ -8,6 +8,7 @@ CREATE TABLE `Operador` (
     `num_empleado` VARCHAR(6) NOT NULL,
     `nombre` VARCHAR(50) NOT NULL,
     `correo` VARCHAR(50),
+    `activo` TINYINT(1), -- Con miras a nuevas funcionalidades
     PRIMARY KEY (`num_empleado`)
 )  ;
 
@@ -36,7 +37,7 @@ CREATE TABLE `Dispositivo` (
     `dispositivo_id` VARCHAR(17) NOT NULL,
     `operador_num_empleado` VARCHAR(6),
     `tipo` VARCHAR(15),
-    `activo` BOOLEAN,
+    `activo` TINYINT(1),
     PRIMARY KEY (`dispositivo_id`),
     FOREIGN KEY (`operador_num_empleado`) REFERENCES `Operador` (`num_empleado`)
 )  ;
@@ -47,17 +48,18 @@ CREATE TABLE `Producto` (
     `generico` CHAR(1) NOT NULL,
     `unidad_medida` INT NOT NULL, -- 1:Para aquellos que no tengan UM
     `descripcion` VARCHAR(100),
-    'stock' INT NOT NULL,
+    `stock` INT NOT NULL,
     PRIMARY KEY (`sku`)
 );
 
 CREATE TABLE `Ubicacion` (
     `ubicacion` VARCHAR(11) NOT NULL,
-    `sku` INT NOT NULL,
+    `sku` INT,
     `pasillo` CHAR(1) NOT NULL,
     `rack` TINYINT NOT NULL,
     `columna` TINYINT NOT NULL,
     `nivel` TINYINT NOT NULL,
+    `prioridad` int,
     PRIMARY KEY (`ubicacion`),
     FOREIGN KEY (`sku`) REFERENCES `Producto` (`sku`)
 );
@@ -85,7 +87,6 @@ CREATE TABLE `Operador_has_control` (
     `control_id` INT NOT NULL,
     `num_empleado` VARCHAR(6) NOT NULL,
     `contenedor_id` INT,
-    `prioridad` INT NOT NULL,
     FOREIGN KEY (`control_id`) REFERENCES `Control` (`control_id`),
     FOREIGN KEY (`num_empleado`) REFERENCES `Operador` (`num_empleado`),
     FOREIGN KEY (`contenedor_id`) REFERENCES `Contenedor` (`contenedor_id`)

@@ -1,36 +1,34 @@
 /*
     camposFormulario : un arreglo de strings con el id de los elementos del formulario
-    tableId : id de la tabla de elementos
     tableBD : nombre de la tabla en la BD de la que se cargan los archivos
     tableBodyId : id del body en donde se van a poner los elementos de la base de datos
 */
 
-async function init(camposFormulario, tableBD, tableBodyId){
-    await load_table(tableBD, tableBodyId);
-    for(var i = 0; i < camposFormulario.length; i++){
-        document.getElementById(camposFormulario[i]).value="";
-        document.getElementById(camposFormulario[i]).disabled=true;
+async function init(formularioIds, columnasFormulario, tableBD, tableBodyId, columnasTabla, nombreIndicePK){
+    await load_table(tableBD, tableBodyId,columnasTabla,1);
+    for(var i = 0; i < formularioIds.length; i++){
+        document.getElementById(formularioIds[i]).value="";
+        document.getElementById(formularioIds[i]).disabled=true;
     }
-    rowHandlers(camposFormulario, tableBodyId);
+    rowHandlers(formularioIds, columnasFormulario, tableBodyId, nombreIndicePK, tableBD);
 }
-function aux(){
-    console.log(this);
-}
-function rowHandlers(camposFormulario, tableBodyId){
+function rowHandlers(camposFormulario, columnasFormulario, tableBodyId, nombreIndicePK, tableBD){
     let table = document.getElementById(tableBodyId);
-    console.log(tableBodyId);
-    console.log(table.innerHTML);
     let rows = table.getElementsByTagName("tr");
-    console.log(rows.length);
+
     for(var index = 0; index < rows.length; index++){
         rows[index].addEventListener("click", function(){
             let cells = this.getElementsByTagName("td");
-            console.log(cells);
-            let fila = [];
-            for(let j = 0; j < cells.length; j++){
-                fila.push(cells[j].innerHTML);
-            }
-            llenarFormulario(camposFormulario, fila);
+            let pk = cells[nombreIndicePK[1]].innerHTML;
+            let query = "SELECT " + columnasFormulario + " FROM " + tableBD + " WHERE " + nombreIndicePK[0] + " = " + pk; 
+            $.post("../php/queryFila.php", {
+                    query : query
+                },
+                function(data){
+                    console.log(JSON.parse(data));
+                    llenarFormulario(camposFormulario,JSON.parse(data)[0]);
+                }
+            );
         });
     }
 }
@@ -45,14 +43,20 @@ function llenarFormulario(nombres, row){
         document.getElementById(nombres[i]).disabled = true;
     }
 }
-async function load_table(table_db, table_name){
+/*
+    columnas_query: columnas que se busca que la base de datos devuelva
+    condicion_query:    si se realiza una busqueda debe ser del tipo "WHERE columna=algo"
+                        si se quieren obtener todas las columnas enviar un 1
+*/
+async function load_table(table_db, table_name, columnas_query, condicion_query){
     if($(table_db).val() != 0){
         await $.post("../php/mostrarElementosBD.php", {
-                variable: table_db
+                variable: table_db,
+                columnas : columnas_query,
+                condicion : condicion_query,
             },
             function(data){
                 if(data != ""){
-                    console.log(table_name);
                     document.getElementById(table_name).innerHTML = data;
                 }
             }
