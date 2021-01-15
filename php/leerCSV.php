@@ -60,9 +60,10 @@ function obtener_contenido(){
         if(@move_uploaded_file($_FILES['file_name']['tmp_name'], $target_file)){
             if(($gestor = fopen($target_file,"r")) !== FALSE){
                 while(($fila = fgetcsv($gestor)) !== FALSE){
-                    if(count($fila) != $num_cols){
-                        $cols_equal = FALSE;
-                        break;
+                    if($numero_de_fila === -1){
+                        $cols_equal = verificarFormato($fila,$num_cols);
+                        if(!$cols_equal)
+                            break;
                     }
                     $numero_de_fila++;
                     if($numero_de_fila === 0){
@@ -83,7 +84,7 @@ function obtener_contenido(){
                 return FALSE;
             }
             if(!$cols_equal){
-                echo "ERROR_COLUMNAS";
+                echo "ERROR_TIPO";
                 return FALSE;
             }
         }

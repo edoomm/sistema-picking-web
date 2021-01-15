@@ -10,9 +10,4 @@
   $cantidad = mysqli_num_rows($result);
 
   echo $cantidad;
-
-<<<<<<< HEAD
 ?>
-=======
-?>
->>>>>>> 4e75a162ec513e4f0627733356a94cb475de0ade

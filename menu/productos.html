@@ -55,23 +55,20 @@
                         Lista de productos
                     </div>
                     <div class="card-body">
-                        <div class="container">
+                        <div class="container table-wrapper">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el SKU del producto">
-                            <div class="table-wrapper">
-                                <table class="table table-hover" id="tablaProductos">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">SKU</th>
-                                            <th scope="col">Ubicación</th>
-                                            <th scope="col">Stock</th>
-                                            <th scope="col">Unidad de medida</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="producto">
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            <table class="table table-hover" id="tablaProductos">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">SKU</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Unidad de medida</th>
+                                        <th scope="col">Ubicación</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="producto">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -108,13 +105,13 @@
                     <div class="card-body">
                         <form class ="row g-3">
                             <div class="col-6">
-                                <label for="SKU_producto" class="form-label">SKU</label>
-                                <input type="text" class="form-control" id="SKU_producto" disabled>
+                                <label for="sku" class="form-label">SKU</label>
+                                <input type="text" class="form-control" id="sku" disabled>
                             </div>
                             <div class="col-6">
                                 <label for="ubicacion" class="form-label">Ubicación</label>
                                 <input type="text" class="form-control" id="ubicacion" disabled>
-                            </div>
+                            </div> 
                             <div class="col-12">
                                 <label for="descripcion" class="form-label">Descripción</label>
                                 <input type="text" class="form-control" id="descripcion" disabled>
@@ -298,14 +295,22 @@
             xhr.open("POST", uri, true);
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4 && xhr.status == 200){
-                     console.log(xhr.responseText);
+                    console.log(xhr.responseText);
+                    if(xhr.responseText == "ERROR_CSV"){
+                        alert("Se debe subir un archivo CSV");
+                    }
+                    else if(xhr.responseText == "ERROR_TIPO"){
+                        alert("Verifica que el archivo sea del inventario");
+                    }
+                    alert(xhr.responseText);
+                    location.reload();
                 }
             };
             fd.append('file_name', archivo);
+            fd.append('num_cols',1);
             xhr.send(fd);
-
-            location.reload();
         }
+
         function dropHandler(event){
             event.preventDefault();
             var nombreDeArchivos = [];
@@ -325,9 +330,12 @@
             }
         }
     window.onload = init(
-        ["SKU_producto", "id_linea", "generico", "unidad_de_medida", "descripcion"], 
+        ["sku", "descripcion", "stock", "medida","id_linea","generico"], 
+        "sku,descripcion,stock,unidad_medida,id_linea,generico",
         "Producto",
-        "producto"
+        "producto",
+        "sku,stock,unidad_medida",
+        ["sku",0]
     );
     </script>
 </body>

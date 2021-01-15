@@ -59,7 +59,7 @@
                     </div>
                     <div class="card-body">
                         <div class="container table-wrapper">
-                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de control">
+                            <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el número de control">
                             <table class="table table-hover" id="tablaApartados">
                                 <thead>
                                     <tr>
@@ -266,14 +266,15 @@
                     if(xhr.responseText == "ERROR_CSV"){
                         alert("Se debe subir un archivo CSV");
                     }
-                    else if(xhr.responseText == "ERROR_COLUMNAS"){
-                        alert("El archivo CSV debe tener 4 columnas");
+                    else if(xhr.responseText == "ERROR_TIPO"){
+                        alert("Verifica que el archivo sea del control de distribución");
                     }
+                    alert(xhr.responseText);
                     location.reload();
             }
         };
         fd.append('file_name', archivo);
-        fd.append('num_cols',4);
+        fd.append('num_cols',3);
         xhr.send(fd);
     }
     function dropHandler(event){
