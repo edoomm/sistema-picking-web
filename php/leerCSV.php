@@ -1,4 +1,53 @@
 <?php
+/*
+    tipo 1 -> cargar inventario
+    tipo 2 -> cargar ubicaciones
+    tipo 3 -> cargar control de distribucion
+    **Ver layout**
+*/
+
+function verificarFormato($fila,$tipo)
+{
+    $numFilas = count($fila);
+    if($tipo == 1)
+    {
+        if($numFilas == 5)
+        {
+            if(strcmp($fila[0], "SKU") == 0)
+                if(strcmp($fila[1],"LINEA") == 0)
+                    if(strcmp($fila[2], "GENERICO") == 0)
+                        if(strcmp($fila[3], "DESCRIPCION") == 0)
+                            if(strcmp($fila[4], "STOCK") == 0)
+                                return TRUE;
+        }
+    }
+    else if($tipo == 2)
+    {
+        if($numFilas == 6)
+        {
+            if(strcmp($fila[0], "UBICACION") == 0)
+                if(strcmp($fila[1],"SKU") == 0)
+                    if(strcmp($fila[2], "PASILLO") == 0)
+                        if(strcmp($fila[3], "RACK") == 0)
+                            if(strcmp($fila[4], "COLUMNA") == 0)
+                                if(strcmp($fila[5], "NIVEL") == 0)
+                                    return TRUE;
+        }
+    }
+    else
+    {
+        if($numFilas == 4)
+        {
+            if(strcmp($fila[0],"ALMACEN") == 0)
+                if(strcmp($fila[1],"SKU") == 0)
+                    if(strcmp($fila[2],"CONTROL_DIST") == 0)
+                        if(strcmp($fila[3],"CANT_CONTROL") == 0)
+                            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 function obtener_contenido(){
     $directory = getcwd().DIRECTORY_SEPARATOR;
     $target_file = $directory . basename($_FILES['file_name']['name']);

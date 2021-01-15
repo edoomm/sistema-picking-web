@@ -53,7 +53,7 @@ CREATE TABLE `Producto` (
 
 CREATE TABLE `Ubicacion` (
     `ubicacion` VARCHAR(11) NOT NULL,
-    `sku` INT NOT NULL,
+    `sku` INT,
     `pasillo` CHAR(1) NOT NULL,
     `rack` TINYINT NOT NULL,
     `columna` TINYINT NOT NULL,
