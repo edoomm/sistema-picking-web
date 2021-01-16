@@ -4,7 +4,7 @@
   $num = $_POST['inputNumeroSerie'];
   $enc = $_POST['inputEncargado'];
   $tip = $_POST['inputTipo'];
-  $act = $_POST['inputEstado'];
+  $act = $_POST['inputEstado'][0]; // solución temporal, se debe de cambiar pls
 
   $link = open_database();
 
@@ -12,5 +12,7 @@
 
   $result = $link->query($sql);
   $link->close();
+
+  echo $sql;
 
 ?>

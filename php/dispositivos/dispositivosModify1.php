@@ -11,7 +11,7 @@
   // output data of each row
   $actual = $result->fetch_assoc();
   $n = $actual["operador_num_empleado"];
-  $e = $actual["activo"];
+  $e = $actual["activo"][0]; // solucion temporal
 
   $data = array();
 

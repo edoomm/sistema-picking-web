@@ -37,6 +37,7 @@ function insert(formID) {
     url: '../php/dispositivos/dispositivosInsert1.php',
     data: $(formID).serialize(),
     success: function(data) {
+      console.log(data);
       $('#registro').modal('hide');
       $('#exito').modal('show');
     }
@@ -134,6 +135,7 @@ function Validate_Form2(formId, formMsg, numeroDeSerie) {
       success: function(data) {
         $('#modificar2').modal('hide');
         $('#exito').modal('show');
+        console.log(data);
       }
     });
   }
@@ -149,7 +151,11 @@ function Validate_NumeroDeSerie(actual) {
   var valueReturn;
 
   if (actual.length == 6 && !isNaN(actual)) {
-    var dataString = 'numeroSerie=' + actual;
+    /*
+      Y el número de serie no es necesariamente igual a 6
+      Acá no sé porque le pones "numeroSerie=", le estorba a tu query
+    */
+    var dataString = 'numeroSerie=' + actual; 
     $.ajax({
       async: false,
       url: '../php/dispositivos/dispositivosR1.php',

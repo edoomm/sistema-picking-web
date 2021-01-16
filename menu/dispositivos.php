@@ -344,8 +344,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"> </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../js/dispositivos1.js"></script>
+</body>
 
-    <script>
+</html>
+<script>
     function filtrar() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;
@@ -421,7 +423,4 @@
 
 
     window.onload = init();
-    </script>
-</body>
-
-</html>
+</script>

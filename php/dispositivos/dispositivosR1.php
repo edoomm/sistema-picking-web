@@ -11,6 +11,9 @@
 
   $regresar = false;
 
+  /*
+    Igual aca no entiendo porque cantidad == 0, si se supone deberia ser cantidad==1 ¿no?
+  */
   if ($cantidad == 0){
     $regresar = true;
   }
