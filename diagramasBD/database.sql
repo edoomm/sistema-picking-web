@@ -300,9 +300,9 @@ insert into control
     (16997, 1, 12135, 1, 0),
     (17445, 1, 12009, 6, 0),
     (17445, 1, 12017, 6, 0),
-    (17445, 2, 12024, 6, 0),
-    (17445, 2, 12041, 6, 0),
-    (17445, 2, 12004, 6, 0),
+    (17445, 2, 12024, 5, 0),
+    (17445, 2, 12041, 2, 0),
+    (17445, 2, 12004, 1, 0),
     (17445, 2, 12148, 6, 0),
     (17445, 2, 12011, 6, 0),
     (17445, 3, 12042, 6, 0),
@@ -427,3 +427,7 @@ insert into operador_has_control values
     (32, "111111", NULL),
     (33, "111111", NULL),
     (34, "111111", NULL);
+
+UPDATE Control SET estado = 0; -- Suponiendo que ya estan asignados
+UPDATE Producto SET unidad_medida = 50 WHERE sku = 10053; -- Cambio en UM para un sku
+INSERT INTO Usuario VALUE ('123456', NULL, NULL, 1);

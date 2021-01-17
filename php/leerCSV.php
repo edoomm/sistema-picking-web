@@ -100,5 +100,8 @@ function obtener_contenido(){
         return FALSE;
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f360a43d00462447d698b8a4cf32ca7aa8644e36
 ?>

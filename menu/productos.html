@@ -62,11 +62,19 @@
                                     <tr>
                                         <th scope="col">SKU</th>
                                         <th scope="col">Stock</th>
+<<<<<<< HEAD
                                         <th scope="col" style="center">Unidad de medida</th>
                                         <th scope="col">Ubicación</th>
                                     </tr>
                                 </thead>
                                 <tbody id="producto" style="text-align: center;">
+=======
+                                        <th scope="col">Unidad de medida</th>
+                                        <th scope="col">Ubicación</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="producto">
+>>>>>>> f360a43d00462447d698b8a4cf32ca7aa8644e36
                                 </tbody>
                             </table>
                         </div>
@@ -342,17 +350,25 @@
                         alert("Se debe subir un archivo CSV");
                     }
                     else if(xhr.responseText == "ERROR_TIPO"){
+<<<<<<< HEAD
                         if(tipo == 1)
                             alert("Verifica que el archivo sea del inventario");
                         else
                             alert("Verifica que el archivo sea de las ubicaciones");
+=======
+                        alert("Verifica que el archivo sea del inventario");
+>>>>>>> f360a43d00462447d698b8a4cf32ca7aa8644e36
                     }
                     alert(xhr.responseText);
                     location.reload();
                 }
             };
             fd.append('file_name', archivo);
+<<<<<<< HEAD
             fd.append('tipo',tipo);
+=======
+            fd.append('num_cols',1);
+>>>>>>> f360a43d00462447d698b8a4cf32ca7aa8644e36
             xhr.send(fd);
         }
 
@@ -375,11 +391,19 @@
             }
         }
     window.onload = init(
+<<<<<<< HEAD
         ["sku", "descripcion", "ubicacion", "stock", "medida","id_linea","generico"], 
         "sku,descripcion,ubicacion,stock,unidad_medida,id_linea,generico",
         "Producto",
         "producto",
         "sku,stock,unidad_medida,ubicacion",
+=======
+        ["sku", "descripcion", "stock", "medida","id_linea","generico"], 
+        "sku,descripcion,stock,unidad_medida,id_linea,generico",
+        "Producto",
+        "producto",
+        "sku,stock,unidad_medida",
+>>>>>>> f360a43d00462447d698b8a4cf32ca7aa8644e36
         ["sku",0]
     );
     </script>
