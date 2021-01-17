@@ -100,5 +100,4 @@ function obtener_contenido(){
         return FALSE;
     }
 }
-
 ?>
