@@ -2,6 +2,7 @@ $(document).ready(function() {
   resetForm('#Registrar');
   $('#Dm').html("Pickup");
   graphic_Change("Pickup", 'P');
+  Filtro("activo=1");
 });
 
 function graphic_Change(selection, opcion) {
@@ -46,7 +47,7 @@ function Graphic(total, nombres, datos, opcion) {
 
 
   var coloR = [];
-  var dataLabel = "# de " + accion + " realizados";
+  var dataLabel = "# de " + accion + " realizados por operadores activos";
 
   for (var i = 0; i < total; i++) {
     var r = Math.floor(Math.random() * 255);
@@ -260,8 +261,18 @@ function fillForm(formID, formMsg, numeroEmpleado) {
     dataType: "json",
     success: function(data) {
       $('#modificarNombre').val(data[0]);
+
+      if (data[1] == 1){
+           $("#modificarActivo1").prop("checked", true);
+           $("#modificarActivo2").prop("checked", false);
+      }
+      else{
+        $("#modificarActivo1").prop("checked", false);
+        $("#modificarActivo2").prop("checked", true);
+      }
     }
   });
+
   $('#modificar2').modal('show');
 }
 
@@ -281,7 +292,16 @@ function Validate_Form2(formId, formMsg, numeroEmpleado) {
     $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
     return false;
   } else {
-    var dataString = 'numero_empleado=' + numeroEmpleado + "&" + $(formId).serialize();
+
+     var actividad = "&actividad_usr=";
+
+     if(document.getElementById('modificarActivo1').checked) {
+        actividad += "1";
+     } else{
+       actividad +="0";
+     }
+
+    var dataString = 'numero_empleado=' + numeroEmpleado + actividad + "&" + $(formId).serialize();
     $.ajax({
       url: '../php/operadores/operadoresUpdate.php',
       type: 'post',
@@ -405,8 +425,6 @@ function Validate_Cantidad(actual) {
 
   return valueReturn;
 }
-
-
 
 function Validate_Number(numero) {
   let isnum = /^\d+$/.test(numero);

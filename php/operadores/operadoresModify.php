@@ -10,9 +10,11 @@
 
   $actual = $result->fetch_assoc();
   $f = $actual["nombre"];
+  $s = $actual["activo"];
 
   $data = array();
   $data[0] = $f;
+  $data[1] = $s;
 
   echo json_encode($data);
   exit();
