@@ -4,7 +4,7 @@
   $link = open_database();
   $accion = $_POST['tipo_movimiento'];
 
-  $sql = 'SELECT num_empleado from Operador';
+  $sql = 'SELECT num_empleado from Operador WHERE activo = 1';
   $result = $link->query($sql);
 
 
