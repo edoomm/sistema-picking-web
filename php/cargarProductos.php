@@ -9,6 +9,7 @@ if(isset($_FILES['file_name'])){
     2 -> Generico
     3 -> Descripcion
     4 -> Stock 
+    5 -> Ubicacion
 */
     $datos = obtener_contenido();
     if($datos !== FALSE)
@@ -21,7 +22,8 @@ if(isset($_FILES['file_name'])){
             $descripcion = $fila[3];
             $stock = $fila[4];
             $unidad_medida = 1; 
-            $sql_query = "INSERT INTO Producto (sku, id_linea, generico, unidad_medida, descripcion,stock) VALUES('".$sku."','".$id_linea."','".$generico."','".$unidad_medida."','".$descripcion."','".$stock."')";
+            $ubicacion = "SIN ASIGNAR";
+            $sql_query = "INSERT INTO Producto (sku, id_linea, generico, unidad_medida, descripcion,stock,ubicacion) VALUES('".$sku."','".$id_linea."','".$generico."','".$unidad_medida."','".$descripcion."','".$stock."','".$ubicacion."')";
             mysqli_query($con, $sql_query);
         }
         mysqli_close($con);
