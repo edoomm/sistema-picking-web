@@ -23,7 +23,7 @@ function verificarFormato($fila,$tipo)
     }
     else if($tipo == 2)
     {
-        if($numFilas == 6)
+        if($numFilas == 7)
         {
             if(strcmp($fila[0], "UBICACION") == 0)
                 if(strcmp($fila[1],"SKU") == 0)
@@ -31,7 +31,8 @@ function verificarFormato($fila,$tipo)
                         if(strcmp($fila[3], "RACK") == 0)
                             if(strcmp($fila[4], "COLUMNA") == 0)
                                 if(strcmp($fila[5], "NIVEL") == 0)
-                                    return TRUE;
+                                    if(strcmp($fila[6],"PRIORIDAD") == 0)
+                                        return TRUE;
         }
     }
     else
@@ -53,16 +54,16 @@ function obtener_contenido(){
     $target_file = $directory . basename($_FILES['file_name']['name']);
     $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $numero_de_fila = -1;
-    $num_cols = $_POST['num_cols'];
+    $tipo = $_POST['tipo'];
     $datos = array();
-    $cols_equal = TRUE;
+    $error_tipo = TRUE;
     if($file_type == "csv"){
         if(@move_uploaded_file($_FILES['file_name']['tmp_name'], $target_file)){
             if(($gestor = fopen($target_file,"r")) !== FALSE){
                 while(($fila = fgetcsv($gestor)) !== FALSE){
                     if($numero_de_fila === -1){
-                        $cols_equal = verificarFormato($fila,$num_cols);
-                        if(!$cols_equal)
+                        $error_tipo = verificarFormato($fila,$tipo);
+                        if(!$error_tipo)
                             break;
                     }
                     $numero_de_fila++;
@@ -83,7 +84,7 @@ function obtener_contenido(){
                 exit("Hubo un error al tratar de eliminar el archivo copiado\n");
                 return FALSE;
             }
-            if(!$cols_equal){
+            if(!$error_tipo){
                 echo "ERROR_TIPO";
                 return FALSE;
             }
