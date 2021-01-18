@@ -1,6 +1,6 @@
 <?php
-include_once 'db.php';
-include_once 'leerCSV.php';
+include_once '../db.php';
+include_once '../leerCSV.php';
 if(isset($_FILES['file_name'])){
     /*
         0  -> id_sucursal
@@ -25,6 +25,7 @@ if(isset($_FILES['file_name'])){
         }
         foreach($necesitado as $clave => $valor){
             $sql_query = "SELECT stock FROM Producto WHERE sku=" . $clave;
+            echo $sql_query . "\n";
             if(($res = mysqli_query($conn,$sql_query)) !== FALSE){
                 $fila = mysqli_fetch_row($res);
                 $stock = $fila[0];

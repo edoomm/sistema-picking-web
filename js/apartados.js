@@ -44,7 +44,6 @@ function sendFile(){
                 else if(xhr.responseText == "ERROR_TIPO"){
                     alert("Verifica que el archivo sea del control de distribución");
                 }
-                alert(xhr.responseText);
                 location.reload();
         }
     };
@@ -73,8 +72,9 @@ function dropHandler(event){
 }
 const op_act = new Set();
 function mostrarOperadores(){
+    document.getElementById("asignarApartadosBoton").disabled = true;
+    document.getElementById("asignarApartadosBotonCancelar").disabled = false;
     $.post("../php/apartados/cargarOperadores.php", function(data){
-        console.log(data);
         document.getElementById("zonaCheckBoxesEmpleados").innerHTML = data;
         document.getElementById("asignarApartadosMensaje").innerHTML = document.getElementById("checkBoxesEmpleados").innerHTML;
     }).fail(function(){
@@ -85,9 +85,13 @@ function mostrarOperadores(){
             checkbox.addEventListener('change',function(){
                 if(this.checked){
                     op_act.add($(this).val());
+                    document.getElementById("asignarApartadosBoton").disabled=false;
                 }
                 else{
                     op_act.delete($(this).val());
+                }
+                if(op_act.size == 0){
+                    document.getElementById("asignarApartadosBoton").disabled=true;
                 }
             });
         });
@@ -95,6 +99,8 @@ function mostrarOperadores(){
 }
 function asignacionAutomatica(){
     document.getElementById("asignarApartadosMensaje").innerHTML = document.getElementById("cargando").innerHTML;
+    document.getElementById("asignarApartadosBoton").disabled = true;
+    document.getElementById("asignarApartadosBotonCancelar").disabled = true;
     let operadores = [];
     for(let item of op_act){
         operadores.push(item);
