@@ -494,6 +494,6 @@ insert into Transaccion values
 	('62','123400','11','17445','2','2021-01-13 2:00:00', 'P', '12'),
 	('63','123400','11','17445','2','2021-01-13 3:00:00', 'P', '12');
 
-UPDATE Control SET estado = 0; -- Suponiendo que ya estan asignados
+UPDATE Control SET estado = 1; -- Suponiendo que ya estan asignados
 UPDATE Producto SET unidad_medida = 50 WHERE sku = 10053; -- Cambio en UM para un sku
 INSERT INTO Usuario VALUE ('123456', NULL, NULL, 1);
