@@ -353,7 +353,7 @@ function Validate_Lider(formId, formMsg, numeroEmpleado) {
       success: function(data) {
         $('#lider2').modal('hide');
         $('#exito').modal('show');
-        resetForm(formId);
+        resetForm(formId,formMsg);
       },  error: function (error) {
           alert("No fue posible realizar esa acción");
         }
