@@ -1,5 +1,5 @@
 <?php
-include_once 'db.php';
+include_once '../db.php';
 function get_controles($id_sucursal, $conn){
     $cont = 0;
     $ret = array();
@@ -12,15 +12,13 @@ function get_controles($id_sucursal, $conn){
     return $ret;
 }
 $conn = open_database();
-$sql_query_control = "SELECT id_sucursal, control_id, apartado FROM Control WHERE asignado='1'";
-$sql_query_asigned = "UPDATE Control SET asignado = '1' WHERE asignado='0'";
-$sql_query_empledo = "SELECT num_empleado FROM Operador";
+$sql_query_control = "SELECT id_sucursal, control_id, apartado FROM Control WHERE estado=0";
+$sql_query_asigned = "UPDATE Control SET estado = 1 WHERE estado=0";
 $cantidad_de_productos = 0;
 $cont = 0;
 $controles = array();
-$empleados = array();
+$empleados = json_decode($_POST['operadores']);
 $ticket = array();
-mysqli_query($conn,$sql_query_asigned);
 if(($result1 = mysqli_query($conn, $sql_query_control))!==FALSE){
     while(($fila1 = mysqli_fetch_row($result1))){
         $cantidad_de_productos += $fila1[2];
@@ -29,13 +27,7 @@ if(($result1 = mysqli_query($conn, $sql_query_control))!==FALSE){
         $cont++;
     }
 }
-$cont = 0;
-if(($result2 = mysqli_query($conn, $sql_query_empledo))!==FALSE){
-    while($fila2 = mysqli_fetch_row($result2)){
-        $empleados[$cont] = $fila2[0];
-        $cont++;
-    }
-}
+mysqli_query($conn,$sql_query_asigned);
 $productos_por_empleado = round($cantidad_de_productos/count($empleados));
 $cont = 0;
 foreach($empleados as $aux){
@@ -44,14 +36,12 @@ foreach($empleados as $aux){
         $lleva_empleado += $valor;
         $controles_sucursal = get_controles($clave,$conn);
         foreach($controles_sucursal as $id_control){
-            $query = "INSERT INTO Operador_has_control (control_id, num_empleado, prioridad) VALUES ('".$id_control."','".$aux."','1')";
+            $query = "INSERT INTO Operador_has_control (control_id, num_empleado) VALUES ('".$id_control."','".$aux."')";
             if(mysqli_query($conn, $query)!==TRUE){
-                echo "Error 3\n";
             }
         }
         unset($ticket[$clave]);
         if($lleva_empleado >= $productos_por_empleado){
-            echo "num_empleado: " . $aux . " lleva: " . $lleva_empleado . "\n";
             break;
         }
     }

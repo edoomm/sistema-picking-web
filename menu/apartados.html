@@ -1,7 +1,3 @@
-<!--
-    TODO crear asignado manual
-    Mensajes de error y de éxito
--->
 <!DOCTYPE html>
 <html>
 
@@ -125,26 +121,36 @@
                                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo" onclick="initModal()">Cargar apartados</button>
                             </div>
                             <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#asignarApartados" onclick="asignacionAutomatica()">Asignar apartados</button>
+                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#asignarApartados" onclick="mostrarOperadores()">Asignar apartados</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="asignarApartados" tabindex="-1" aria-labelledby="asignarApartadosLable" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal fade" id="asignarApartados" tabindex="-1" role="dialog" aria-labelledby="asignarApartadosLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-body">
-                    <div class="container box-center" id="cargando">
-                        <div style="text-align: center;" id="asignarApartadosMensaje">
-                            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
-                            <p>Cargando</p>
-                        </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="asignarApartadosLabel">Asignar apartados</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body container" id="asignarApartadosMensaje"></div>
+                <div style="display: none;" id="cargando">
+                    <div style="text-align: center;">
+                        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
+                        <p>Cargando</p>
                     </div>
                 </div>
+                <div style="display: none;" id="checkBoxesEmpleados">
+                    <form>
+                        <div class="form-check form-group" id="zonaCheckBoxesEmpleados">
+                        </div>
+                    </form>
+                </div>
                 <div class="modal-footer">
-                    <button type="button" id="asignarApartadosBoton" onclick="location.reload(); document.getElementById('asignarApartadosBoton').disabled=true;" class="btn btn-secondary" data-bs-dismiss="modal" disabled=true>Cerrar</button>
+                    <button type="button" id="asignarApartadosBotonCancelar" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" id="asignarApartadosBoton" class="btn btn-primary" onclick="asignacionAutomatica();">Asignar</button>
                 </div>
             </div>
         </div>
@@ -197,6 +203,7 @@
     <!-- For better performance this script should go at the very bottom of the body -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="../js/initFile.js"></script>
+    <script src="../js/apartados.js"></script>
     <script>
     document.addEventListener("drag", function(event){
         event.preventDefault();
@@ -223,140 +230,6 @@
             dropHandler(event);
         }
     });
-    function filtrar() {
-      // Declare variables
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("busqueda");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("serie");
-      tr = table.getElementsByTagName("tr");
-
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[3];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
-    function removeDragData(event){
-        if(event.dataTransfer.items){
-            event.dataTransfer.items.clear();
-        }
-        else{
-            event.dataTransfer.clearData();
-        }
-    }
-    var archivo;
-    function sendFile(){
-        document.getElementById("targetLayer").innerHTML = document.getElementById("cargando").innerHTML;
-        document.getElementById("btn-archivo").disabled = true;
-        document.getElementById("btn-cancelar-archivo").disabled = true;
-        const uri = "../php/cargarApartado.php";
-        const xhr  = new XMLHttpRequest();
-        const fd = new FormData();
-        xhr.open("POST", uri, true);
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState == 4 && xhr.status == 200){
-                    console.log(xhr.responseText);
-                    if(xhr.responseText == "ERROR_CSV"){
-                        alert("Se debe subir un archivo CSV");
-                    }
-                    else if(xhr.responseText == "ERROR_TIPO"){
-                        alert("Verifica que el archivo sea del control de distribución");
-                    }
-                    alert(xhr.responseText);
-                    location.reload();
-            }
-        };
-        fd.append('file_name', archivo);
-        fd.append('tipo',3);
-        xhr.send(fd);
-    }
-    function dropHandler(event){
-        event.preventDefault();
-        document.getElementById("btn-archivo").disabled = false;
-        var nombreDeArchivos = [];
-        if(event.dataTransfer.items){
-            for(var i = 0; i < event.dataTransfer.items.length; i++){
-                if(event.dataTransfer.items[i].kind == 'file'){
-                    var file = event.dataTransfer.items[i].getAsFile();
-                    archivo = event.dataTransfer.items[i].getAsFile();
-                    nombreDeArchivos.push(file.name);
-                }
-            }
-            for(var i = 0; i < nombreDeArchivos.length; i++){
-                document.getElementById("mostrarNombreArchivo").textContent += nombreDeArchivos[i] + " ";
-            }
-            document.getElementById("targetLayer").innerHTML = document.getElementById("archivoCargado").innerHTML;
-            removeDragData(event);
-        }
-    }
-    function asignacionAutomatica(){
-        $.post("../php/asignacionAutomatica.php", function(data){
-        }
-        ).fail(function(){
-            alert('Hubo un error')
-        }).done(function(){
-            document.getElementById("asignarApartadosMensaje").innerHTML="<p> Se han asignado con éxito</p>";
-            document.getElementById("asignarApartadosBoton").disabled = false;
-        })
-    }
-    async function mostrarAsignadas(){        
-        await $.post("../php/mostrarElementosBD.php", {
-                variable: "Control",
-                columnas : "control_id,sku,numero_control,id_sucursal,apartado",
-                condicion : "estado=1",
-            },
-            function(data){
-                if(data==""){
-                    alert("No hay apartados asignados");
-                }
-                else{
-                    document.getElementById("serie").innerHTML = data;
-                    rowHandlers(
-                        ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
-                        "control_id,sku,numero_control,id_sucursal,apartado",
-                        "serie",
-                        ["control_id",0],
-                        "Control"
-                    );
-                }
-            }
-        );
-
-    }
-    async function mostrarSinAsignar(){
-        await $.post("../php/mostrarElementosBD.php", {
-                variable: "Control",
-                columnas : "control_id,sku,numero_control,id_sucursal,apartado",
-                condicion : "estado=0",
-            },
-            function(data){
-                if(data==""){
-                    alert("No hay apartados sin asignar");
-                }
-                else{
-                    document.getElementById("serie").innerHTML = data;
-                    rowHandlers(
-                        ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
-                        "control_id,sku,numero_control,id_sucursal,apartado",
-                        "serie",
-                        ["control_id",0],
-                        "Control"
-                    );
-                }
-            }
-        );
-    }
-    function initModal(){
-        document.getElementById("btn-archivo").disabled=true;
-        document.getElementById("targetLayer").innerHTML = document.getElementById("modalInicio").innerHTML;
-    }
     window.onload = init(
         ["control_id", "sku", "numero_control", "id_sucursal","apartado"],
         "control_id,sku,numero_control,id_sucursal,apartado",
