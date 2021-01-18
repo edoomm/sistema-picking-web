@@ -23,6 +23,9 @@ function graphic_Change(selection, opcion) {
       cantidad = data.cantidad;
 
       Graphic(empleado.length, empleado, cantidad, opcion);
+    },
+    error: function (error) {
+      Graphic(0, [], [], "P");
     }
   });
 
@@ -153,6 +156,9 @@ function insert(formID) {
     success: function(data) {
       $('#registro').modal('hide');
       $('#exito').modal('show');
+    },
+    error: function (error) {
+      alert("No fue posible realizar esa acción");
     }
   });
 }
@@ -202,6 +208,9 @@ function DeleteOperador(numeroEmpleado) {
       $('#eliminar2').modal('hide');
       $('#exito').modal('show');
       $('#inputEliminar').val('');
+    },
+    error: function (error) {
+      alert("No fue posible realizar esa acción");
     }
   });
 }
@@ -261,7 +270,9 @@ function fillForm(formID, formMsg, numeroEmpleado) {
         $("#modificarActivo1").prop("checked", false);
         $("#modificarActivo2").prop("checked", true);
       }
-    }
+    },  error: function (error) {
+        alert("No fue posible realizar esa acción");
+      }
   });
 
   $('#modificar2').modal('show');
@@ -301,6 +312,9 @@ function Validate_Form2(formId, formMsg, numeroEmpleado) {
         $('#modificar2').modal('hide');
         $('#exito').modal('show');
         $('#inputCambiar').val('');
+      },
+      error: function (error) {
+        alert("No fue posible realizar esa acción");
       }
     });
   }
@@ -340,7 +354,9 @@ function Validate_Lider(formId, formMsg, numeroEmpleado) {
         $('#lider2').modal('hide');
         $('#exito').modal('show');
         resetForm(formId);
-      }
+      },  error: function (error) {
+          alert("No fue posible realizar esa acción");
+        }
     });
   }
 }

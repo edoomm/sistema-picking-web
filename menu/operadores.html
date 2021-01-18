@@ -200,12 +200,11 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="resetForm('#numeroLiderForm','#lider1Msg')"> </button>
           </div>
           <div class="modal-body">
-            <div class="text-secondary"> El número de empleado debe ser parte de los operadores</div>
             <em id="lider1Msg"> </em>
             <form class="row g-3" name="numeroLiderForm" id="numeroLiderForm" method="POST" onSubmit="return false;">
               <div class="col-md-12">
                 <label for="numeroLider" class="form-label"> Número de empleado del nuevo líder de almacén <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" id="numeroLider" name="numeroLider" placeholder="Número de empleado" data-required>
+                <input type="text" class="form-control" id="numeroLider" name="numeroLider" placeholder="Número de empleado" data-required  data-toggle="tooltip" data-placement="top" title="El número de empleado debe ser parte de los operadores" >
               </div>
             </form>
 
@@ -229,7 +228,7 @@
           <div class="modal-body">
             <em id="lider2Msg"></em>
 
-            <form class="row g-4" name="lider2Form" id="lider2Form" method="POST" onSubmit="return false;" oninput='lider2Password2.setCustomValidity(lider2Password2.value != lider2Password.value ? "Passwords do not match." : "")'>
+            <form class="row g-4" name="lider2Form" id="lider2Form" method="POST" onSubmit="return false;" oninput='lider2Password2.setCustomValidity(lider2Password2.value != lider2Password.value ? "La contraseña no es la misma." : "")'>
               <div class="col-lg-6">
 
                 <label for="lider2Usuario" class="form-label">Usuario</label>
@@ -262,13 +261,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="resetForm('#numeroLiderForm','#lider1Msg')"> </button>
           </div>
           <div class="modal-body">
-            <div class="text-secondary"> <h6> El empleado unicamente dejara de ser líder de almacén! </h6> </div>
             <em id="lider3Msg"> </em>
 
             <form class="row g-3" name="numeroLiderForm2" id="numeroLiderForm2" method="POST" onSubmit="return false;">
               <div class="col-md-12">
                 <label for="numeroLider2" class="form-label"> Número de empleado del líder de almacén <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" id="numeroLider2" name="numeroLider2" placeholder="Número de empleado" data-required>
+                <input type="text" class="form-control" id="numeroLider2" name="numeroLider2" placeholder="Número de empleado" data-required  data-toggle="tooltip" data-placement="top" title="El empleado unicamente dejara de ser líder de almacén!" >
               </div>
             </form>
 
@@ -280,8 +278,7 @@
         </div>
       </div>
     </div>
-
-
+    
 
     <div class="modal fade" id="lider4" name="lider4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
