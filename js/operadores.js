@@ -47,7 +47,7 @@ function Graphic(total, nombres, datos, opcion) {
 
 
   var coloR = [];
-  var dataLabel = "# de " + accion + " realizados por operadores activos";
+  var dataLabel = "# de " + accion + " realizados por empleados activos";
 
   for (var i = 0; i < total; i++) {
     var r = Math.floor(Math.random() * 255);
