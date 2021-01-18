@@ -58,7 +58,23 @@
       <div class="col-sm-6">
         <div class="card">
           <div class="card-header">
-            Lista de operadores
+            <div class = "row">
+              <div class = "col"> Lista de operadores </div>
+
+              <div class = "col d-flex flex-row-reverse">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" name="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <em id="filtroTag" name="filtroTag"> Activo </em>
+                    </button>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li><a class="dropdown-item" onclick="Filtro('activo=1')"> Activo </a></li>
+                      <li><a class="dropdown-item" onclick="Filtro('activo=0')"> Inactivo </a></li>
+                    </ul>
+                  </div>
+                </div>
+            </div>
+
           </div>
           <div class="card-body">
             <div class="container table-wrapper">
@@ -274,6 +290,16 @@
               <div class="col-12">
                 <label for="modificarNombre" class="form-label">Nombre <span class="text-danger">*</span> </label>
                 <input type="text" class="form-control" id="modificarNombre" name="modificarNombre" placeholder="Nombre completo del empleado" data-required>
+                <p> <p>
+
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                  <input type="radio" class="btn-check" name="btnradio" id="modificarActivo1" autocomplete="off" checked>
+                  <label class="btn btn-outline-primary" for="modificarActivo1"> Activo </label>
+
+                  <input type="radio" class="btn-check" name="btnradio" id="modificarActivo2" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="modificarActivo2"> No activo </label>
+                </div>
+
               </div>
             </form>
           </div>
@@ -368,6 +394,35 @@
   <script src="../js/initFile.js"></script>
 
   <script>
+
+  async function Filtro(cond){
+    $('#numero_empleado').val('');
+    $('#nombre_operador').val('');
+
+    var action;
+    if (cond == "activo=1") action = "Activo";
+    else action = "Inactivo";
+
+    $('#filtroTag').html(action);
+
+      await $.post("../php/mostrarElementosBD.php", {
+              variable: "Operador",
+              columnas : "num_empleado,nombre",
+              condicion : cond,
+          },
+          function(data){
+            document.getElementById("operador").innerHTML = data;
+              rowHandlers(
+                ["numero_empleado", "nombre_operador"],
+                "num_empleado,nombre",
+                "operador",
+                ["num_empleado", 0],
+                "Operador"
+               );
+          }
+      );
+  }
+
     window.onload = init(
       ["numero_empleado", "nombre_operador"],
       "num_empleado,nombre",

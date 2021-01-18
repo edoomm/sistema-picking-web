@@ -12,8 +12,8 @@ function get_controles($id_sucursal, $conn){
     return $ret;
 }
 $conn = open_database();
-$sql_query_control = "SELECT id_sucursal, control_id, apartado FROM Control WHERE estado='1'";
-$sql_query_asigned = "UPDATE Control SET estado = '1' WHERE estado='0'";
+$sql_query_control = "SELECT id_sucursal, control_id, apartado FROM Control WHERE estado=1";
+$sql_query_asigned = "UPDATE Control SET estado = 1 WHERE estado=0";
 $cantidad_de_productos = 0;
 $cont = 0;
 $controles = array();
