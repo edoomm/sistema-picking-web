@@ -48,7 +48,10 @@ CREATE TABLE `Producto` (
     `unidad_medida` INT NOT NULL, -- 1:Para aquellos que no tengan UM
     `descripcion` VARCHAR(100),
     `stock` INT NOT NULL,
+<<<<<<< HEAD
     `ubicacion` VARCHAR(11),
+=======
+>>>>>>> Corrección de errores en el apartado de operadores
     PRIMARY KEY (`sku`)
 );
 
@@ -90,7 +93,7 @@ CREATE TABLE `Operador_has_control` (
     FOREIGN KEY (`control_id`) REFERENCES `Control` (`control_id`),
     FOREIGN KEY (`num_empleado`) REFERENCES `Operador` (`num_empleado`),
     FOREIGN KEY (`contenedor_id`) REFERENCES `Contenedor` (`contenedor_id`)
-);    
+);
 
 CREATE TABLE `Transaccion` (
     `transaccion_id` INT NOT NULL AUTO_INCREMENT,
@@ -108,7 +111,7 @@ CREATE TABLE `Transaccion` (
     FOREIGN KEY (`control_id`) REFERENCES `Control` (`control_id`)
 );
 
-insert into producto (sku, id_linea, generico, unidad_medida, descripcion, stock) values
+insert into Producto (sku, id_linea, generico, unidad_medida, descripcion, stock) values
     (508748 , "AJG" , "E", 1, "TRENZADO AMARILLO", 1),
     (508749 , "AJG" , "E", 1, "TRENZADO ROSA", 1),
     (508752 , "AJG" , "E", 1, "CORDON AMARILLO", 1),
@@ -233,7 +236,7 @@ insert into producto (sku, id_linea, generico, unidad_medida, descripcion, stock
     (551527 , "PVH" , "E", 1, "KN95 NINOS COLORES COLORES", 1),
     (16614 , "SBN" , "E", 1, "CLEANER GP ", 1),
     (17755 , "SBN" , "E", 1, "EQUIPO DE INICIACION BLANDO ", 1),
-    (215072 , "SBN" , "E", 1, " GOTAS HUMECTANTES LACRIFRESH ", 1),
+    (215072 , "SBN" , "E", 1, " GOTAS HUMECTANTES LACRIFRESH ", 1),
     (506974 , "SBN" , "E", 1, "UNICA CON ALOE VERA ", 1),
     (551293 , "SEN" , "E", 1, "DIRECT-CASE BB", 1),
     (551348 , "SFM" , "E", 1, "CUBRE-KN95 BLANCO/AZUL", 1),
@@ -268,7 +271,7 @@ insert into producto (sku, id_linea, generico, unidad_medida, descripcion, stock
     (502045 , "URS" , "E", 1, "SUJETADOR JEANS DELGADO GRIS", 1),
     (502048 , "URS" , "E", 1, "SUJETADOR DE PIEL VINO", 1);
 
-insert into control 
+insert into Control
     (sku,numero_control,id_sucursal,apartado,estado)
     values
     (10053, 1, 12197, 1, 0),
@@ -370,9 +373,9 @@ insert into Operador  values
     ("111111", "Eduardo","1"),
     ("123400", "Kevin","1");
 
-insert into ubicacion
+insert into Ubicacion
     (ubicacion, sku, pasillo, rack, columna, nivel, prioridad)
-    values 
+    values
     ("A.01.01.09", 10053, 'A', 1, 1, 9, 1),
     ("A.01.01.02", 10055, 'A', 1, 1, 2, 2),
     ("A.01.01.03", 11522, 'A', 1, 1, 3, 3),
@@ -382,7 +385,7 @@ insert into ubicacion
     ("A.01.01.08", 16028, 'A', 1, 1, 8, 7),
     ("A.02.03.05", 17445, 'A', 2, 3, 5, 8);
 
-insert into contenedor 
+insert into Contenedor
     (medida,estado,ubicacion)
     values
     (10, false, "A.01.01.01"),
@@ -411,9 +414,9 @@ insert into contenedor
     (10, false, "A.01.01.01"),
     (10, false, "A.01.01.01");
 
-delete from operador_has_control;
+delete from Operador_has_control;
 
-insert into operador_has_control values
+insert into Operador_has_control values
     (1, "123456", NULL),
     (2, "123456", NULL),
     (3, "123456", NULL),
