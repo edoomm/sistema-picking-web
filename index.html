@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
   <head>
@@ -24,20 +25,18 @@
           </div>
           <div class="f px-lg-5 py-lg-4 p-4 w-100 align-self-center">
             <h1 class="font-weight-bold mb-4">Inicio de Sesión</h1>
-            <form action="./menu/menuPrincipal.html"> <!--LINK A MENU INICIAL -->
+            <form action="login.php" method="POST"> <!--LINK A MENU INICIAL -->
               <div class="mb-4">
                 <label for="usuario" class="form-label font-weight-bold">Usuario</label>
-                  <input type="text" class="form-control" placeholder="Ingresa tu número de empleado" id="usuario" aria-describedby="emailHelp" required = ""
-                  pattern="^[0-9]{6}$"> <!--Se requiere que el campo sea llenado y que siga una expresión regular, SOLO SE PUEDEN USAR 6 NUMEROS-->
-                <div id="usuario" class="form-text">EmpresaNúm.empleado [EENNNN]</div>
+                  <input type="text" class="form-control" placeholder="Ingresa tu usuario" id="usuario" name="usuario" aria-describedby="emailHelp" required> <!--Se requiere que el campo sea llenado y que siga una expresión regular-->
               </div>
               <div class="mb-4">
-                <label for="contraseña" class="form-label font-weight-bold">Contraseña</label>
-                <input type="password" class="form-control" placeholder="Ingresa tu contraseña" id="contraseña" required="">
+                <label for="contrasena" class="form-label font-weight-bold">Contraseña</label>
+                <input type="password" class="form-control" placeholder="Ingresa tu contraseña" id="contrasena" name="contrasena" required>
               </div>
-                <!--<button type="submit" class="btn btn-primary w-100"> Iniciar sesión </button>-->
-            <a href="./menu/menuPrincipal.html" class="mb-4 btn btn-primary w-100 py-lg-3">Iniciar sesión</a>
-            <!--Con este enlace no se puede hacer la validación
+              <button type="submit" class="btn btn-primary w-100"> Iniciar sesión </button>
+            <!--<a href="./menu/menuPrincipal.html" class="mb-4 btn btn-primary w-100 py-lg-3">Iniciar sesión</a>
+            Con este enlace no se puede hacer la validación
                  ESTA ES UNA PÁGINA PROVISIONAL PARA ENTREGAS
                  -->
             </form>
@@ -50,6 +49,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
     <!--

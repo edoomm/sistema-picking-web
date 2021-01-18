@@ -145,7 +145,7 @@ function formValidate(formId, formMsg, numeroEmpleado) {
   }
 }
 
-function insert(formID) {
+function insert(formId) {
   $.ajax({
     type: 'POST',
     url: '../php/operadores/operadoresInsert.php',
