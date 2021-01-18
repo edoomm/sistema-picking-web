@@ -23,7 +23,7 @@ function verificarFormato($fila,$tipo)
     }
     else if($tipo == 2)
     {
-        if($numFilas == 6)
+        if($numFilas == 7)
         {
             if(strcmp($fila[0], "UBICACION") == 0)
                 if(strcmp($fila[1],"SKU") == 0)
@@ -31,7 +31,8 @@ function verificarFormato($fila,$tipo)
                         if(strcmp($fila[3], "RACK") == 0)
                             if(strcmp($fila[4], "COLUMNA") == 0)
                                 if(strcmp($fila[5], "NIVEL") == 0)
-                                    return TRUE;
+                                    if(strcmp($fila[6],"PRIORIDAD") == 0)
+                                        return TRUE;
         }
     }
     else
@@ -53,7 +54,7 @@ function obtener_contenido(){
     $target_file = $directory . basename($_FILES['file_name']['name']);
     $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $numero_de_fila = -1;
-    $num_cols = $_POST['num_cols'];
+    $tipo = $_POST['tipo'];
     $datos = array();
     $cols_equal = TRUE;
     if($file_type == "csv"){
@@ -61,7 +62,7 @@ function obtener_contenido(){
             if(($gestor = fopen($target_file,"r")) !== FALSE){
                 while(($fila = fgetcsv($gestor)) !== FALSE){
                     if($numero_de_fila === -1){
-                        $cols_equal = verificarFormato($fila,$num_cols);
+                        $cols_equal = verificarFormato($fila,$tipo);
                         if(!$cols_equal)
                             break;
                     }
@@ -100,8 +101,4 @@ function obtener_contenido(){
         return FALSE;
     }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> f360a43d00462447d698b8a4cf32ca7aa8644e36
 ?>

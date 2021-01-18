@@ -243,6 +243,7 @@
         }
       }
     }
+
     function removeDragData(event){
         if(event.dataTransfer.items){
             event.dataTransfer.items.clear();
@@ -251,6 +252,7 @@
             event.dataTransfer.clearData();
         }
     }
+    
     var archivo;
     function sendFile(){
         document.getElementById("targetLayer").innerHTML = document.getElementById("cargando").innerHTML;
@@ -274,15 +276,7 @@
             }
         };
         fd.append('file_name', archivo);
-<<<<<<< HEAD
-<<<<<<< HEAD
         fd.append('tipo',3);
-=======
-        fd.append('num_cols',3);
->>>>>>> f360a43d00462447d698b8a4cf32ca7aa8644e36
-=======
-        fd.append('tipo',3);
->>>>>>> e1f8949a5d1ac5db854e6b845982e744317384e7
         xhr.send(fd);
     }
     function dropHandler(event){
