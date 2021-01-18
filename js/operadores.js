@@ -1,7 +1,8 @@
 $(document).ready(function() {
-  resetForm('#Registrar');
+  resetForm('#Registrar','#operadoresMsg');
   $('#Dm').html("Pickup");
   graphic_Change("Pickup", 'P');
+  Filtro("activo=1");
 });
 
 function graphic_Change(selection, opcion) {
@@ -46,7 +47,7 @@ function Graphic(total, nombres, datos, opcion) {
 
 
   var coloR = [];
-  var dataLabel = "# de " + accion + " realizados";
+  var dataLabel = "# de " + accion + " realizados por empleados activos";
 
   for (var i = 0; i < total; i++) {
     var r = Math.floor(Math.random() * 255);
@@ -208,7 +209,7 @@ function DeleteOperador(numeroEmpleado) {
     });
   } else {
     $('#eliminar2').modal('hide');
-    resetForm('#eliminar1');
+    resetForm('#eliminar1','#EliminarMsg');
     alert("No es posible borrar al líder de almacén");
   }
 }
@@ -243,7 +244,7 @@ function Validate_ModifyLider(formId, formMsg, numeroEmpleado) {
       $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> El número de empleado ya es líder de almacén! </div>');
     }
 
-    resetForm('#lider2Form');
+    resetForm('#lider2Form','#lider2Msg');
     $('#lider1').modal('hide');
     $('#lider2').modal('show');
 
@@ -260,8 +261,18 @@ function fillForm(formID, formMsg, numeroEmpleado) {
     dataType: "json",
     success: function(data) {
       $('#modificarNombre').val(data[0]);
+
+      if (data[1] == 1){
+           $("#modificarActivo1").prop("checked", true);
+           $("#modificarActivo2").prop("checked", false);
+      }
+      else{
+        $("#modificarActivo1").prop("checked", false);
+        $("#modificarActivo2").prop("checked", true);
+      }
     }
   });
+
   $('#modificar2').modal('show');
 }
 
@@ -281,7 +292,16 @@ function Validate_Form2(formId, formMsg, numeroEmpleado) {
     $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
     return false;
   } else {
-    var dataString = 'numero_empleado=' + numeroEmpleado + "&" + $(formId).serialize();
+
+     var actividad = "&actividad_usr=";
+
+     if(document.getElementById('modificarActivo1').checked) {
+        actividad += "1";
+     } else{
+       actividad +="0";
+     }
+
+    var dataString = 'numero_empleado=' + numeroEmpleado + actividad + "&" + $(formId).serialize();
     $.ajax({
       url: '../php/operadores/operadoresUpdate.php',
       type: 'post',
@@ -321,7 +341,6 @@ function Validate_Lider(formId, formMsg, numeroEmpleado) {
     $('#lider2Password2').addClass('text-danger');
   } else {
     var dataString = 'numero_empleado=' + numeroEmpleado + "&" + $(formId).serialize();
-    console.log(dataString);
     $.ajax({
       url: '../php/operadores/operadoresLider.php',
       type: 'post',
@@ -336,8 +355,17 @@ function Validate_Lider(formId, formMsg, numeroEmpleado) {
 }
 
 
-function resetForm(formActual) {
+function resetForm(formActual,formMsg) {
+  $(formMsg).html('');
+
+  if (formMsg == "#lider1Msg")  {
+    $(formMsg).html('<div class="text-secondary"> El número de empleado debe ser parte de los operadores</div>');
+  } else{
+    $(formMsg).html('');
+  }
+
   $(formActual).find('[data-required]').each(function() {
+    $(this).removeClass('is-invalid');
     $(this).val('');
   });
 }
@@ -357,7 +385,7 @@ function Validate_NumeroEmpleado(actual) {
       }
     });
   } else {
-    valueReturn = false;
+    valueReturn = true;
   }
 
   return valueReturn;
@@ -380,7 +408,7 @@ function Validate_NumeroUsr(actual) {
       }
     });
   } else {
-    valueReturn = false;
+    valueReturn = true;
   }
 
   return valueReturn;
@@ -405,8 +433,6 @@ function Validate_Cantidad(actual) {
 
   return valueReturn;
 }
-
-
 
 function Validate_Number(numero) {
   let isnum = /^\d+$/.test(numero);

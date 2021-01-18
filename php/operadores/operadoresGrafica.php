@@ -4,9 +4,15 @@
   $link = open_database();
   $accion = $_POST['tipo_movimiento'];
 
-  $sql = 'SELECT num_empleado from Operador';
-  $result = $link->query($sql);
+  $sql = "";
 
+  if ($accion == 'R'){
+    $sql = 'SELECT operador_num_empleado from Usuario';
+  } else{
+    $sql = 'SELECT num_empleado from Operador WHERE activo = 1';
+  }
+
+  $result = $link->query($sql);
 
   $numero = array();
   $cantidad = array();
