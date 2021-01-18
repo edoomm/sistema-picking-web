@@ -5,11 +5,14 @@
   $accion = $_POST['tipo_movimiento'];
 
   $sql = "";
+  $empleado = "";
 
   if ($accion == 'R'){
     $sql = 'SELECT operador_num_empleado from Usuario';
+    $empleado = "operador_num_empleado";
   } else{
     $sql = 'SELECT num_empleado from Operador WHERE activo = 1';
+    $empleado = "num_empleado";
   }
 
   $result = $link->query($sql);
@@ -20,7 +23,7 @@
   $i = 0;
 
   foreach ($result as $row){
-     $num =  $row['num_empleado'];
+     $num =  $row[$empleado];
 
      $numero[$i] = $num;
 

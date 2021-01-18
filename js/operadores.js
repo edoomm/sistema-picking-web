@@ -23,6 +23,9 @@ function graphic_Change(selection, opcion) {
       cantidad = data.cantidad;
 
       Graphic(empleado.length, empleado, cantidad, opcion);
+    },
+    error: function (error) {
+      Graphic(0, [], [], "P");
     }
   });
 
@@ -153,14 +156,24 @@ function insert(formID) {
     success: function(data) {
       $('#registro').modal('hide');
       $('#exito').modal('show');
+    },
+    error: function (error) {
+      alert("No fue posible realizar esa acción");
     }
   });
 }
 
-function liderButton() {
-  $('#registro').modal('hide');
-  $('#lider1').modal('show');
-  $('#numeroLider').val('');
+function liderButton(opcion) {
+
+  $('#liderOpcion').modal('hide');
+
+  if (opcion == "registrar"){
+    $('#numeroLider').val('');
+    $('#lider1').modal('show');
+  }else{
+    $('#numeroLider2').val('');
+    $('#lider3').modal('show');
+  }
 }
 
 
@@ -175,43 +188,31 @@ function Validate_Delete(formId, formMsg, numeroEmpleado) {
   } else {
     var usr = Validate_NumeroUsr(numeroEmpleado);
 
-    $('#eliminar1').modal('hide');
-    $('#eliminar2').modal('show');
-
-    if (!usr) {
-      $('#SE').html('<h5> Seguro que desea eliminar a: <b>' + numeroEmpleado + '</b> ? <p> Es líder de almacén! </h5>');
-      $(formMsg).html('');
-      $(formId).find('[data-required]').each(function() {
-        $(this).addClass('is-invalid');
-      });
-    } else {
-      $('#SE').html('<h5> Seguro que desea eliminar al operador: <b>' + numeroEmpleado + '</b>? </h5>');
+    if (usr == false){
+      $(formMsg).html('<div class="text-danger"> El número de usuario es líder de almacén! </div>');
+    }else{
+      $('#eliminar1').modal('hide');
+      $('#eliminar2').modal('show');
+      $('#SE').html('<h5> Seguro que desea eliminar a: <b>' + numeroEmpleado + '</b> ? </h5>');
     }
-
   }
 }
 
 function DeleteOperador(numeroEmpleado) {
-  var posible = Validate_Cantidad(numeroEmpleado);
-
-  if (posible > 1) {
-
-    var dataString = 'numero_empleado=' + numeroEmpleado;
-    $.ajax({
-      url: '../php/operadores/operadoresDelete.php',
-      type: 'post',
-      data: dataString,
-      success: function(value) {
-        $('#eliminar2').modal('hide');
-        $('#inputEliminar').val('');
-        $('#exito').modal('show');
-      }
-    });
-  } else {
-    $('#eliminar2').modal('hide');
-    resetForm('#eliminar1','#EliminarMsg');
-    alert("No es posible borrar al líder de almacén");
-  }
+  var dataString = 'numero_empleado=' + numeroEmpleado;
+  $.ajax({
+    url: '../php/operadores/operadoresDelete.php',
+    type: 'post',
+    data: dataString,
+    success: function(data) {
+      $('#eliminar2').modal('hide');
+      $('#exito').modal('show');
+      $('#inputEliminar').val('');
+    },
+    error: function (error) {
+      alert("No fue posible realizar esa acción");
+    }
+  });
 }
 
 function Validate_Modify(formId, formMsg, numeroEmpleado) {
@@ -242,12 +243,11 @@ function Validate_ModifyLider(formId, formMsg, numeroEmpleado) {
 
     if (!usr) {
       $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> El número de empleado ya es líder de almacén! </div>');
+    } else{
+      resetForm('#lider2Form','#lider2Msg');
+      $('#lider1').modal('hide');
+      $('#lider2').modal('show');
     }
-
-    resetForm('#lider2Form','#lider2Msg');
-    $('#lider1').modal('hide');
-    $('#lider2').modal('show');
-
   }
 }
 
@@ -270,7 +270,9 @@ function fillForm(formID, formMsg, numeroEmpleado) {
         $("#modificarActivo1").prop("checked", false);
         $("#modificarActivo2").prop("checked", true);
       }
-    }
+    },  error: function (error) {
+        alert("No fue posible realizar esa acción");
+      }
   });
 
   $('#modificar2').modal('show');
@@ -310,6 +312,9 @@ function Validate_Form2(formId, formMsg, numeroEmpleado) {
         $('#modificar2').modal('hide');
         $('#exito').modal('show');
         $('#inputCambiar').val('');
+      },
+      error: function (error) {
+        alert("No fue posible realizar esa acción");
       }
     });
   }
@@ -348,9 +353,41 @@ function Validate_Lider(formId, formMsg, numeroEmpleado) {
       success: function(data) {
         $('#lider2').modal('hide');
         $('#exito').modal('show');
-        resetForm(formId);
-      }
+        resetForm(formId,formMsg);
+      },  error: function (error) {
+          alert("No fue posible realizar esa acción");
+        }
     });
+  }
+}
+
+
+function Validate_Lider2(formId, formMsg, numeroEmpleado) {
+  var flag = 0;
+
+  $(formId).find('[data-required]').each(function() {
+    var actual = $(this).val();
+
+    if (actual === "") {
+      $(this).addClass('is-invalid');
+      flag = 1;
+    }
+  });
+
+  if (flag == 1) {
+    $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Todos los campos son necesarios! </div>');
+    return false;
+  } else {
+    var usr = Validate_NumeroUsr(numeroEmpleado);
+
+    if (usr) {
+      $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> El número de empleado no es líder de almacén! </div>');
+    }else{
+        $('#lider3').modal('hide');
+        $('#lider4Msg').html('<b>' + numeroEmpleado + '</b>');
+        $('#lider4').modal('show');
+        //onclick="return DeleteOperador($('#inputEliminar').val());"
+    }
   }
 }
 
@@ -391,6 +428,28 @@ function Validate_NumeroEmpleado(actual) {
   return valueReturn;
 }
 
+function DeleteLider(numeroEmpleado) {
+  var posible = Validate_Cantidad(numeroEmpleado);
+
+  if (posible > 1) {
+
+    var dataString = 'numero_empleado=' + numeroEmpleado;
+    $.ajax({
+      url: '../php/operadores/operadoresDeleteLider.php',
+      type: 'post',
+      data: dataString,
+      success: function(value) {
+        $('#lider4').modal('hide');
+        $('#numeroLider2').val('');
+        $('#exito').modal('show');
+      }
+    });
+  } else {
+    $('#lider4').modal('hide');
+    resetForm('#numeroLiderForm2','#lider3Msg');
+    alert("No es posible borrar al líder de almacén");
+  }
+}
 
 function Validate_NumeroUsr(actual) {
   var valueReturn;
