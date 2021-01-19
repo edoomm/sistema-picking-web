@@ -219,6 +219,7 @@ function validarUbicacion(idInput,idError)
   let patron = /[A-Z]\.[0-9][0-9]\.0[1-4]\.0[2-8]$/;
   if(ubicacionVal === "SIN ASIGNAR")
   {
+    idInput.classList.add('is-valid');
     return true;
   }
   if(patron.test(ubicacionVal))
@@ -354,7 +355,25 @@ function insertarProducto()
 
 function modificarProducto()
 {
-
+  const uri = '../php/productos/productosModificar.php';
+  const xhr  = new XMLHttpRequest();
+  const fd = new FormData();
+  xhr.open("POST", uri, true);
+  xhr.onreadystatechange = function(){
+      if(xhr.readyState == 4 && xhr.status == 200){
+          console.log(xhr.responseText);
+          alert("Se modifico correctamente el producto");
+          location.reload();
+      }
+  };
+  fd.append('sku',skuVal);
+  fd.append('id_linea',id_lineaVal);
+  fd.append('generico',genericoVal);
+  fd.append('descripcion',descripcionVal);
+  fd.append('stock',stockVal);
+  fd.append('medida',medidaVal);
+  fd.append('ubicacion',ubicacionVal);
+  xhr.send(fd);
 }
 
 function validarFormulario(tipo)
@@ -432,7 +451,7 @@ function validarFormulario(tipo)
     {
       return false;
     }
-    if(!validarSKU(skuMod,"invalid_skuMod"));
+    if(!validarSKU(skuMod,"invalid_skuMod"))
     {
       valido = false;
     }
