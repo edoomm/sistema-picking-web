@@ -32,7 +32,7 @@
     $query_master_operator = "SELECT * FROM Operador WHERE num_empleado = '-0'";
     $result_master_operator = mysqli_query($link, $query_master_operator);
     if (mysqli_num_rows($result_master_operator) == 1) {
-        $insert_master_user = "INSERT INTO Usuario (operador_num_empleado, contrasena, tipo_usuario) VALUE ('-0', '" . md5("5619849863") . "', -1)";
+        $insert_master_user = "INSERT INTO Usuario (operador_num_empleado, usuario, contrasena, tipo_usuario) VALUE ('-0', 'admin', '" . "123" . "', -1)";
         if (mysqli_query($link, $insert_master_user)) {
             $response = "Usuario master creado con éxito";
         }
@@ -49,7 +49,7 @@
     else {
         $response = "El Operador master no pudo ser creado, inténtelo más tarde";
     }
-    $insert_master_user = "INSERT INTO Usuario (operador_num_empleado, contrasena, tipo_usuario) VALUE ('-0', '" . md5("5619849863") . "', -1)";
+    $insert_master_user = "INSERT INTO Usuario (operador_num_empleado, usuario, contrasena, tipo_usuario) VALUE ('-0', 'admin', '" . "123" . "', -1)";
     if (mysqli_query($link, $insert_master_user))
         $response = "Usuario master creado con éxito";
     else
