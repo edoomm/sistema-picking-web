@@ -195,10 +195,7 @@ function validarSKU(idInput,idError)
   {
     if(parseFloat(skuVal) > 0)
     {
-<<<<<<< HEAD
       console.log("Valido");
-=======
->>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
       idInput.classList.add('is-valid');
       return true;
     }
