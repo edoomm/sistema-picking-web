@@ -43,6 +43,10 @@ function filtrar() {
 
 function limpiarErrores()
 {
+<<<<<<< HEAD
+=======
+  document.getElementById(id).reset();
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
   sku.classList.remove('is-valid');
   sku.classList.remove('is-invalid');
   ubicacion.classList.remove('is-valid');
@@ -71,12 +75,15 @@ function limpiarErrores()
   id_lineaMod.classList.remove('is-invalid');
   genericoMod.classList.remove('is-valid');
   genericoMod.classList.remove('is-invalid');
+<<<<<<< HEAD
 }
 
 function limpiarFormulario(id)
 {
   document.getElementById(id).reset();
   limpiarErrores();
+=======
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
 }
 
 function iniciarCargaArchivo(tipo)
@@ -195,7 +202,10 @@ function validarSKU(idInput,idError)
   {
     if(parseFloat(skuVal) > 0)
     {
+<<<<<<< HEAD
       console.log("Valido");
+=======
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
       idInput.classList.add('is-valid');
       return true;
     }
@@ -217,11 +227,14 @@ function validarSKU(idInput,idError)
 function validarUbicacion(idInput,idError)
 {
   let patron = /[A-Z]\.[0-9][0-9]\.0[1-4]\.0[2-8]$/;
+<<<<<<< HEAD
   if(ubicacionVal === "SIN ASIGNAR")
   {
     idInput.classList.add('is-valid');
     return true;
   }
+=======
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
   if(patron.test(ubicacionVal))
   {
     idInput.classList.add('is-valid');
@@ -330,6 +343,7 @@ function validarGenerico(idInput,idError)
   }
 }
 
+<<<<<<< HEAD
 function insertarProducto()
 {
   const uri = '../php/productos/productosIngresar.php';
@@ -379,6 +393,10 @@ function modificarProducto()
 function validarFormulario(tipo)
 {
   limpiarErrores();
+=======
+function validarFormulario(tipo)
+{
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
   var valido = true;
   if(tipo == 1)
   {
@@ -392,6 +410,7 @@ function validarFormulario(tipo)
     if(!validarCamposLlenos(tipo))
     {
       valido = false;
+<<<<<<< HEAD
       console.log(valido);
     }
     if(!validarSKU(sku,"invalid_sku"))
@@ -402,40 +421,68 @@ function validarFormulario(tipo)
     if(!validarUbicacion(ubicacion,"invalid_ubicacion"))
     {
       console.log(valido);
+=======
+    }
+    if(!validarSKU(sku,"invalid_sku"));
+    {
+      valido = false;
+    }
+    if(!validarUbicacion(ubicacion,"invalid_ubicacion"))
+    {
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
       valido = false;
     }
     if(!validarDescripcion(descripcion,"invalid_descripcion"))
     {
       valido = false;
+<<<<<<< HEAD
       console.log(valido);
 
+=======
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
     }
     if(!validarStock(stock,"invalid_stock"))
     {
       valido = false;
+<<<<<<< HEAD
       console.log(valido);
 
+=======
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
     }
     if(!validarUnidadMedida(medida,"invalid_medida"))
     {
       valido = false;
+<<<<<<< HEAD
       console.log(valido);
 
+=======
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
     }
     if(!validarIDLinea(id_linea,"invalid_linea"))
     {
       valido = false;
+<<<<<<< HEAD
       console.log(valido);
+=======
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
     }
     if(!validarGenerico(generico,"invalid_generico"))
     {
       valido = false;
+<<<<<<< HEAD
       console.log(valido);
     }
     if(valido)
     {
       console.log("Formulario correcto");
       insertarProducto();
+=======
+    }
+    if(valido)
+    {
+      console.log("Formulario correcto")
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
     }
   }
   else if(tipo == 2)
@@ -451,7 +498,11 @@ function validarFormulario(tipo)
     {
       return false;
     }
+<<<<<<< HEAD
     if(!validarSKU(skuMod,"invalid_skuMod"))
+=======
+    if(!validarSKU(skuMod,"invalid_skuMod"));
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
     {
       valido = false;
     }
@@ -481,8 +532,12 @@ function validarFormulario(tipo)
     }
     if(valido)
     {
+<<<<<<< HEAD
       console.log("Formulario correcto");
       modificarProducto();
+=======
+      console.log("Formulario correcto")
+>>>>>>> 486d453e576d5ff6ce0d7e7a863fc1bed33966f0
     }
   }
 }
