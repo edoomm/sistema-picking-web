@@ -25,7 +25,7 @@ function filtrar() {
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("busqueda");
   filter = input.value.toUpperCase();
-  table = document.getElementById("serie");
+  table = document.getElementById("producto");
   tr = table.getElementsByTagName("tr");
 
   for (i = 0; i < tr.length; i++) {
@@ -41,9 +41,8 @@ function filtrar() {
   }
 }
 
-function limpiarFormulario(id)
+function limpiarErrores()
 {
-  document.getElementById(id).reset();
   sku.classList.remove('is-valid');
   sku.classList.remove('is-invalid');
   ubicacion.classList.remove('is-valid');
@@ -72,6 +71,12 @@ function limpiarFormulario(id)
   id_lineaMod.classList.remove('is-invalid');
   genericoMod.classList.remove('is-valid');
   genericoMod.classList.remove('is-invalid');
+}
+
+function limpiarFormulario(id)
+{
+  document.getElementById(id).reset();
+  limpiarErrores();
 }
 
 function iniciarCargaArchivo(tipo)
@@ -190,6 +195,7 @@ function validarSKU(idInput,idError)
   {
     if(parseFloat(skuVal) > 0)
     {
+      console.log("Valido");
       idInput.classList.add('is-valid');
       return true;
     }
@@ -211,6 +217,11 @@ function validarSKU(idInput,idError)
 function validarUbicacion(idInput,idError)
 {
   let patron = /[A-Z]\.[0-9][0-9]\.0[1-4]\.0[2-8]$/;
+  if(ubicacionVal === "SIN ASIGNAR")
+  {
+    idInput.classList.add('is-valid');
+    return true;
+  }
   if(patron.test(ubicacionVal))
   {
     idInput.classList.add('is-valid');
@@ -319,8 +330,55 @@ function validarGenerico(idInput,idError)
   }
 }
 
+function insertarProducto()
+{
+  const uri = '../php/productos/productosIngresar.php';
+  const xhr  = new XMLHttpRequest();
+  const fd = new FormData();
+  xhr.open("POST", uri, true);
+  xhr.onreadystatechange = function(){
+      if(xhr.readyState == 4 && xhr.status == 200){
+          console.log(xhr.responseText);
+          alert("Se registro correctamente el producto");
+          location.reload();
+      }
+  };
+  fd.append('sku',skuVal);
+  fd.append('id_linea',id_lineaVal);
+  fd.append('generico',genericoVal);
+  fd.append('descripcion',descripcionVal);
+  fd.append('stock',stockVal);
+  fd.append('medida',medidaVal);
+  fd.append('ubicacion',ubicacionVal);
+  xhr.send(fd);
+}
+
+function modificarProducto()
+{
+  const uri = '../php/productos/productosModificar.php';
+  const xhr  = new XMLHttpRequest();
+  const fd = new FormData();
+  xhr.open("POST", uri, true);
+  xhr.onreadystatechange = function(){
+      if(xhr.readyState == 4 && xhr.status == 200){
+          console.log(xhr.responseText);
+          alert("Se modifico correctamente el producto");
+          location.reload();
+      }
+  };
+  fd.append('sku',skuVal);
+  fd.append('id_linea',id_lineaVal);
+  fd.append('generico',genericoVal);
+  fd.append('descripcion',descripcionVal);
+  fd.append('stock',stockVal);
+  fd.append('medida',medidaVal);
+  fd.append('ubicacion',ubicacionVal);
+  xhr.send(fd);
+}
+
 function validarFormulario(tipo)
 {
+  limpiarErrores();
   var valido = true;
   if(tipo == 1)
   {
@@ -334,38 +392,50 @@ function validarFormulario(tipo)
     if(!validarCamposLlenos(tipo))
     {
       valido = false;
+      console.log(valido);
     }
-    if(!validarSKU(sku,"invalid_sku"));
+    if(!validarSKU(sku,"invalid_sku"))
     {
       valido = false;
+      console.log(valido);
     }
     if(!validarUbicacion(ubicacion,"invalid_ubicacion"))
     {
+      console.log(valido);
       valido = false;
     }
     if(!validarDescripcion(descripcion,"invalid_descripcion"))
     {
       valido = false;
+      console.log(valido);
+
     }
     if(!validarStock(stock,"invalid_stock"))
     {
       valido = false;
+      console.log(valido);
+
     }
     if(!validarUnidadMedida(medida,"invalid_medida"))
     {
       valido = false;
+      console.log(valido);
+
     }
     if(!validarIDLinea(id_linea,"invalid_linea"))
     {
       valido = false;
+      console.log(valido);
     }
     if(!validarGenerico(generico,"invalid_generico"))
     {
       valido = false;
+      console.log(valido);
     }
     if(valido)
     {
-      console.log("Formulario correcto")
+      console.log("Formulario correcto");
+      insertarProducto();
     }
   }
   else if(tipo == 2)
@@ -381,7 +451,7 @@ function validarFormulario(tipo)
     {
       return false;
     }
-    if(!validarSKU(skuMod,"invalid_skuMod"));
+    if(!validarSKU(skuMod,"invalid_skuMod"))
     {
       valido = false;
     }
@@ -411,7 +481,8 @@ function validarFormulario(tipo)
     }
     if(valido)
     {
-      console.log("Formulario correcto")
+      console.log("Formulario correcto");
+      modificarProducto();
     }
   }
 }
