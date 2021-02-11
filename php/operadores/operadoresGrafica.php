@@ -3,6 +3,8 @@
 
   $link = open_database();
   $accion = $_POST['tipo_movimiento'];
+  $condI = $_POST['condicionI'];
+  $condF = $_POST['condicionF'];
 
   $sql = "";
   $empleado = "";
@@ -27,7 +29,8 @@
 
      $numero[$i] = $num;
 
-     $sql2 = 'SELECT * from Transaccion WHERE num_empleado = "'.$num .'" AND tipo_movimiento = "'. $accion.'";  ';
+     $sql2 = 'SELECT * from Transaccion WHERE num_empleado = "'.$num .'" AND tipo_movimiento = "'. $accion.'" AND hora_realizada >= "'.$condI.'" AND hora_realizada <= "'.$condF.'" ;';
+
      $result2 = $link->query($sql2);
      $actual = mysqli_num_rows($result2);
 

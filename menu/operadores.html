@@ -204,7 +204,7 @@
             <form class="row g-3" name="numeroLiderForm" id="numeroLiderForm" method="POST" onSubmit="return false;">
               <div class="col-md-12">
                 <label for="numeroLider" class="form-label"> Número de empleado del nuevo líder de almacén <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" id="numeroLider" name="numeroLider" placeholder="Número de empleado" data-required  data-toggle="tooltip" data-placement="top" title="El número de empleado debe ser parte de los operadores" >
+                <input type="text" class="form-control" id="numeroLider" name="numeroLider" placeholder="Número de empleado" data-required data-toggle="tooltip" data-placement="top" title="El número de empleado debe ser parte de los operadores">
               </div>
             </form>
 
@@ -266,7 +266,7 @@
             <form class="row g-3" name="numeroLiderForm2" id="numeroLiderForm2" method="POST" onSubmit="return false;">
               <div class="col-md-12">
                 <label for="numeroLider2" class="form-label"> Número de empleado del líder de almacén <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" id="numeroLider2" name="numeroLider2" placeholder="Número de empleado" data-required  data-toggle="tooltip" data-placement="top" title="El empleado unicamente dejara de ser líder de almacén!" >
+                <input type="text" class="form-control" id="numeroLider2" name="numeroLider2" placeholder="Número de empleado" data-required data-toggle="tooltip" data-placement="top" title="El empleado unicamente dejara de ser líder de almacén!">
               </div>
             </form>
 
@@ -278,31 +278,31 @@
         </div>
       </div>
     </div>
-    
+
 
     <div class="modal fade" id="lider4" name="lider4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Eliminar operador</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-            </div>
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Eliminar operador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+          </div>
 
-            <div class="modal-body">
-              <div class="col-md-12">
-                <h3>
+          <div class="modal-body">
+            <div class="col-md-12">
+              <h3>
                 Eliminar al líder de almacén con número de empleado
                 <em id="lider4Msg" name="lider4Msg"></em> ?
               </h3>
-              </div>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar </button>
-              <button type="button" class="btn btn-primary" onClick="return DeleteLider($('#numeroLider2').val());"> Aceptar </button>
             </div>
           </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar </button>
+            <button type="button" class="btn btn-primary" onClick="return DeleteLider($('#numeroLider2').val());"> Aceptar </button>
+          </div>
         </div>
+      </div>
     </div>
 
 
@@ -410,40 +410,57 @@
     </div>
 
     <div class="modal fade" id="eliminar2" name="eliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Eliminar operador</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-            </div>
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Eliminar operador</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+          </div>
 
-            <div class="modal-body">
-              <div class="col-md-12">
-                <em id="SE" name="SE"></em>
-              </div>
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button class="btn btn-primary" type="button" onclick="return DeleteOperador($('#inputEliminar').val());"> Borrar </button>
+          <div class="modal-body">
+            <div class="col-md-12">
+              <em id="SE" name="SE"></em>
             </div>
           </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button class="btn btn-primary" type="button" onclick="return DeleteOperador($('#inputEliminar').val());"> Borrar </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="container bg-light border border-primary margin-custom-graphic">
 
       <div class="row">
         <div class="d-flex justify-content-end" style="padding-top: 20px">
+
           <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" name="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <em id="Dm" name="Dm"></em>
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" name="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              <em id="Dm1" name="Dm1"> </em>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><a class="dropdown-item" onclick="return graphic_Change('Pickup','P');"> Pickup </a></li>
-              <li><a class="dropdown-item" onclick="return graphic_Change('Reabasto','R');"> Reabasto </a></li>
+              <li><a class="dropdown-item" onclick="return update_Action('Pickup');"> Pickup </a></li>
+              <li><a class="dropdown-item" onclick="return update_Action('Reabasto');"> Reabasto </a></li>
             </ul>
           </div>
+
+          <div style="padding-left: 15px"> </div>
+
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <em id="Dm2" name="Dm2"></em>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" onclick="return update_Interval('Día');"> Día </a></li>
+              <li><a class="dropdown-item" onclick="return update_Interval('Semana');"> Semana </a></li>
+              <li><a class="dropdown-item" onclick="return update_Interval('Mes');"> Mes </a></li>
+              <li><a class="dropdown-item" onclick="return update_Interval('Año');"> Año </a></li>
+            </ul>
+          </div>
+
+
         </div>
       </div>
 

@@ -1,17 +1,114 @@
 $(document).ready(function() {
-  resetForm('#Registrar','#operadoresMsg');
-  $('#Dm').html("Pickup");
-  graphic_Change("Pickup", 'P');
+  resetForm('#Registrar', '#operadoresMsg');
+  $('#Dm1').html("Pickup");
+  $('#Dm2').html("Día");
+  let temp = get_Interval('Día');
+  let inicial = temp.condicionI;
+  let fin = temp.condicionF;
+  graphic_Change('P', inicial, fin)
   Filtro("activo=1");
 });
 
-function graphic_Change(selection, opcion) {
-  $('#Dm').html(selection);
+function get_Interval(intervalo) {
+  var dateObj = new Date();
+  var month = dateObj.getUTCMonth() + 1;
+
+  if (month < 10) {
+    var temp = "0" + month;
+    month = temp;
+  }
+
+  var day = dateObj.getUTCDate();
+
+  if (day < 10) {
+    var temp = "0" + day;
+    day = temp;
+  }
+
+
+  var year = dateObj.getUTCFullYear();
+  var condicion = " hora_realizada >= ";
+
+  var condicionI;
+  var condicionF;
+
+  var horaI = "00:00:00.000";
+  var horaF = "23:59:59.000";
+
+  if (intervalo == "Día") {
+    condicionI = year + "-" + month + "-" + day + " " + horaI;
+    condicionF = year + "-" + month + "-" + day + " " + horaF;
+  } else if (intervalo == "Semana") {
+    var first = dateObj.getDate() - dateObj.getDay();
+    var last = first + 6;
+
+    if (first < 10) {
+      var temp = "0" + first;
+      first = temp;
+    }
+
+    if (last < 10) {
+      var temp = "0" + last;
+      last = temp;
+    }
+
+    condicionI = year + "-" + month + "-" + first + " " + horaI;
+    condicionF = year + "-" + month + "-" + last + " " + horaF;
+  } else if (intervalo == "Mes") {
+    var last;
+    if (month == 2) last = 29;
+    else if (month % 2 == 0) last = 30;
+    else last = 31;
+
+    condicionI = year + "-" + month + "-01 " + horaI;
+    condicionF = year + "-" + month + "-" + last + " " + horaF;
+  } else {
+    condicionI = year + "-01-01 " + horaI;
+    condicionF = year + "-12-31 " + horaF;
+  }
+
+  return {
+    condicionI,
+    condicionF
+  };
+
+}
+
+function update_Action(accion) {
+  $('#Dm1').html(accion);
+  var opcion = (accion == "Pickup") ? "P" : "R";
+  var condicion = get_Interval($('#Dm2').text());
+
+  let inicial = condicion.condicionI;
+  let fin = condicion.condicionF;
+
+  graphic_Change(opcion, inicial, fin);
+}
+
+function update_Interval(intervalo) {
+  $('#Dm2').html(intervalo);
+  var condicion = get_Interval(intervalo);
+
+  var accion = $('#Dm1').text();
+  var opcion = (accion == "Pickup") ? "P" : "R";
+
+  let inicial = condicion.condicionI;
+  let fin = condicion.condicionF;
+
+  graphic_Change(opcion, inicial, fin);
+}
+
+// La siguiente función funciona para el dibujo de la
+// gráfica en primer parametro es referencia a la opción
+// de pickeo o reabasto y la condición hace referencía
+// la condición a mandar a la query dentro de sql
+function graphic_Change(opcion, inicial, fin) {
 
   let empleado = new Array();
   let accion = new Array();
 
-  var dataString = 'tipo_movimiento=' + opcion;
+  var dataString = 'tipo_movimiento=' + opcion + "&condicionI=" + inicial + "&condicionF=" + fin;
+
 
   $.ajax({
     url: '../php/operadores/operadoresGrafica.php',
@@ -24,12 +121,13 @@ function graphic_Change(selection, opcion) {
 
       Graphic(empleado.length, empleado, cantidad, opcion);
     },
-    error: function (error) {
+    error: function(error) {
       Graphic(0, [], [], "P");
     }
   });
 
   return false;
+
 }
 
 
@@ -157,7 +255,7 @@ function insert(formID) {
       $('#registro').modal('hide');
       $('#exito').modal('show');
     },
-    error: function (error) {
+    error: function(error) {
       alert("No fue posible realizar esa acción");
     }
   });
@@ -167,10 +265,10 @@ function liderButton(opcion) {
 
   $('#liderOpcion').modal('hide');
 
-  if (opcion == "registrar"){
+  if (opcion == "registrar") {
     $('#numeroLider').val('');
     $('#lider1').modal('show');
-  }else{
+  } else {
     $('#numeroLider2').val('');
     $('#lider3').modal('show');
   }
@@ -188,9 +286,9 @@ function Validate_Delete(formId, formMsg, numeroEmpleado) {
   } else {
     var usr = Validate_NumeroUsr(numeroEmpleado);
 
-    if (usr == false){
+    if (usr == false) {
       $(formMsg).html('<div class="text-danger"> El número de usuario es líder de almacén! </div>');
-    }else{
+    } else {
       $('#eliminar1').modal('hide');
       $('#eliminar2').modal('show');
       $('#SE').html('<h5> Seguro que desea eliminar a: <b>' + numeroEmpleado + '</b> ? </h5>');
@@ -209,7 +307,7 @@ function DeleteOperador(numeroEmpleado) {
       $('#exito').modal('show');
       $('#inputEliminar').val('');
     },
-    error: function (error) {
+    error: function(error) {
       alert("No fue posible realizar esa acción");
     }
   });
@@ -243,8 +341,8 @@ function Validate_ModifyLider(formId, formMsg, numeroEmpleado) {
 
     if (!usr) {
       $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> El número de empleado ya es líder de almacén! </div>');
-    } else{
-      resetForm('#lider2Form','#lider2Msg');
+    } else {
+      resetForm('#lider2Form', '#lider2Msg');
       $('#lider1').modal('hide');
       $('#lider2').modal('show');
     }
@@ -262,17 +360,17 @@ function fillForm(formID, formMsg, numeroEmpleado) {
     success: function(data) {
       $('#modificarNombre').val(data[0]);
 
-      if (data[1] == 1){
-           $("#modificarActivo1").prop("checked", true);
-           $("#modificarActivo2").prop("checked", false);
-      }
-      else{
+      if (data[1] == 1) {
+        $("#modificarActivo1").prop("checked", true);
+        $("#modificarActivo2").prop("checked", false);
+      } else {
         $("#modificarActivo1").prop("checked", false);
         $("#modificarActivo2").prop("checked", true);
       }
-    },  error: function (error) {
-        alert("No fue posible realizar esa acción");
-      }
+    },
+    error: function(error) {
+      alert("No fue posible realizar esa acción");
+    }
   });
 
   $('#modificar2').modal('show');
@@ -295,13 +393,13 @@ function Validate_Form2(formId, formMsg, numeroEmpleado) {
     return false;
   } else {
 
-     var actividad = "&actividad_usr=";
+    var actividad = "&actividad_usr=";
 
-     if(document.getElementById('modificarActivo1').checked) {
-        actividad += "1";
-     } else{
-       actividad +="0";
-     }
+    if (document.getElementById('modificarActivo1').checked) {
+      actividad += "1";
+    } else {
+      actividad += "0";
+    }
 
     var dataString = 'numero_empleado=' + numeroEmpleado + actividad + "&" + $(formId).serialize();
     $.ajax({
@@ -313,7 +411,7 @@ function Validate_Form2(formId, formMsg, numeroEmpleado) {
         $('#exito').modal('show');
         $('#inputCambiar').val('');
       },
-      error: function (error) {
+      error: function(error) {
         alert("No fue posible realizar esa acción");
       }
     });
@@ -353,10 +451,11 @@ function Validate_Lider(formId, formMsg, numeroEmpleado) {
       success: function(data) {
         $('#lider2').modal('hide');
         $('#exito').modal('show');
-        resetForm(formId,formMsg);
-      },  error: function (error) {
-          alert("No fue posible realizar esa acción");
-        }
+        resetForm(formId, formMsg);
+      },
+      error: function(error) {
+        alert("No fue posible realizar esa acción");
+      }
     });
   }
 }
@@ -382,22 +481,22 @@ function Validate_Lider2(formId, formMsg, numeroEmpleado) {
 
     if (usr) {
       $(formMsg).html('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> El número de empleado no es líder de almacén! </div>');
-    }else{
-        $('#lider3').modal('hide');
-        $('#lider4Msg').html('<b>' + numeroEmpleado + '</b>');
-        $('#lider4').modal('show');
-        //onclick="return DeleteOperador($('#inputEliminar').val());"
+    } else {
+      $('#lider3').modal('hide');
+      $('#lider4Msg').html('<b>' + numeroEmpleado + '</b>');
+      $('#lider4').modal('show');
+      //onclick="return DeleteOperador($('#inputEliminar').val());"
     }
   }
 }
 
 
-function resetForm(formActual,formMsg) {
+function resetForm(formActual, formMsg) {
   $(formMsg).html('');
 
-  if (formMsg == "#lider1Msg")  {
+  if (formMsg == "#lider1Msg") {
     $(formMsg).html('<div class="text-secondary"> El número de empleado debe ser parte de los operadores</div>');
-  } else{
+  } else {
     $(formMsg).html('');
   }
 
@@ -446,7 +545,7 @@ function DeleteLider(numeroEmpleado) {
     });
   } else {
     $('#lider4').modal('hide');
-    resetForm('#numeroLiderForm2','#lider3Msg');
+    resetForm('#numeroLiderForm2', '#lider3Msg');
     alert("No es posible borrar al líder de almacén");
   }
 }
