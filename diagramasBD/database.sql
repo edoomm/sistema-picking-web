@@ -78,7 +78,8 @@ CREATE TABLE `Control` (
     `numero_control` INT NOT NULL,
     `id_sucursal` INT NOT NULL,
     `apartado` INT NOT NULL, -- Cantidad que pide la sucursal del sku
-    `estado` TINYINT(1) NOT NULL DEFAULT 0, -- 0: sin asignar; 1: asignado, -1: cancelado; (2: terminado)
+    `estado` TINYINT(1) NOT NULL DEFAULT 0, -- 0: sin asignar; 1: asignado, -1: cancelado; (2: terminado),
+	`fecha` DATE,
     PRIMARY KEY (`control_id`),
     FOREIGN KEY (`sku`) REFERENCES `Producto` (`sku`)
 );
