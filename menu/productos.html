@@ -66,7 +66,7 @@
                                         <th scope="col">Ubicación</th>
                                     </tr>
                                 </thead>
-                                <tbody id="producto">
+                                <tbody id="producto" style="text-align: center;">
                                 </tbody>
                             </table>
                         </div>
@@ -77,16 +77,16 @@
                                 <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registro" style="margin-bottom: 10px">Registrar</button>
                             </div>
                             <div class="col-4">
-                                <button class="btn btn-primary btn-lg" type="button" style="margin-bottom: 10px">Modificar</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modificacion" onClick="llenarFormularioMod()" style="margin-bottom: 10px" >Modificar</button>
                             </div>
                             <div class="col-4">
                                 <button class="btn btn-primary btn-lg" type="button" style="margin-bottom: 10px">Eliminar</button>
                             </div>
-                            <div class="col-7">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoInventario" style="margin-bottom: 10px">Cargar inventario</button>
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoInventario" onClick="iniciarCargaArchivo(1)" style="margin-bottom: 10px">Cargar inventario</button>
                             </div>
-                            <div class="col-5">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoUbicaciones" style="margin-bottom: 10px">Cargar ubicaciones</button>
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoUbicaciones" onClick="iniciarCargaArchivo(2)" style="margin-bottom: 10px">Cargar ubicaciones</button>
                             </div>
                         </div>
                     </div>
@@ -137,63 +137,134 @@
                 </div>
             </div>
         </div>
+        <!-- Pop up registro -->
         <div class="modal fade" id="registro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Registro de productos</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                            </button>
-                        </div>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registro de productos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="limpiarFormulario('registrar')"> </button>
+                    </div>
                     <div class="modal-body">
-                        <form class="row g-3">
+                        <form class="row g-3" name="registrar" id="registrar" method="POST" onSubmit="return false;">
                             <div class="col-6">
                                 <label for="inputSKU" class="form-label">SKU</label>
-                                <input type="textarea" class="form-control" id="inputSKU" placeholder="24986879">
+                                <input type="textarea" class="form-control" id="inputSKU" placeholder="24986879" required>
+                                <div id="invalid_sku" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
                             </div>
                             <div class="col-6">
-                                <label for="inputNombre" class="form-label">Ubicación</label>
-                                <input type="text" class="form-control" id="inputNombre" placeholder="Armazon">
+                                <label for="inputUbicacion" class="form-label">Ubicación</label>
+                                <input type="text" class="form-control" id="inputUbicacion" placeholder="A.01.01.02" required="required">
+                                <div id="invalid_ubicacion" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
                             </div>
                             <div class="col-6">
                                 <label for="inputStock" class="form-label">Stock</label>
-                                <input type="text" class="form-control" id="inputStock" placeholder="200">
+                                <input type="text" class="form-control" id="inputStock" placeholder="200" required>
+                                <div id="invalid_stock" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
                             </div>
                             <div class="col-6">
                                 <label for="inputMedida" class="form-label">Unidad de medida</label>
-                                <input type="text" class="form-control" id="inputMedida" placeholder="1">                                
+                                <input type="text" class="form-control" id="inputMedida" placeholder="1" required="required">
+                                <div id="invalid_medida" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
                             </div>
                             <div class="col-6">
                                 <label for="inputLinea" class="form-label">ID de línea</label>
-                                <input type="text" class="form-control" id="inputLinea" placeholder="AJG">                                
+                                <input type="text" class="form-control" id="inputLinea" placeholder="AJG" required="required">
+                                <div id="invalid_linea" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
                             </div>
                             <div class="col-6">
                                 <label for="inputGenerico" class="form-label">Génerico</label>
-                                <input type="text" class="form-control" id="inputGenerico" placeholder="E">                                
+                                <input type="text" class="form-control" id="inputGenerico" placeholder="E" required="required">
+                                <div id="invalid_generico" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
                             </div>
                             <div class="col-12">
                                 <label for="inputDescripcion" class="form-label">Descripción</label>
-                                <textarea class="form-control" id="inputDescripcion" rows="2" placeholder="Microfibras Lux Cortesía"></textarea>
+                                <textarea class="form-control" id="inputDescripcion" rows="2" placeholder="Microfibras Lux Cortesía" required="required"></textarea>
+                                <div id="invalid_descripcion" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary">Guardar</button>
-                        </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="limpiarFormulario('registrar')">Cerrar</button>
+                        <button type="button" class="btn btn-primary" onClick="return validarFormulario(1);">Guardar</button>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- PopUp Modificar -->
+        <div class="modal fade" id="modificacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modificar producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="limpiarFormulario('modificar')">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row g-3" name="modificar" id="modificar" method="POST" onSubmit="return false;">
+                            <div class="col-6">
+                                <label for="modificarSKU" class="form-label">SKU</label>
+                                <input type="textarea" class="form-control" id="modificarSKU" placeholder="24986879" data-required disabled>
+                                <div id="invalid_skuMod" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
+                            </div>
+                            <div class="col-6">
+                                <label for="modificarUbicacion" class="form-label">Ubicación</label>
+                                <input type="text" class="form-control" id="modificarUbicacion" placeholder="A.01.01.02" required="required">
+                                <div id="invalid_ubicacionMod" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
+                            </div>
+                            <div class="col-6">
+                                <label for="modificarStock" class="form-label">Stock</label>
+                                <input type="text" class="form-control" id="modificarStock" placeholder="200" required="required">
+                                <div id="invalid_stockMod" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
+                            </div>
+                            <div class="col-6">
+                                <label for="modificarMedida" class="form-label">Unidad de medida</label>
+                                <input type="text" class="form-control" id="modificarMedida" placeholder="1" required="required">
+                                <div id="invalid_medidaMod" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
+                            </div>
+                            <div class="col-6">
+                                <label for="modificarLinea" class="form-label">ID de línea</label>
+                                <input type="text" class="form-control" id="modificarLinea" placeholder="AJG" required="required">
+                                <div id="invalid_lineaMod" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
+                            </div>
+                            <div class="col-6">
+                                <label for="modificarGenerico" class="form-label">Génerico</label>
+                                <input type="text" class="form-control" id="modificarGenerico" placeholder="E" required="required">
+                                <div id="invalid_genericoMod" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
+                            </div>
+                            <div class="col-12">
+                                <label for="modificarDescripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="modificarDescripcion" rows="2" placeholder="Microfibras Lux Cortesía" required="required"></textarea>
+                                <div id="invalid_descripcionMod" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="limpiarFormulario('modificar')">Cerrar</button>
+                        <button type="button" onClick="return validarFormulario(2)" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
   
+        <!-- subir archivo inventario -->
         <div class="modal fade" id="subirArchivoInventario" tabindex="-1" aria-labelledby="subirArchivoInventarioLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="subirArchivoInventarioLabel">Cargar inventario</h5>
+                        <h5 class="modal-title" >Cargar inventario</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="container box-center" style="display: none;" id="archivoCargado">
+                        <div class="box" method="post" enctype="multipart/form-data" id="targetLayerInventario"></div>
+                        <div style="display: none;" id="cargandoInventario">
+                            <div style="text-align: center;">
+                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
+                                <p>Cargando</p>
+                            </div>
+                        </div>
+                        <div class="container box-center" style="display: none;" id="archivoCargadoInventario">
                             <div class="svg-container box-center" id="imagenSubido">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload scaling-svg" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -201,10 +272,10 @@
                                 </svg>
                             </div>
                             <div style="text-align: center;">
-                                <p id="mostrarNombreArchivo">Se cargó correctamente el archivo: </p>
+                                <p id="mostrarNombreArchivoInventario"></p>
                             </div>
                         </div>
-                        <div class="box" method="post" enctype="multipart/form-data" id="targetLayer">
+                        <div class="container box-center" style="display: none;" id="modalInicioInventario">
                             <div class="svg-container box-center" id="imagen-drop">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download scaling-svg" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -217,8 +288,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile('../php/cargarProductos.php',1)">Cargar archivo</button>
+                        <button type="button" id="btn-cancelarInventario" class="btn btn-secondary" data-bs-dismiss="modal" onClick="iniciarCargaArchivo(1)">Cerrar</button>
+                        <button type="button" id="btn-archivoInventario" class="btn btn-primary" disabled onclick="sendFile('../php/cargarProductos.php',1)">Cargar archivo</button>
                     </div>
                 </div>
             </div>
@@ -232,7 +303,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="container box-center" style="display: none;" id="archivoCargado">
+                        <div class="box" method="post" enctype="multipart/form-data" id="targetLayerUbicacion"></div>
+                        <div style="display: none;" id="cargandoUbicacion">
+                            <div style="text-align: center;">
+                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
+                                <p>Cargando</p>
+                            </div>
+                        </div>
+                        <div class="container box-center" style="display: none;" id="archivoCargadoUbicacion">
                             <div class="svg-container box-center" id="imagenSubido">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload scaling-svg" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -240,10 +318,10 @@
                                 </svg>
                             </div>
                             <div style="text-align: center;">
-                                <p id="mostrarNombreArchivo">Se cargó correctamente el archivo: </p>
+                                <p id="mostrarNombreArchivoUbicacion">Se cargó correctamente el archivo: </p>
                             </div>
                         </div>
-                        <div class="box" method="post" enctype="multipart/form-data" id="targetLayer">
+                        <div class="container box-center" style="display: none;" id="modalInicioUbicacion">
                             <div class="svg-container box-center" id="imagen-drop">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download scaling-svg" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -256,8 +334,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile('../php/cargarUbicaciones.php',2)">Cargar archivo</button>
+                        <button type="button" id="btn-cancelarUbicacion" class="btn btn-secondary" data-bs-dismiss="modal" onClick="iniciarCargaArchivo(2)">Cerrar</button>
+                        <button type="button" id="btn-archivoUbicacion" class="btn btn-primary" disabled onclick="sendFile('../php/cargarUbicaciones.php',2)">Cargar archivo</button>
                     </div>
                 </div>
             </div>
@@ -272,29 +350,13 @@
 
     <!-- For better performance this script should go at the very bottom of the body -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="../js/productos.js"></script>
     <script src="../js/initFile.js"></script>
     <script>
-    
-    function filtrar() {
-      // Declare variables
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("busqueda");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("producto");
-      tr = table.getElementsByTagName("tr");
-
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
-        }
-      }
-    }
+        
         document.addEventListener("drag", function(event){
             event.preventDefault();
         }, false);
@@ -320,68 +382,16 @@
                 dropHandler(event);
             }
         });
-        function removeDragData(event){
-            if(event.dataTransfer.items){
-                event.dataTransfer.items.clear();
-            }
-            else{
-                event.dataTransfer.clearData();
-            }
-        }
-        var archivo;
-        function sendFile(ubicacion,tipo){
-            document.getElementById("btn-archivo").disabled = true;
-            const uri = ubicacion;
-            const xhr  = new XMLHttpRequest();
-            const fd = new FormData();
-            xhr.open("POST", uri, true);
-            xhr.onreadystatechange = function(){
-                if(xhr.readyState == 4 && xhr.status == 200){
-                    console.log(xhr.responseText);
-                    if(xhr.responseText == "ERROR_CSV"){
-                        alert("Se debe subir un archivo CSV");
-                    }
-                    else if(xhr.responseText == "ERROR_TIPO"){
-                        if(tipo == 1)
-                            alert("Verifica que el archivo sea del inventario");
-                        else
-                            alert("Verifica que el archivo sea de las ubicaciones");
-                    }
-                    alert(xhr.responseText);
-                    location.reload();
-                }
-            };
-            fd.append('file_name', archivo);
-            fd.append('tipo',tipo);
-            xhr.send(fd);
-        }
 
-        function dropHandler(event){
-            event.preventDefault();
-            var nombreDeArchivos = [];
-            if(event.dataTransfer.items){
-                for(var i = 0; i < event.dataTransfer.items.length; i++){
-                    if(event.dataTransfer.items[i].kind == 'file'){
-                        var file = event.dataTransfer.items[i].getAsFile();
-                        archivo = event.dataTransfer.items[i].getAsFile();
-                        nombreDeArchivos.push(file.name);
-                    }
-                }
-                for(var i = 0; i < nombreDeArchivos.length; i++){
-                    document.getElementById("mostrarNombreArchivo").textContent += nombreDeArchivos[i] + " ";
-                }
-                document.getElementById("targetLayer").innerHTML = document.getElementById("archivoCargado").innerHTML;
-                removeDragData(event);
-            }
-        }
-    window.onload = init(
-        ["sku", "descripcion", "ubicacion", "stock", "medida","id_linea","generico"], 
-        "sku,descripcion,ubicacion,stock,unidad_medida,id_linea,generico",
-        "Producto",
-        "producto",
-        "sku,stock,unidad_medida,ubicacion",
-        ["sku",0]
-    );
+        window.onload = init(
+            ["sku", "descripcion", "ubicacion", "stock", "medida","id_linea","generico"], 
+            "sku,descripcion,ubicacion,stock,unidad_medida,id_linea,generico",
+            "Producto",
+            "producto",
+            "sku,stock,unidad_medida,ubicacion",
+            ["sku",0]
+        );
+
     </script>
 </body>
 

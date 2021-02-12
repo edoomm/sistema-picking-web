@@ -58,21 +58,21 @@
       <div class="col-sm-6">
         <div class="card">
           <div class="card-header">
-            <div class = "row">
-              <div class = "col"> Lista de operadores </div>
+            <div class="row">
+              <div class="col"> Lista de operadores </div>
 
-              <div class = "col d-flex flex-row-reverse">
+              <div class="col d-flex flex-row-reverse">
                 <div class="dropdown">
                   <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" name="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     <em id="filtroTag" name="filtroTag"> Activo </em>
-                    </button>
+                  </button>
 
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li><a class="dropdown-item" onclick="Filtro('activo=1')"> Activo </a></li>
-                      <li><a class="dropdown-item" onclick="Filtro('activo=0')"> Inactivo </a></li>
-                    </ul>
-                  </div>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" onclick="Filtro('activo=1')"> Activo </a></li>
+                    <li><a class="dropdown-item" onclick="Filtro('activo=0')"> Inactivo </a></li>
+                  </ul>
                 </div>
+              </div>
             </div>
 
           </div>
@@ -159,11 +159,33 @@
           <div class="modal-footer">
 
             <div class="col">
-              <button type="button" class="btn btn-secondary float-left" data-bs-dismiss="modal" onClick="liderButton()"> Registrar líder de almacén </button>
+              <button type="button" class="btn btn-secondary float-left" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#liderOpcion"> Líder de almacén </button>
             </div>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Registrar','#operadoresMsg')">Cerrar</button>
             <button type="button" name="submit2" id="submit2" class="btn btn-primary" onClick="return formValidate('#Registrar','#operadoresMsg',$('#inputNumeroEmpleado').val());">Guardar</button>
 
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" name="liderOpcion" id="liderOpcion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"> Líder de almacén </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+          </div>
+          <div class="modal-body">
+            <div class="row justify-content-md-center">
+              <button type="button" class="btn btn-primary col col-lg-4" onclick="liderButton('eliminar')"> Eliminar </button>
+              <div class="col-sm-2"> </div>
+              <button type="button" class="btn btn-primary col col-lg-4" onclick="liderButton('registrar')"> Registrar </button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>
@@ -175,22 +197,21 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel"> Registrar líder de almacén </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="resetForm('#numeroLiderForm','#lider1Msg')" > </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="resetForm('#numeroLiderForm','#lider1Msg')"> </button>
           </div>
           <div class="modal-body">
-              <div class="text-secondary"> El número de empleado debe ser parte de los operadores</div>
-              <em id="lider1Msg"> </em>
+            <em id="lider1Msg"> </em>
             <form class="row g-3" name="numeroLiderForm" id="numeroLiderForm" method="POST" onSubmit="return false;">
               <div class="col-md-12">
                 <label for="numeroLider" class="form-label"> Número de empleado del nuevo líder de almacén <span class="text-danger">*</span> </label>
-                <input type="text" class="form-control" id="numeroLider" name="numeroLider" placeholder="Número de empleado" data-required>
+                <input type="text" class="form-control" id="numeroLider" name="numeroLider" placeholder="Número de empleado" data-required  data-toggle="tooltip" data-placement="top" title="El número de empleado debe ser parte de los operadores" >
               </div>
             </form>
 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#numeroLiderForm','#lider1Msg')">Cerrar</button>
-            <button type="button" name="submit6" class="btn btn-primary" onClick="return Validate_ModifyLider('#numeroLiderForm','#lider1Msg',$('#numeroLider').val(),'L');"> Buscar </button>
+            <button type="button" name="submit6" class="btn btn-primary" onClick="return Validate_ModifyLider('#numeroLiderForm','#lider1Msg',$('#numeroLider').val());"> Buscar </button>
           </div>
         </div>
       </div>
@@ -207,7 +228,7 @@
           <div class="modal-body">
             <em id="lider2Msg"></em>
 
-            <form class="row g-4" name="lider2Form" id="lider2Form" method="POST" onSubmit="return false;" oninput='lider2Password2.setCustomValidity(lider2Password2.value != lider2Password.value ? "Passwords do not match." : "")'>
+            <form class="row g-4" name="lider2Form" id="lider2Form" method="POST" onSubmit="return false;" oninput='lider2Password2.setCustomValidity(lider2Password2.value != lider2Password.value ? "La contraseña no es la misma." : "")'>
               <div class="col-lg-6">
 
                 <label for="lider2Usuario" class="form-label">Usuario</label>
@@ -231,6 +252,58 @@
       </div>
     </div>
 
+
+    <div class="modal fade" name="lider3" id="lider3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"> Eliminar líder de almacén </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="resetForm('#numeroLiderForm','#lider1Msg')"> </button>
+          </div>
+          <div class="modal-body">
+            <em id="lider3Msg"> </em>
+
+            <form class="row g-3" name="numeroLiderForm2" id="numeroLiderForm2" method="POST" onSubmit="return false;">
+              <div class="col-md-12">
+                <label for="numeroLider2" class="form-label"> Número de empleado del líder de almacén <span class="text-danger">*</span> </label>
+                <input type="text" class="form-control" id="numeroLider2" name="numeroLider2" placeholder="Número de empleado" data-required  data-toggle="tooltip" data-placement="top" title="El empleado unicamente dejara de ser líder de almacén!" >
+              </div>
+            </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#numeroLiderForm2','#lider3Msg')">Cerrar</button>
+            <button type="button" class="btn btn-primary" onClick="return Validate_Lider2('#numeroLiderForm2','#lider3Msg',$('#numeroLider2').val());"> Buscar </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="modal fade" id="lider4" name="lider4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Eliminar operador</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+
+            <div class="modal-body">
+              <div class="col-md-12">
+                <h3>
+                Eliminar al líder de almacén con número de empleado
+                <em id="lider4Msg" name="lider4Msg"></em> ?
+              </h3>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar </button>
+              <button type="button" class="btn btn-primary" onClick="return DeleteLider($('#numeroLider2').val());"> Aceptar </button>
+            </div>
+          </div>
+        </div>
+    </div>
 
 
     <div class="modal fade" id="exito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -269,7 +342,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="resetForm('#Cambiar','#CambiarMsg')">Cerrar</button>
-            <button type="button" name="submit4" id="submit4" class="btn btn-primary" onClick="return Validate_Modify('#Cambiar','#CambiarMsg',$('#inputCambiar').val(),'O');"> Buscar </button>
+            <button type="button" name="submit4" id="submit4" class="btn btn-primary" onClick="return Validate_Modify('#Cambiar','#CambiarMsg',$('#inputCambiar').val());"> Buscar </button>
           </div>
         </div>
       </div>
@@ -289,7 +362,8 @@
               <div class="col-12">
                 <label for="modificarNombre" class="form-label">Nombre <span class="text-danger">*</span> </label>
                 <input type="text" class="form-control" id="modificarNombre" name="modificarNombre" placeholder="Nombre completo del empleado" data-required>
-                <p> <p>
+                <p>
+                <p>
 
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                   <input type="radio" class="btn-check" name="btnradio" id="modificarActivo1" autocomplete="off" checked>
@@ -336,7 +410,6 @@
     </div>
 
     <div class="modal fade" id="eliminar2" name="eliminar1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <form name="ChangeSubject" id="ChangeSubject" method="post">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -356,7 +429,6 @@
             </div>
           </div>
         </div>
-      </form>
     </div>
 
     <div class="container bg-light border border-primary margin-custom-graphic">
@@ -393,34 +465,33 @@
   <script src="../js/initFile.js"></script>
 
   <script>
+    async function Filtro(cond) {
+      $('#numero_empleado').val('');
+      $('#nombre_operador').val('');
 
-  async function Filtro(cond){
-    $('#numero_empleado').val('');
-    $('#nombre_operador').val('');
+      var action;
+      if (cond == "activo=1") action = "Activo";
+      else action = "Inactivo";
 
-    var action;
-    if (cond == "activo=1") action = "Activo";
-    else action = "Inactivo";
-
-    $('#filtroTag').html(action);
+      $('#filtroTag').html(action);
 
       await $.post("../php/mostrarElementosBD.php", {
-              variable: "Operador",
-              columnas : "num_empleado,nombre",
-              condicion : cond,
-          },
-          function(data){
-            document.getElementById("operador").innerHTML = data;
-              rowHandlers(
-                ["numero_empleado", "nombre_operador"],
-                "num_empleado,nombre",
-                "operador",
-                ["num_empleado", 0],
-                "Operador"
-               );
-          }
+          variable: "Operador",
+          columnas: "num_empleado,nombre",
+          condicion: cond,
+        },
+        function(data) {
+          document.getElementById("operador").innerHTML = data;
+          rowHandlers(
+            ["numero_empleado", "nombre_operador"],
+            "num_empleado,nombre",
+            "operador",
+            ["num_empleado", 0],
+            "Operador"
+          );
+        }
       );
-  }
+    }
 
     window.onload = init(
       ["numero_empleado", "nombre_operador"],

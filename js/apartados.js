@@ -48,7 +48,7 @@ function sendFile(){
         }
     };
     fd.append('file_name', archivo);
-    fd.append('num_cols',3);
+    fd.append('tipo',3);
     xhr.send(fd);
 }
 function dropHandler(event){
