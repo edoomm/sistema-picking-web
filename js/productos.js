@@ -41,12 +41,156 @@ function filtrar() {
   }
 }
 
+function generarUbicaciones()
+{
+  console.log(skuVal);
+  var numCasillas = document.getElementById("numeroUbicaciones").value;
+  if(numCasillas > 0 && !isNaN(numCasillas))
+  {
+    console.log(numCasillas);
+    var casillas = "";
+    for (i = 1; i <= numCasillas; i++) {
+      casillas += '<div class="form-label-group"> <label for="ubicacion' + i + '">Ubicacion ' + i + '</label> <input type="text" id="ubicacion' + i + '" class="form-control" placeholder="A.01.01.0' + i + '" required autofocus></div> <div id="ubicacionError'+ i +'" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>';
+    }
+    console.log(casillas);
+    document.getElementById("ubicaciones").innerHTML = casillas;
+  }
+  else
+  {
+    swal({
+      icon: "error",
+      title: "El numero de casillas debe ser mayor a 0"
+    });
+  }
+}
+
+function validarUbicacion(ubicacionInput,ubicacionID,ubicacionErrorID)
+{
+  ubicacionID = document.getElementById(ubicacionID);
+  let patron = /[A-Z]\.[0-9][0-9]\.0[1-4]\.0[2-8]$/;
+  if(patron.test(ubicacionInput))
+  {
+    ubicacionID.classList.add('is-valid');
+    return true;
+  }
+  else
+  {
+    ubicacionID.classList.add('is-invalid'); 
+    document.getElementById(ubicacionErrorID).getElementsByTagName('p')[0].innerHTML = "Verifica el formato de la ubicación";
+    return false;
+  }
+}
+
+function llenarFormularioUbicacion()
+{
+  skuVal = document.getElementById("sku").value;
+  document.getElementById("skuUbicacion").value = skuVal;
+}
+
+function limpiarFormularioUbicacion()
+{
+  document.getElementById("ubicaciones").innerHTML = "";
+}
+
+function ingresarUbicacion()
+{
+  var numeroUbicaciones = parseInt(document.getElementById("numeroUbicaciones").value);
+  var ubicaciones = [];
+  var bandera = true;
+  var repetido = false;
+  var repetidotemp = false; 
+  if(numeroUbicaciones > 0 && !isNaN(numeroUbicaciones))
+  {
+    for(var i = 1;i<=numeroUbicaciones;i++)
+    {
+      var ubicacionID = "ubicacion" + i.toString();
+      var ubicacionErrorID = "ubicacionError" + i.toString();
+      var ubicacion = document.getElementById(ubicacionID).value;
+      if(!validarUbicacion(ubicacion,ubicacionID,ubicacionErrorID))
+      {
+        bandera = false;
+        continue;
+      }
+      for(var y=i-1;y>=1;y--)
+      {
+        if(ubicacion === ubicaciones[y-1])
+        {
+          repetido = true;
+          repetidotemp = true;
+        }
+      }
+      if(!repetidotemp)
+        ubicaciones.push(ubicacion);
+      repetidotemp = false;
+    }
+    if(bandera)
+    {
+      if(!repetido)
+      {
+        const uri = '../php/productos/productosUbicacion.php';
+        const xhr  = new XMLHttpRequest();
+        const fd = new FormData();
+        xhr.open("POST", uri, true);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+              console.log(xhr.responseText);
+              if(xhr.responseText === "La operación se realizo con éxito")
+              {
+                swal({
+                  icon: "success",
+                  title: "Se realizo con éxito la operación"
+                });
+                location.reload();
+              }
+              else
+              {
+                swal({
+                  icon: "error",
+                  title: "Hubo un error al realizar la operación",
+                  text: xhr.responseText,
+                });
+                location.reload();
+              }
+            }
+        };
+        fd.append('numeroUbicaciones',numeroUbicaciones);
+        fd.append("sku",skuVal)
+        for(var i=0;i<ubicaciones.length;i++)
+        {
+          var ubicacionID = "ubicacion" + i.toString();
+          fd.append(ubicacionID,ubicaciones[i]);
+        }
+        xhr.send(fd);
+      }
+      else
+      {
+        swal({
+          icon: "error",
+          title: "Verificalo los datos ingresados, hay datos repetidos"
+        });
+      }
+    }
+    else
+    {
+      swal({
+        icon: "error",
+        title: "Hay errores en los datos ingresados, verificalos"
+      });
+    }
+  }
+  else
+  {
+    swal({
+      icon: "error",
+      title: "El numero de casillas debe ser mayor a 0"
+    });
+  }
+}
+
 function limpiarErrores()
 {
   sku.classList.remove('is-valid');
   sku.classList.remove('is-invalid');
-  ubicacion.classList.remove('is-valid');
-  ubicacion.classList.remove('is-invalid');
   descripcion.classList.remove('is-valid');
   descripcion.classList.remove('is-invalid');
   stock.classList.remove('is-valid');
@@ -104,12 +248,6 @@ function validarCamposLlenos(tipo)
       document.getElementById('invalid_sku').getElementsByTagName('p')[0].innerHTML = "Ingresa el SKU";
       flag = false;
     }
-    if(ubicacionVal === "")
-    {
-      ubicacion.classList.add('is-invalid');
-      document.getElementById('invalid_ubicacion').getElementsByTagName('p')[0].innerHTML = "Ingresa la ubicación";
-      flag = false;
-    }
     if(stockVal === "")
     {
       stock.classList.add('is-invalid');
@@ -147,12 +285,6 @@ function validarCamposLlenos(tipo)
     {
       skuMod.classList.add('is-invalid');
       document.getElementById('invalid_skuMod').getElementsByTagName('p')[0].innerHTML = "Ingresa el SKU";
-      flag = false;
-    }
-    if(ubicacionVal === "")
-    {
-      ubicacionMod.classList.add('is-invalid');
-      document.getElementById('invalid_ubicacionMod').getElementsByTagName('p')[0].innerHTML = "Ingresa la ubicación";
       flag = false;
     }
     if(descripcionVal === "")
@@ -210,27 +342,6 @@ function validarSKU(idInput,idError)
   {
     idInput.classList.add('is-invalid');
     document.getElementById(idError).getElementsByTagName('p')[0].innerHTML = "El SKU debe ser un número entero";
-    return false;
-  }
-}
-
-function validarUbicacion(idInput,idError)
-{
-  let patron = /[A-Z]\.[0-9][0-9]\.0[1-4]\.0[2-8]$/;
-  if(ubicacionVal === "SIN ASIGNAR")
-  {
-    idInput.classList.add('is-valid');
-    return true;
-  }
-  if(patron.test(ubicacionVal))
-  {
-    idInput.classList.add('is-valid');
-    return true;
-  }
-  else
-  {
-    idInput.classList.add('is-invalid');
-    document.getElementById(idError).getElementsByTagName('p')[0].innerHTML = "Verifica el formato de la ubicación";
     return false;
   }
 }
@@ -330,6 +441,7 @@ function validarGenerico(idInput,idError)
   }
 }
 
+
 function insertarProducto()
 {
   const uri = '../php/productos/productosIngresar.php';
@@ -349,7 +461,6 @@ function insertarProducto()
   fd.append('descripcion',descripcionVal);
   fd.append('stock',stockVal);
   fd.append('medida',medidaVal);
-  fd.append('ubicacion',ubicacionVal);
   xhr.send(fd);
 }
 
@@ -372,7 +483,6 @@ function modificarProducto()
   fd.append('descripcion',descripcionVal);
   fd.append('stock',stockVal);
   fd.append('medida',medidaVal);
-  fd.append('ubicacion',ubicacionVal);
   xhr.send(fd);
 }
 
@@ -392,49 +502,33 @@ function validarFormulario(tipo)
     if(!validarCamposLlenos(tipo))
     {
       valido = false;
-      console.log(valido);
     }
     if(!validarSKU(sku,"invalid_sku"))
     {
-      valido = false;
-      console.log(valido);
-    }
-    if(!validarUbicacion(ubicacion,"invalid_ubicacion"))
-    {
-      console.log(valido);
       valido = false;
     }
     if(!validarDescripcion(descripcion,"invalid_descripcion"))
     {
       valido = false;
-      console.log(valido);
-
     }
     if(!validarStock(stock,"invalid_stock"))
     {
       valido = false;
-      console.log(valido);
-
     }
     if(!validarUnidadMedida(medida,"invalid_medida"))
     {
       valido = false;
-      console.log(valido);
-
     }
     if(!validarIDLinea(id_linea,"invalid_linea"))
     {
       valido = false;
-      console.log(valido);
     }
     if(!validarGenerico(generico,"invalid_generico"))
     {
       valido = false;
-      console.log(valido);
     }
     if(valido)
     {
-      console.log("Formulario correcto");
       insertarProducto();
     }
   }
@@ -452,10 +546,6 @@ function validarFormulario(tipo)
       return false;
     }
     if(!validarSKU(skuMod,"invalid_skuMod"))
-    {
-      valido = false;
-    }
-    if(!validarUbicacion(ubicacionMod,"invalid_ubicacionMod"))
     {
       valido = false;
     }
@@ -481,7 +571,6 @@ function validarFormulario(tipo)
     }
     if(valido)
     {
-      console.log("Formulario correcto");
       modificarProducto();
     }
   }
