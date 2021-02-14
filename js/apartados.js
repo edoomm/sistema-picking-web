@@ -37,7 +37,7 @@ function sendFile(){
     xhr.open("POST", uri, true);
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4 && xhr.status == 200){
-                console.log(xhr.responseText);
+                //console.log(xhr.responseText);
                 if(xhr.responseText == "ERROR_CSV"){
                     alert("Se debe subir un archivo CSV");
                 }
@@ -166,6 +166,32 @@ async function mostrarSinAsignar(){
                 );
             }
         }
+    );
+}
+function download(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+
+    if (document.createEvent) {
+        var event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+    }
+    else {
+        pom.click();
+    }
+}
+function generarReporte(){
+    $.post("../php/apartados/generarReporte.php",{},
+      function(data){
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+            var yyyy = today.getFullYear();
+            today = mm + '-' + dd + '-' + yyyy;
+            download('reporte' + today + '.csv', data);
+      }  
     );
 }
 function initModal(){

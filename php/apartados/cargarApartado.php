@@ -42,8 +42,7 @@ if(isset($_FILES['file_name'])){
             $sku = $fila[1];
             $numero_control = $fila[2];
             $apartado = $fila[3];
-            $sql_query = "INSERT INTO Control (id_sucursal, apartado, sku, numero_control) VALUES ('".$id_sucursal."','".$apartado."','".$sku."','".$numero_control."')"; 
-            echo $sql_query . "\n";
+            $sql_query = "INSERT INTO Control (id_sucursal, apartado, sku, numero_control, fecha) VALUES ('".$id_sucursal."','".$apartado."','".$sku."','".$numero_control."', CURDATE())"; 
             if(mysqli_query($conn, $sql_query) === FALSE){
                 echo "ERROR_QUERY";
             }
