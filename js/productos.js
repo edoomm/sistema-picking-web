@@ -89,6 +89,7 @@ function llenarFormularioUbicacion()
 
 function limpiarFormularioUbicacion()
 {
+  document.getElementById("ubicacionForm").reset();
   document.getElementById("ubicaciones").innerHTML = "";
 }
 
@@ -441,6 +442,30 @@ function validarGenerico(idInput,idError)
   }
 }
 
+function mensaje(tipo,icono,titulo,texto)
+{
+  if(tipo == 1)
+  {
+    swal({
+      icon: icono,
+      title: titulo,
+    }).then(function()
+    {
+      window.location.reload();
+    });
+  }
+  else
+  {
+    swal({
+      icon: icono,
+      title: titulo,
+      text: texto
+    }).then(function()
+    {
+      window.location.reload();
+    });
+  }
+}
 
 function insertarProducto()
 {
@@ -450,9 +475,14 @@ function insertarProducto()
   xhr.open("POST", uri, true);
   xhr.onreadystatechange = function(){
       if(xhr.readyState == 4 && xhr.status == 200){
-          console.log(xhr.responseText);
-          alert("Se registro correctamente el producto");
-          location.reload();
+          if(xhr.responseText == "EXITO")
+          {
+            mensaje(1,"success","Se realizó la operación con éxito","");
+          }
+          else
+          {
+            mensaje(2,"error","Hubo un error al realizar la operación",xhr.responseText);
+          }
       }
   };
   fd.append('sku',skuVal);
@@ -472,9 +502,14 @@ function modificarProducto()
   xhr.open("POST", uri, true);
   xhr.onreadystatechange = function(){
       if(xhr.readyState == 4 && xhr.status == 200){
-          console.log(xhr.responseText);
-          alert("Se modifico correctamente el producto");
-          location.reload();
+        if(xhr.responseText == "EXITO")
+        {
+          mensaje(1,"success","Se realizó la operación con éxito","");
+        }
+        else
+        {
+          mensaje(2,"error","Hubo un error al realizar la operación",xhr.responseText);
+        }
       }
   };
   fd.append('sku',skuVal);
@@ -493,7 +528,6 @@ function validarFormulario(tipo)
   if(tipo == 1)
   {
     skuVal = sku.value;
-    ubicacionVal = ubicacion.value;
     descripcionVal = descripcion.value;
     stockVal = stock.value;
     medidaVal = medida.value;
@@ -535,7 +569,6 @@ function validarFormulario(tipo)
   else if(tipo == 2)
   {
     skuVal = skuMod.value;
-    ubicacionVal = ubicacionMod.value;
     descripcionVal = descripcionMod.value;
     stockVal = stockMod.value;
     medidaVal = medidaMod.value;
@@ -610,17 +643,28 @@ function sendFile(ubicacion,tipo){
   xhr.onreadystatechange = function(){
       if(xhr.readyState == 4 && xhr.status == 200){
           console.log(xhr.responseText);
-          if(xhr.responseText == "ERROR_CSV"){
-              alert("Se debe subir un archivo CSV");
+          if(xhr.responseText == "ERROR_CSV")
+          {
+            mensaje(1,"error","Se debe subir un archivo CSV","");
           }
           else if(xhr.responseText == "ERROR_TIPO"){
               if(tipo == 1)
-                  alert("Verifica que el archivo sea del inventario");
+                mensaje(1,"error","Verifica que el archivo sea del inventario","");
               else
-                  alert("Verifica que el archivo sea de las ubicaciones");
+                mensaje(1,"error","Verifica que el archivo sea de la ubicación","");
           }
-          alert("Se subio correctamete el archivo");
-          location.reload();
+          else if(xhr.responseText == "ERROR_ABRIR")
+          {
+            mensaje(1,"error","Hubo un error al tratar de abrir el archivo copiado","");
+          }
+          else if(xhr.responseText == "ERROR_BORRAR")
+          {
+            mensaje(1,"error","Hubo un error al tratar de eliminar el archivo","");
+          }
+          else if(xhr.responseText == "ERROR_COPIA")
+          {
+            mensaje(1,"error","Error al copiar el archivo subido","");
+          }
       }
   };
   fd.append('file_name', archivo);

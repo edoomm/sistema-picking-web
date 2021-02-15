@@ -58,4 +58,5 @@
         if($bandera)
             echo "La operación se realizo con éxito";
     }
+    mysqli_close($conn);
 ?>
