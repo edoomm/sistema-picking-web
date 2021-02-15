@@ -8,9 +8,17 @@
     $unidad_medida = $_POST['medida']; 
     $ubicacion = "SIN ASIGNAR";
     $flag = FALSE;
-    $link = open_database();
+    $conn = open_database();
     $sql_query = "INSERT INTO Producto (sku, id_linea, generico, unidad_medida, descripcion,stock,ubicacion) VALUES('".$sku."','".$id_linea."','".$generico."','".$unidad_medida."','".$descripcion."','".$stock."','".$ubicacion."')";
-    $result = $link->query($sql_query);
-    $link->close();
+    $resultado = mysqli_query($conn,$sql_query);
+    if($resultado)
+    {
+        echo "EXITO";
+    }
+    else
+    {
+        echo "Error ".mysqli_errno($conn)." : ".mysqli_error($conn)."\n";
+    }
+    mysqli_close($conn);
 
 ?>

@@ -26,6 +26,76 @@ function removeDragData(event){
         event.dataTransfer.clearData();
     }
 }
+
+function limpiarFormularioContenedores()
+{
+    document.getElementById("contenedorForm").reset();
+}
+
+function mensaje(tipo,icono,titulo,texto)
+{
+  if(tipo == 1)
+  {
+    swal({
+      icon: icono,
+      title: titulo,
+    }).then(function()
+    {
+      window.location.reload();
+    });
+  }
+  else
+  {
+    swal({
+      icon: icono,
+      title: titulo,
+      text: texto
+    }).then(function()
+    {
+      window.location.reload();
+    });
+  }
+}
+
+function generarContenedores()
+{
+    var numeroContenedores = document.getElementById("numeroContenedores").value;
+    if(!isNaN(numeroContenedores) && numeroContenedores > 0)
+    {
+        numeroContenedores = parseInt(numeroContenedores);
+        const uri = '../php/apartados/generarContenedores.php';
+        const xhr  = new XMLHttpRequest();
+        const fd = new FormData();
+        xhr.open("POST", uri, true);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                if(!isNaN(xhr.responseText))
+                {
+                    swal({
+                        icon: "success",
+                        title: "Se realizo la operación con exito",
+                        text: "Crea los contenedores desde el "+xhr.responseText,
+                      }).then(function()
+                      {
+                        window.open("https://barcode.tec-it.com/en/Code128?");
+                        window.location.reload();
+                      });
+                }
+                else
+                {
+                    mensaje(2,"error","Hubo un error al realizar la operación",xhr.responseText);
+                }
+            }
+        };
+        fd.append('num',numeroContenedores);
+        xhr.send(fd);
+    }
+    else
+    {
+        mensaje(1,"error","El número de contenedores debe ser un número mayor a 0","");
+    }
+}
+
 var archivo;
 function sendFile(){
     document.getElementById("targetLayer").innerHTML = document.getElementById("cargando").innerHTML;
