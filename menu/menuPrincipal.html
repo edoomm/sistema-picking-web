@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Menú principal</title>
+    <title>Menu principal</title>
     <meta name='viewport'
         content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' />
 
@@ -43,10 +43,10 @@
 
         <nav class="navbar  navbar-expand-lg navbar-custom fixed-top">
             <div class="collapse navbar-collapse container-fluid">
-                <img src="./resources/grand_vision.jpg" alt="" width="100" class="d-inline-block align-top">
-                <h1 style="color:beige"> Menú principal</h1>
+                <img src="./resources/grand_vision.png" alt="" width="100" class="d-inline-block align-top">
+                <h1 style="color:beige"> Menu principal</h1>
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link nav-brand" href="../" style="color:beige">Cerrar sesión</a>
+                    <li class="nav-item"><a class="nav-link nav-brand" href="../index.html" style="color:beige">Cerrar sesión</a>
                     </li>
                 </ul>
             </div>
@@ -58,22 +58,22 @@
             <div class="col" style="margin-top: 10%;">
                 <div class="row">
                     <div class="col" style="margin-left: 2%; margin-right:2%; background-color: #e9f0fb">
-                        <img src="https://www.clker.com/cliparts/n/l/p/q/K/L/blue-user-icon-md.png"
+                        <img src="./resources/operador.png"
                             style="height: 70px;  margin-left: 10%" />
-                        <a class="btn btn-primary rounded" id="Button-custom" href="./operadores.html" role="button">
+                        <a class="btn btn-primary rounded" id="Button-custom" href="./operadores.html" role="button" style="margin-inline-start: 10%;">
                             Operadores </a>
 
-                        <img src="https://www.ibtevolve.com/wp-content/uploads/2018/03/product-icon.png"
+                        <img src="./resources/productos.png"
                             style="height: 70px;  margin-left: 10%" />
                         <a class="btn btn-primary rounded" id="Button-custom" href="./productos.html" role="button">
                             Productos </a>
 
-                        <img src="https://cdn1.iconfinder.com/data/icons/color-bold-style/21/54-512.png"
+                        <img src="./resources/dispositivos.png"
                             style="height: 70px;  margin-left: 10%" />
                         <a class="btn btn-primary rounded" id="Button-custom" href="./dispositivos.php" role="button">
                             Dispositivos </a>
 
-                        <img src="https://cdn2.iconfinder.com/data/icons/thin-line-color-1/21/11-512.png"
+                        <img src="./resources/remesas.png"
                             style="height: 70px;  margin-left: 10%" />
                         <a class="btn btn-primary rounded" id="Button-custom" href="./apartados.html" role="button">
                             Apartados </a>
@@ -83,20 +83,17 @@
                         <div class="row">
                             <div class="col text-center">
                                 <h3 class="text-secondary"> Apartados pendientes</h3> <br>
-                                <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg"
-                                    style="height: 70px;" />
+                                <h1 id="pendientes">#</h1>
                             </div>
 
                             <div class="col text-center">
                                 <h3 class="text-secondary"> Apartados en progreso </h3> <br>
-                                <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg"
-                                    style="height: 70px;" />
+                                <h1 id="enprogres">#</h1>
                             </div>
 
                             <div class="col text-center">
                                 <h3 class="text-secondary"> Apartados terminados </h3> <br>
-                                <img src="https://composeclick.com/wp-content/uploads/2019/01/Untitled-design.jpg"
-                                    style="height: 70px;" />
+                                <h1 id="terminados">#</h1>
                             </div>
 
                         </div>
@@ -122,6 +119,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="../js/menu.js"></script>
 </body>
 
 </html>

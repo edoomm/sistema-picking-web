@@ -55,10 +55,8 @@ function get_Interval(intervalo) {
     condicionI = year + "-" + month + "-" + first + " " + horaI;
     condicionF = year + "-" + month + "-" + last + " " + horaF;
   } else if (intervalo == "Mes") {
-
     condicionI = year + "-" + month + "-01 " + horaI;
     condicionF = year + "-" + month + "-31 " + horaF;
-
   } else {
     condicionI = year + "-01-01 " + horaI;
     condicionF = year + "-12-31 " + horaF;
