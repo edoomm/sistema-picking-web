@@ -107,7 +107,7 @@ function sendFile(){
     xhr.open("POST", uri, true);
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4 && xhr.status == 200){
-                //console.log(xhr.responseText);
+                console.log(xhr.responseText);
                 if(xhr.responseText == "ERROR_CSV"){
                     alert("Se debe subir un archivo CSV");
                 }
@@ -259,6 +259,7 @@ function generarReporte(){
             var yyyy = today.getFullYear();
             today = mm + '-' + dd + '-' + yyyy;
             download('reporte' + today + '.csv', data);
+            //console.log(data);
       }  
     );
 }

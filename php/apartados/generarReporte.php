@@ -8,8 +8,9 @@ $conn = open_database();
 $transacciones = array();
 $act = 0;
 if(($result=mysqli_query($conn,$sql_query))!==FALSE){
-    while($fila = mysqli_fetch_row($result)){
-        $transacciones[$fila[0]] += $fila[1];
+    while($fila = mysqli_fetch_array($result)){
+        //echo $fila["control_id"] . " " . $fila["cantidad"] . "\n";
+        $transacciones[$fila["control_id"]] += abs(intval($fila["cantidad"]));
     }
 }
 $esq_query = "SELECT id_sucursal, sku, numero_control, apartado FROM Control WHERE control_id=";

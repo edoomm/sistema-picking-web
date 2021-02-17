@@ -25,7 +25,7 @@ if(isset($_FILES['file_name'])){
         }
         foreach($necesitado as $clave => $valor){
             $sql_query = "SELECT stock FROM Producto WHERE sku=" . $clave;
-            echo $sql_query . "\n";
+            //echo $sql_query . "\n";
             if(($res = mysqli_query($conn,$sql_query)) !== FALSE){
                 $fila = mysqli_fetch_row($res);
                 $stock = $fila[0];
@@ -43,6 +43,7 @@ if(isset($_FILES['file_name'])){
             $numero_control = $fila[2];
             $apartado = $fila[3];
             $sql_query = "INSERT INTO Control (id_sucursal, apartado, sku, numero_control, fecha) VALUES ('".$id_sucursal."','".$apartado."','".$sku."','".$numero_control."', CURDATE())"; 
+            echo $sql_query . "\n";
             if(mysqli_query($conn, $sql_query) === FALSE){
                 echo "ERROR_QUERY";
             }
