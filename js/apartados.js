@@ -258,6 +258,7 @@ function generarReporte(){
             var yyyy = today.getFullYear();
             today = mm + '-' + dd + '-' + yyyy;
             download('reporte' + today + '.csv', data);
+            //console.log(data);
       }  
     );
 }
