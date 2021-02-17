@@ -12,7 +12,7 @@ if(($result=mysqli_query($conn,$sql_query))!==FALSE){
         $transacciones[$fila[0]] += $fila[1];
     }
 }
-$esq_query = "SELECT id_sucursal, apartado, sku, numero_control FROM Control WHERE control_id=";
+$esq_query = "SELECT id_sucursal, sku, numero_control, apartado FROM Control WHERE control_id=";
 $fp = fopen("php://output", 'wb');
 fputcsv($fp,$cols_archivo[0], ',');
 foreach($transacciones as $control_id => $valor){
