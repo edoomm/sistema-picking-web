@@ -40,24 +40,29 @@ function get_Interval(intervalo) {
     var first = dateObj.getDate() - dateObj.getDay();
     var last = first + 6;
 
-    first = (first < 10) ? "0"+first : first;
-    last = (last < 10) ? "0"+last : last;
+    first = (first < 10) ? "0" + first : first;
+    last = (last < 10) ? "0" + last : last;
 
     condicionI = year + "-" + month + "-" + first + " " + horaI;
     condicionF = year + "-" + month + "-" + last + " " + horaF;
 
   } else if (intervalo == "Mes") {
+    var today = new Date();
+    var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    lastDayOfMonth = (lastDayOfMonth < 10) ? "0" + lastDayOfMonth : lastDayOfMonth;
+
     condicionI = year + "-" + month + "-01 " + horaI;
-    condicionF = year + "-" + month + "-31 " + horaF;
-    
+    condicionF = year + "-" + month + "-" + lastDayOfMonth + " " + horaF;
+
   } else {
     condicionI = year + "-01-01 " + horaI;
     condicionF = year + "-12-31 " + horaF;
   }
 
-    console.log(condicionI);
-    console.log(condicionF);
-    console.log("  ");
+  console.log(condicionI);
+  console.log(condicionF);
+  console.log("  ");
 
   return {
     condicionI,
@@ -515,8 +520,7 @@ function Validate_NumeroEmpleado(actual) {
         valueReturn = (value == 0) ? true : false;
       }
     });
-  }
-  else valueReturn = true;
+  } else valueReturn = true;
 
   return valueReturn;
 }
