@@ -74,20 +74,23 @@
                     <div class="card-footer">
                         <div class = "row">    
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registro" style="margin-bottom: 10px">Registrar</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registro" style="margin-bottom: 10px">Registrar producto</button>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modificacion" onClick="llenarFormularioMod()" style="margin-bottom: 10px" >Modificar</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modificacion" onClick="llenarFormularioMod()" style="margin-bottom: 10px" >Modificar Producto</button>
                             </div>
                             
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registrarRack" onClick="" style="margin-bottom: 10px">Registrar rack</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registrarRack" onClick="" style="margin-bottom: 10px">Registrar ubicación</button>
                             </div>
 
                             <div class="col-6">
                                 <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registrarUbicacion" onClick="llenarFormularioUbicacion()" style="margin-bottom: 10px">Asignar ubicaciones</button>
                             </div>
-
+                            
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registrarUbicacion" onClick="llenarFormularioUbicacion()" style="margin-bottom: 10px">Modificar ubicaciones</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,10 +140,10 @@
                     <div class="card-footer">
                         <div class="row g-3">
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoUbicaciones" onClick="iniciarCargaArchivo(2)" style="margin-bottom: 10px">Cargar ubicaciones</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoInventario" onClick="iniciarCargaArchivo(1)" style="margin-bottom: 10px">Cargar inventario</button>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoInventario" onClick="iniciarCargaArchivo(1)" style="margin-bottom: 10px">Cargar inventario</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoUbicaciones" onClick="iniciarCargaArchivo(2)" style="margin-bottom: 10px">Cargar ubicaciones</button>
                             </div>
                         </div>
                     </div>
@@ -305,8 +308,8 @@
                     <div class="modal-body">
                         <form class="row g-3" name="contenedorForm" id="contenedorForm" method="POST" onSubmit="return false;">
                             <div class="form-label-group">
-                                <label for="numeroContenedores">Ingresa el rack que quieres registrar</label>
-                                <input type="text" id="numeroContenedores" class="form-control" placeholder="A"
+                                <label for="numeroContenedores">Ingresa la ubicación</label>
+                                <input type="text" id="numeroContenedores" class="form-control" placeholder="A.01.01.02"
                                     required autofocus>
                             </div>
                         </form>

@@ -625,7 +625,6 @@ var archivo;
 function sendFile(ubicacion,tipo){
   if($('#subirArchivoInventario').is(':visible'))
   {
-    console.log("Entra");
     document.getElementById("targetLayerInventario").innerHTML = document.getElementById("cargandoInventario").innerHTML;
     document.getElementById("btn-archivoInventario").disabled = true;
     document.getElementById("btn-cancelarInventario").disabled = true;
@@ -647,7 +646,8 @@ function sendFile(ubicacion,tipo){
           {
             mensaje(1,"error","Se debe subir un archivo CSV","");
           }
-          else if(xhr.responseText == "ERROR_TIPO"){
+          else if(xhr.responseText == "ERROR_TIPO")
+          {
               if(tipo == 1)
                 mensaje(1,"error","Verifica que el archivo sea del inventario","");
               else
@@ -664,6 +664,25 @@ function sendFile(ubicacion,tipo){
           else if(xhr.responseText == "ERROR_COPIA")
           {
             mensaje(1,"error","Error al copiar el archivo subido","");
+          }
+          else if(xhr.responseText == "EXITO")
+          {
+            mensaje(1,"success","Se realizó correctamente la operación","");
+          }
+          else if(xhr.responseText == "FALTAN_PRODUCTOS")
+          {
+            mensaje(2,"error","Los siguientes productos no se les pudo asignar ubicación debido a que no estan registrados",xhr.responseText);
+          }
+          else
+          {
+            if(tipo == 1)
+            {
+              mensaje(2,"error","Hubo un error al cargar el inventario",xhr.responseText);
+            }
+            else
+            {
+              mensaje(2,"error","Hubo un error al cargar las ubicaciones",xhr.responseText);
+            }
           }
       }
   };
@@ -706,8 +725,8 @@ function dropHandler(event){
       {
         
         for(var i = 0; i < nombreDeArchivos.length; i++)
+        document.getElementById("mostrarNombreArchivoUbicacion").textContent = "Se cargó correctamente el archivo: \n" +nombreDeArchivos[i] + " ";
         {
-            document.getElementById("mostrarNombreArchivoUbicacion").textContent = "Se cargó correctamente el archivo: \n" +nombreDeArchivos[i] + " ";
         }
         document.getElementById("targetLayerUbicacion").innerHTML = document.getElementById("archivoCargadoUbicacion").innerHTML;
         removeDragData(event);

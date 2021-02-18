@@ -12,8 +12,10 @@ if(isset($_FILES['file_name'])){
     5 -> Ubicacion
 */
     $datos = obtener_contenido();
+    $bandera = true;
     if($datos !== FALSE)
     {
+
         $con = open_database();
         foreach($datos as $fila){
             $sku = $fila[0];
@@ -24,8 +26,14 @@ if(isset($_FILES['file_name'])){
             $unidad_medida = 1; 
             $ubicacion = "SIN ASIGNAR";
             $sql_query = "INSERT INTO Producto (sku, id_linea, generico, unidad_medida, descripcion,stock,ubicacion) VALUES('".$sku."','".$id_linea."','".$generico."','".$unidad_medida."','".$descripcion."','".$stock."','".$ubicacion."')";
-            mysqli_query($con, $sql_query);
+            $resultado = mysqli_query($con, $sql_query);
+            if(!$resultado)
+            {
+                echo "Error ".mysqli_errno($conn)." : ".mysqli_error($conn)."\n";
+            }
         }
+        if($bandera)
+            echo "EXITO";
         mysqli_close($con);
     }
 }
