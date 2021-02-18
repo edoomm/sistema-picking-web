@@ -25,9 +25,7 @@ function get_Interval(intervalo) {
     day = temp;
   }
 
-
   var year = dateObj.getUTCFullYear();
-  var condicion = " hora_realizada >= ";
 
   var condicionI;
   var condicionF;
@@ -42,26 +40,29 @@ function get_Interval(intervalo) {
     var first = dateObj.getDate() - dateObj.getDay();
     var last = first + 6;
 
-    if (first < 10) {
-      var temp = "0" + first;
-      first = temp;
-    }
-
-    if (last < 10) {
-      var temp = "0" + last;
-      last = temp;
-    }
+    first = (first < 10) ? "0" + first : first;
+    last = (last < 10) ? "0" + last : last;
 
     condicionI = year + "-" + month + "-" + first + " " + horaI;
     condicionF = year + "-" + month + "-" + last + " " + horaF;
+
   } else if (intervalo == "Mes") {
+    var today = new Date();
+    var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+    lastDayOfMonth = (lastDayOfMonth < 10) ? "0" + lastDayOfMonth : lastDayOfMonth;
+
     condicionI = year + "-" + month + "-01 " + horaI;
-    condicionF = year + "-" + month + "-31 " + horaF;
-    
+    condicionF = year + "-" + month + "-" + lastDayOfMonth + " " + horaF;
+
   } else {
     condicionI = year + "-01-01 " + horaI;
     condicionF = year + "-12-31 " + horaF;
   }
+
+  console.log(condicionI);
+  console.log(condicionF);
+  console.log("  ");
 
   return {
     condicionI,
@@ -221,7 +222,10 @@ function formValidate(formId, formMsg, numeroEmpleado) {
       flag = 1;
     } else {
       if (actual == numeroEmpleado) {
-        if (!Validate_NumeroEmpleado(actual)) flag = 2;
+        var numero = Validate_Number(actual);
+        var sz = (actual.length == 6) ? true : false;
+        var existe = Validate_NumeroEmpleado(actual);
+        if (!numero || !sz || !existe) flag = 2;
       }
     }
   });
@@ -516,9 +520,7 @@ function Validate_NumeroEmpleado(actual) {
         valueReturn = (value == 0) ? true : false;
       }
     });
-  } else {
-    valueReturn = true;
-  }
+  } else valueReturn = true;
 
   return valueReturn;
 }
