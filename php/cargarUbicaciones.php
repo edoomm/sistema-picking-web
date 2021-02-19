@@ -18,7 +18,8 @@ if(isset($_FILES['file_name'])){
     if($datos !== FALSE)
     {
         $con = open_database();
-        foreach($datos as $fila){
+        foreach($datos as $fila)
+        {
             $ubicacion = $fila[0];
             $sku = $fila[1];
             $pasillo = $fila[2];
@@ -44,30 +45,40 @@ if(isset($_FILES['file_name'])){
                 $bandera = false;
                 echo "Error ".mysqli_errno($con)." : ".mysqli_error($con)."\n";
             }
-            $sql_busqueda = "SELECT ubicacion FROM Producto WHERE sku ='".$sku."'";
+            $sql_busqueda = "SELECT ubicacion FROM Ubicacion WHERE ubicacion='".$ubicacion."'";
             $resultado = mysqli_query($con,$sql_busqueda);
             if($resultado)
             {
                 $fila = mysqli_fetch_row($resultado);
                 if($fila != NULL)
                 {
-                    $sql_ubicacion = "UPDATE Producto SET ubicacion='".$ubicacion."' WHERE sku='".$sku."'";
-                    $resultado = mysqli_query($con,$sql_ubicacion);
+                    $sql_query = "UPDATE Ubicacion SET sku='".$sku."' WHERE ubicacion='".$ubicacion."'";
+                    $resultado = mysqli_query($con,$sql_query);
                     if(!$resultado)
                     {
                         $bandera = false;
                         echo "Error ".mysqli_errno($con)." : ".mysqli_error($con)."\n";
                     }
                 }
+                else
+                {
+                    $sql_query = "INSERT INTO Ubicacion (ubicacion,sku,pasillo,rack,columna,nivel,prioridad) VALUES ('".$ubicacion."','".$sku."','".$pasillo."','".$rack."','".$columna."','".$nivel."','".$prioridad."')";
+                    $resultado = mysqli_query($con, $sql_query);
+                    if(!$resultado)
+                    {
+                        $bandera = false;
+                        echo "Error ".mysqli_errno($con)." : ".mysqli_error($con)."\n";
+                    }
+                }
+                $sql_ubicacion = "UPDATE Producto SET ubicacion='".$ubicacion."' WHERE sku='".$sku."'";
+                $resultado = mysqli_query($con,$sql_ubicacion);
+                if(!$resultado)
+                {
+                    $bandera = false;
+                    echo "Error ".mysqli_errno($con)." : ".mysqli_error($con)."\n";
+                }
             }
             else
-            {
-                $bandera = false;
-                echo "Error ".mysqli_errno($con)." : ".mysqli_error($con)."\n";
-            }
-            $sql_query = "INSERT INTO Ubicacion (ubicacion,sku,pasillo,rack,columna,nivel,prioridad) VALUES ('".$ubicacion."','".$sku."','".$pasillo."','".$rack."','".$columna."','".$nivel."','".$prioridad."')";
-            $resultado = mysqli_query($con, $sql_query);
-            if(!$resultado)
             {
                 $bandera = false;
                 echo "Error ".mysqli_errno($con)." : ".mysqli_error($con)."\n";
