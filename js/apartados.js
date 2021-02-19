@@ -114,7 +114,6 @@ function sendFile(){
                 else if(xhr.responseText == "ERROR_TIPO"){
                     alert("Verifica que el archivo sea del control de distribución");
                 }
-                location.reload();
         }
     };
     fd.append('file_name', archivo);
