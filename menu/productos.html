@@ -74,20 +74,25 @@
                     <div class="card-footer">
                         <div class = "row">    
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registro" style="margin-bottom: 10px">Registrar</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registro" style="margin-bottom: 10px">Registrar producto</button>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modificacion" onClick="llenarFormularioMod()" style="margin-bottom: 10px" >Modificar</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modificacion" onClick="llenarFormularioMod()" style="margin-bottom: 10px" >Modificar Producto</button>
                             </div>
                             
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registrarRack" onClick="" style="margin-bottom: 10px">Registrar rack</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registrarUbicacion" onClick="" style="margin-bottom: 10px">Registrar ubicación</button>
                             </div>
 
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registrarUbicacion" onClick="llenarFormularioUbicacion()" style="margin-bottom: 10px">Asignar ubicaciones</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#asignarUbicacion" onClick="llenarFormularioUbicacion()" style="margin-bottom: 10px">Asignar ubicaciones</button>
                             </div>
-
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#registrarUbicacion" onClick="llenarFormularioUbicacion()" style="margin-bottom: 10px">Modificar ubicaciones</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#buscarProducto" style="margin-bottom: 10px">Buscar producto</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,10 +142,10 @@
                     <div class="card-footer">
                         <div class="row g-3">
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoUbicaciones" onClick="iniciarCargaArchivo(2)" style="margin-bottom: 10px">Cargar ubicaciones</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoInventario" onClick="iniciarCargaArchivo(1)" style="margin-bottom: 10px">Cargar inventario</button>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoInventario" onClick="iniciarCargaArchivo(1)" style="margin-bottom: 10px">Cargar inventario</button>
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivoUbicaciones" onClick="iniciarCargaArchivo(2)" style="margin-bottom: 10px">Cargar ubicaciones</button>
                             </div>
                         </div>
                     </div>
@@ -258,13 +263,13 @@
             </div>
         </div>
 
-        <!-- Pop up registrar ubicaciones -->
-        <div class="modal fade" id="registrarUbicacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Pop up asignar ubicaciones -->
+        <div class="modal fade" id="asignarUbicacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Registrar ubicación</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="limpiarFormularioUbicacion()">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="limpiarFormularioUbicacion(1)">
                         </button>
                     </div>
                     <div class="modal-body">
@@ -276,7 +281,7 @@
                             </div>
                             <div class="form-label-group">
                                 <label for="numeroUbicaciones">Ingresa el número de ubicaciones</label>
-                                <input type="text" id="numeroUbicaciones" class="form-control" placeholder="Número de ubicaciones"
+                                <input type="text" id="numeroUbicaciones" class="form-control" placeholder="2"
                                     required autofocus>
                             </div>
                             <button type="button" onClick="generarUbicaciones()" class="btn btn-primary">Generar casillas</button>
@@ -285,39 +290,93 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="limpiarFormularioUbicacion()">Cerrar</button>
-                        <button type="button" onClick="return ingresarUbicacion()" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="limpiarFormularioUbicacion(1)">Cerrar</button>
+                        <button type="button" onClick="return asignarUbicacion()" class="btn btn-primary">Guardar</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Pop up registrar rack -->
-  
-        <div class="modal fade" id="registrarRack" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Pop up registrar ubicacion -->
+        <div class="modal fade" id="registrarUbicacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Registrar rack</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="limpiarFormularioContenedores()">
+                        <h5 class="modal-title" id="exampleModalLabel">Registrar ubicación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="limpiarFormularioUbicacion(2)">
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="row g-3" name="contenedorForm" id="contenedorForm" method="POST" onSubmit="return false;">
+                        <form class="row g-3" name="registroUbicacionForm" id="registroUbicacionForm" method="POST" onSubmit="return false;">
                             <div class="form-label-group">
-                                <label for="numeroContenedores">Ingresa el rack que quieres registrar</label>
-                                <input type="text" id="numeroContenedores" class="form-control" placeholder="A"
+                                <label for="registroUbicacion">Ingresa la ubicación</label>
+                                <input type="text" id="registroUbicacion" class="form-control" placeholder="A.01.01.02"
                                     required autofocus>
+                                <div id="invalid_ubicacionReg" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="limpiarFormularioContenedores()">Cerrar</button>
-                        <button type="button" onClick="return generarContenedores()" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="limpiarFormularioUbicacion(2)">Cerrar</button>
+                        <button type="button" onClick="return registrarUbicacion()" class="btn btn-primary">Guardar</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Pop Up buscar producto -->
+        <div class="modal fade" id="buscarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Buscar producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="limpiarFormularioUbicacion(3)">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row g-3" name="buscarProductoForm" id="buscarProductoForm" method="POST" onSubmit="return false;">
+                            <div class="form-label-group">
+                                <label for="buscarProductoInput">Ingresa la ubicación</label>
+                                <input type="text" id="buscarProductoInput" class="form-control" placeholder="A.01.01.02"
+                                    required autofocus>
+                                <div id="invalid_buscarProducto" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="limpiarFormularioUbicacion(3)">Cerrar</button>
+                        <button type="button" onClick="return buscarProducto()" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pop up modificar ubicaciones -->
+        <!-- <div class="modal fade" id="buscarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Buscar producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="limpiarFormularioUbicacion(3)">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row g-3" name="buscarProductoForm" id="buscarProductoForm" method="POST" onSubmit="return false;">
+                            <div class="form-label-group">
+                                <label for="buscarProductoInput">Ingresa la ubicación</label>
+                                <input type="text" id="buscarProductoInput" class="form-control" placeholder="A.01.01.02"
+                                    required autofocus>
+                                <div id="invalid_buscarProducto" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="limpiarFormularioUbicacion(3)">Cerrar</button>
+                        <button type="button" onClick="return buscarProducto()" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
 
         <!-- subir archivo inventario -->
         <div class="modal fade" id="subirArchivoInventario" tabindex="-1" aria-labelledby="subirArchivoInventarioLabel" aria-hidden="true">
