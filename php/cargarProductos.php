@@ -25,12 +25,38 @@ if(isset($_FILES['file_name'])){
             $stock = $fila[4];
             $unidad_medida = 1; 
             $ubicacion = "SIN ASIGNAR";
-            $sql_query = "INSERT INTO Producto (sku, id_linea, generico, unidad_medida, descripcion,stock,ubicacion) VALUES('".$sku."','".$id_linea."','".$generico."','".$unidad_medida."','".$descripcion."','".$stock."','".$ubicacion."')";
-            $resultado = mysqli_query($con, $sql_query);
-            if(!$resultado)
+            $sql_busqueda = "SELECT sku FROM Producto WHERE sku = '".$sku."'";
+            $resultado = mysqli_query($con,$sql_busqueda);
+            if($resultado)
             {
-                echo "Error ".mysqli_errno($conn)." : ".mysqli_error($conn)."\n";
+                $fila = mysqli_fetch_row($resultado);
+                if($fila != NULL)
+                {
+                    $sql_query = "UPDATE Producto SET id_linea='".$id_linea."',generico ='".$generico."',unidad_medida='".$unidad_medida."',descripcion='".$descripcion."',stock='".$stock."',ubicacion='".$ubicacion."' WHERE sku='".$sku."'";
+                    $resultado = mysqli_query($con,$sql_query);
+                    if(!$resultado)
+                    {
+                        $bandera = false;
+                        echo "Error ".mysqli_errno($con)." : ".mysqli_error($con)."\n";
+                    }
+                }
+                else
+                {
+                    $sql_query = "INSERT INTO Producto (sku, id_linea, generico, unidad_medida, descripcion,stock,ubicacion) VALUES('".$sku."','".$id_linea."','".$generico."','".$unidad_medida."','".$descripcion."','".$stock."','".$ubicacion."')";
+                    $resultado = mysqli_query($con, $sql_query);
+                    if(!$resultado)
+                    {
+                        $bandera = false;
+                        echo "Error ".mysqli_errno($con)." : ".mysqli_error($con)."\n";
+                    }
+                }
             }
+            else
+            {
+                $bandera = false;
+                echo "Error ".mysqli_errno($con)." : ".mysqli_error($con)."\n";
+            }
+            
         }
         if($bandera)
             echo "EXITO";
