@@ -47,13 +47,8 @@ function get_Interval(intervalo) {
     condicionF = year + "-" + month + "-" + last + " " + horaF;
 
   } else if (intervalo == "Mes") {
-    var today = new Date();
-    var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-    lastDayOfMonth = (lastDayOfMonth < 10) ? "0" + lastDayOfMonth : lastDayOfMonth;
-
     condicionI = year + "-" + month + "-01 " + horaI;
-    condicionF = year + "-" + month + "-" + lastDayOfMonth + " " + horaF;
+    condicionF = year + "-" + month + "-31 " + horaF;
 
   } else {
     condicionI = year + "-01-01 " + horaI;
