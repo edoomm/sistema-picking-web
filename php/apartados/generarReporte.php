@@ -2,6 +2,7 @@
 include_once '../db.php';
 $datos = array();
 $datos['archivo'] = 'ALMACEN,SKU,CONTROL_DIST,CANT_CONTROL,CANT_RECOLECTADO';
+$datos['error'] = array();
 $sql_query = "SELECT control_id, cantidad FROM Transaccion WHERE tipo_movimiento='P' AND Date(hora_realizada)=CURDATE()";
 $conn = open_database();
 $transacciones = array();
@@ -32,6 +33,6 @@ foreach($transacciones as $control_id => $valor){
         }
     }
 }
-array_push($datos['error'], "Error " . mysqli_errno($conn) . " : " . mysqli_error($conn));
+//array_push($datos['error'], "Error " . mysqli_errno($conn) . " : " . mysqli_error($conn));
 echo json_encode($datos);
 ?>
