@@ -20,6 +20,7 @@ var medidaVal;
 var id_lineaVal;
 var genericoVal;
 var numUbicaciones;
+var ubicacionesOri = [];
 
 /* $(document).ready(function(){
   $('#txtSrch').keyup(function(){
@@ -119,7 +120,7 @@ function cargarUbicaciones(skuVal)
   xhr.open("POST", uri, true);
   xhr.onreadystatechange = function(){
       if(xhr.readyState == 4 && xhr.status == 200){
-         var respuesta = JSON.parse(xhr.responseText);
+        var respuesta = JSON.parse(xhr.responseText);
         console.log(respuesta);
         if(respuesta.mensaje === "EXITO")
         {
@@ -135,6 +136,7 @@ function cargarUbicaciones(skuVal)
             var casillas = "";
             for (var i = 1; i <= respuesta.numUbicaciones; i++) 
             {
+              
               casillas += '<div class="form-label-group"> <label for="ubicacion' + i + '">Ubicacion ' + i + '</label> <input type="text" id="ubicacion' + i + '" class="form-control" placeholder="A.01.01.0' + i + '" required autofocus></div> <div id="ubicacionError'+ i +'" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>';
             }
             document.getElementById("modificarUbicaciones").innerHTML = casillas;
@@ -142,6 +144,7 @@ function cargarUbicaciones(skuVal)
             {
               var id = "ubicacion"+i;
               console.log(respuesta[id]);
+              ubicacionesOri.push(respuesta[id]);
               document.getElementById(id).value = respuesta[id];
             }
           }
@@ -173,6 +176,7 @@ function llenarFormularioUbicacion(tipo)
 
 function modificarUbicaciones()
 {
+  console.log(ubicacionesOri);
   var numeroUbicaciones = numUbicaciones;
   var ubicaciones = [];
   var bandera = true;
@@ -185,13 +189,17 @@ function modificarUbicaciones()
       var ubicacionID = "ubicacion" + i.toString();
       var ubicacionErrorID = "ubicacionError" + i.toString();
       var ubicacion = document.getElementById(ubicacionID).value;
-      if(!validarUbicacion(ubicacion,ubicacionID,ubicacionErrorID))
+      if(!validarUbicacion(ubicacion,ubicacionID,ubicacionErrorID,1))
       {
         bandera = false;
         continue;
       }
       for(var y=i-1;y>=1;y--)
       {
+        if(ubicacion === "SIN ASIGNAR")
+        {
+          continue;
+        }
         if(ubicacion === ubicaciones[y-1])
         {
           repetido = true;
@@ -228,7 +236,9 @@ function modificarUbicaciones()
         for(var i=0;i<ubicaciones.length;i++)
         {
           var ubicacionID = "ubicacion" + i.toString();
+          var ubicacionIDOri = "ubicacionMod" + i.toString();
           fd.append(ubicacionID,ubicaciones[i]);
+          fd.append(ubicacionIDOri,ubicacionesOri[i]);
         }
         xhr.send(fd);
       }
