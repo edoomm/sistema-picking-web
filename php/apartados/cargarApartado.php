@@ -8,33 +8,41 @@ if(isset($_FILES['file_name'])){
         2  -> numero_control
         3  -> apartado
     */
+    $mensajes = array();
+    $mensajes['error_sku_no_existe'] = array();
+    $mensajes['stock'] = array();
     $datos = obtener_contenido();
     $necesitado = array();
     if($datos !== FALSE){
         $conn = open_database();
         foreach($datos as $fila){
-            $sku = $fila[1];
-            $apartado = $fila[3];
-            $necesitado[$sku] += $apartado;
-            $sql_query = "SELECT * FROM Producto WHERE sku=".$sku;
+            $sql_query = "SELECT * FROM Producto WHERE sku=".$fila[1];
             if(($res = mysqli_query($conn, $sql_query)) !== FALSE){
                 if(!mysqli_num_rows($res)){
                     // El SKU del producto no está en la base de datos
+                    array_push($mensajes['error_sku_no_existe'], $fila[1]);
                 }
+                else{
+                    $sku = $fila[1];
+                    $apartado = $fila[3];
+                    $necesitado[$sku] += $apartado;
+                }
+            }
+            else{
+                array_push($mensajes['error'], "Error " . mysqli_errno($conn) . " : " . mysqli_error($conn));
             }
         }
         foreach($necesitado as $clave => $valor){
             $sql_query = "SELECT stock FROM Producto WHERE sku=" . $clave;
-            //echo $sql_query . "\n";
             if(($res = mysqli_query($conn,$sql_query)) !== FALSE){
                 $fila = mysqli_fetch_row($res);
                 $stock = $fila[0];
                 if($valor > $stock){
-                    // Se necesita más de ese producto
+                    array_push($mensajes['stock'], array($sku, $valor - $stock));
                 }
             }
             else{
-                echo "ERROR_QUERY";
+                array_push($mensajes['error'], "Error " . mysqli_errno($conn) . " : " . mysqli_error($conn));
             }
         }
         foreach($datos as $fila){
@@ -43,15 +51,15 @@ if(isset($_FILES['file_name'])){
             $numero_control = $fila[2];
             $apartado = $fila[3];
             $sql_query = "INSERT INTO Control (id_sucursal, apartado, sku, numero_control, fecha) VALUES ('".$id_sucursal."','".$apartado."','".$sku."','".$numero_control."', CURDATE())"; 
-            echo $sql_query . "\n";
             if(mysqli_query($conn, $sql_query) === FALSE){
-                echo "ERROR_QUERY";
+                array_push($mensajes['error'], "Error " . mysqli_errno($conn) . " : " . mysqli_error($conn));
             }
         }
         mysqli_close($conn);
     }
 }
 else{
-    echo "ERROR_ARCHIVO";
+    array_push($mensajes['error'], "Error al copiar el archivo");
 }
+echo json_encode($mensajes);
 ?>
