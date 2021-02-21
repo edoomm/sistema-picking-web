@@ -107,12 +107,42 @@ function sendFile(){
     xhr.open("POST", uri, true);
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4 && xhr.status == 200){
-                console.log(xhr.responseText);
-                if(xhr.responseText == "ERROR_CSV"){
-                    alert("Se debe subir un archivo CSV");
+                let res = JSON.parse(xhr.responseText);
+                let hay_errores = false;
+                let msg_error = String();
+                let faltan = String();
+                /*
+                if(res['error_archivo']){
+                    mensaje(1,"error","No se pudo cargar el archivo");
+                    return;
+                }*/
+                if(res['error_sku_no_existe'].length > 0){
+                    hay_errores = true;
+                    msg_error += "Los siguientes SKU no se encuentran registrados:\n";
+                    for(let i = 0; i < res['error_sku_no_existe'].length; i+=5){
+                        for(let j = i; j < Math.min(i+5, res['error_sku_no_existe'].length); j++)
+                            msg_error += (res['error_sku_no_existe'][j] + "\t\t\t");
+                        msg_error += "\n";
+                    }
                 }
-                else if(xhr.responseText == "ERROR_TIPO"){
-                    alert("Verifica que el archivo sea del control de distribución");
+                if(res['error'] != null){
+                    msg_error += res['error'] + "\n";
+                }
+                if(res['stock'].length > 0){
+                    faltan += "Los siguientes SKU necesitan reabastecerse:\n";
+                    for(let i = 0; i < res['stock'].length; i++)
+                        faltan += "SKU: " + res['stock'][i][0] + " Faltan: " + res['stock'][i][1] + "\n"
+                }
+                if(hay_errores){
+                    mensaje(2,"error", "Error", msg_error + faltan);
+                }
+                else{
+                    if(faltan.length > 0){
+                        mensaje(2,"success", "El archivo se ha cargado con éxito", faltan)
+                    }
+                    else{
+                        mensaje(1,"success","El archivo se ha cargado con éxito");
+                    }
                 }
         }
     };
@@ -252,13 +282,19 @@ function download(filename, text) {
 function generarReporte(){
     $.post("../php/apartados/generarReporte.php",{},
       function(data){
+          data = JSON.parse(data);
+          if(data['error'] != null){
+              mensaje(1,"error","Hubo un error al generar el archivo", "");
+          }
+          else{
+            mensaje(1,"success","Archivo generado con exito", "");
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); 
             var yyyy = today.getFullYear();
             today = mm + '-' + dd + '-' + yyyy;
-            download('reporte' + today + '.csv', data);
-            //console.log(data);
+            download('reporte' + today + '.csv', data['archivo']);
+          }
       }  
     );
 }
