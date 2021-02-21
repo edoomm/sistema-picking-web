@@ -11,6 +11,7 @@ if(isset($_FILES['file_name'])){
     $mensajes = array();
     $mensajes['error_sku_no_existe'] = array();
     $mensajes['stock'] = array();
+    $mensajes['error'] = array();
     $datos = obtener_contenido();
     $necesitado = array();
     if($datos !== FALSE){
@@ -25,7 +26,18 @@ if(isset($_FILES['file_name'])){
                 else{
                     $sku = $fila[1];
                     $apartado = $fila[3];
-                    $necesitado[$sku] += $apartado;
+                    $id_sucursal = $fila[0];
+                    $numero_control = $fila[2];
+                    if(isset($necesitado[$sku])){
+                        $necesitado[$sku] += intval($apartado);
+                    }
+                    else{
+                        $necesitado[$sku] = intval($apartado);
+                    }
+                    $sql_query = "INSERT INTO Control (id_sucursal, apartado, sku, numero_control, fecha) VALUES ('".$id_sucursal."','".$apartado."','".$sku."','".$numero_control."', CURDATE())"; 
+                    if(mysqli_query($conn, $sql_query) === FALSE){
+                        array_push($mensajes['error'], "Error " . mysqli_errno($conn) . " : " . mysqli_error($conn));
+                    }
                 }
             }
             else{
@@ -42,16 +54,6 @@ if(isset($_FILES['file_name'])){
                 }
             }
             else{
-                array_push($mensajes['error'], "Error " . mysqli_errno($conn) . " : " . mysqli_error($conn));
-            }
-        }
-        foreach($datos as $fila){
-            $id_sucursal = $fila[0];
-            $sku = $fila[1];
-            $numero_control = $fila[2];
-            $apartado = $fila[3];
-            $sql_query = "INSERT INTO Control (id_sucursal, apartado, sku, numero_control, fecha) VALUES ('".$id_sucursal."','".$apartado."','".$sku."','".$numero_control."', CURDATE())"; 
-            if(mysqli_query($conn, $sql_query) === FALSE){
                 array_push($mensajes['error'], "Error " . mysqli_errno($conn) . " : " . mysqli_error($conn));
             }
         }

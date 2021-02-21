@@ -9,7 +9,12 @@ $act = 0;
 if(($result=mysqli_query($conn,$sql_query))!==FALSE){
     while($fila = mysqli_fetch_array($result)){
         $sku = $fila["control_id"];
-        $transacciones[$sku] += abs(intval($fila["cantidad"]));
+        if(isset($transacciones[$sku])){
+            $transacciones[$sku] += abs(intval($fila["cantidad"]));
+        } 
+        else{
+            $transacciones[$sku] = abs(intval($fila["cantidad"]));
+        }
     }
 }
 else{
