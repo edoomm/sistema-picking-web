@@ -42,7 +42,6 @@
                 {
                     echo "Error ".mysqli_errno($conn)." : ".mysqli_error($conn)."\n";
                     $bandera = false;
-                    break;
                 }
             }
             $id = "ubicacion".strval($i);
@@ -52,10 +51,10 @@
             {
                 echo "Error ".mysqli_errno($conn)." : ".mysqli_error($conn)."\n";
                 $bandera = false;
-                break;
             }
         }
         if($bandera)
             echo "La operación se realizo con éxito";
     }
+    mysqli_close($conn);
 ?>

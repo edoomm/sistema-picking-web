@@ -90,8 +90,8 @@ function obtener_contenido(){
             }
         }
         else{
-            exit("Error al copiar el archivo subido\n");
             echo "ERROR_COPIA";
+            exit("Error al copiar el archivo subido\n");
             return FALSE;
         }
         return $datos;

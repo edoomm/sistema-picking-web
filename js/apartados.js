@@ -26,6 +26,76 @@ function removeDragData(event){
         event.dataTransfer.clearData();
     }
 }
+
+function limpiarFormularioContenedores()
+{
+    document.getElementById("contenedorForm").reset();
+}
+
+function mensaje(tipo,icono,titulo,texto)
+{
+  if(tipo == 1)
+  {
+    swal({
+      icon: icono,
+      title: titulo,
+    }).then(function()
+    {
+      window.location.reload();
+    });
+  }
+  else
+  {
+    swal({
+      icon: icono,
+      title: titulo,
+      text: texto
+    }).then(function()
+    {
+      window.location.reload();
+    });
+  }
+}
+
+function generarContenedores()
+{
+    var numeroContenedores = document.getElementById("numeroContenedores").value;
+    if(!isNaN(numeroContenedores) && numeroContenedores > 0)
+    {
+        numeroContenedores = parseInt(numeroContenedores);
+        const uri = '../php/apartados/generarContenedores.php';
+        const xhr  = new XMLHttpRequest();
+        const fd = new FormData();
+        xhr.open("POST", uri, true);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                if(!isNaN(xhr.responseText))
+                {
+                    swal({
+                        icon: "success",
+                        title: "Se realizo la operación con exito",
+                        text: "Crea los contenedores desde el "+xhr.responseText,
+                      }).then(function()
+                      {
+                        window.open("https://barcode.tec-it.com/en/Code128?");
+                        window.location.reload();
+                      });
+                }
+                else
+                {
+                    mensaje(2,"error","Hubo un error al realizar la operación",xhr.responseText);
+                }
+            }
+        };
+        fd.append('num',numeroContenedores);
+        xhr.send(fd);
+    }
+    else
+    {
+        mensaje(1,"error","El número de contenedores debe ser un número mayor a 0","");
+    }
+}
+
 var archivo;
 function sendFile(){
     document.getElementById("targetLayer").innerHTML = document.getElementById("cargando").innerHTML;
@@ -37,14 +107,43 @@ function sendFile(){
     xhr.open("POST", uri, true);
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4 && xhr.status == 200){
-                //console.log(xhr.responseText);
-                if(xhr.responseText == "ERROR_CSV"){
-                    alert("Se debe subir un archivo CSV");
+                let res = JSON.parse(xhr.responseText);
+                let hay_errores = false;
+                let msg_error = String();
+                let faltan = String();
+                /*
+                if(res['error_archivo']){
+                    mensaje(1,"error","No se pudo cargar el archivo");
+                    return;
+                }*/
+                if(res['error_sku_no_existe'].length > 0){
+                    hay_errores = true;
+                    msg_error += "Los siguientes SKU no se encuentran registrados:\n";
+                    for(let i = 0; i < res['error_sku_no_existe'].length; i+=5){
+                        for(let j = i; j < Math.min(i+5, res['error_sku_no_existe'].length); j++)
+                            msg_error += (res['error_sku_no_existe'][j] + "\t\t\t");
+                        msg_error += "\n";
+                    }
                 }
-                else if(xhr.responseText == "ERROR_TIPO"){
-                    alert("Verifica que el archivo sea del control de distribución");
+                if(res['error'] != null){
+                    msg_error += res['error'] + "\n";
                 }
-                location.reload();
+                if(res['stock'].length > 0){
+                    faltan += "Los siguientes SKU necesitan reabastecerse:\n";
+                    for(let i = 0; i < res['stock'].length; i++)
+                        faltan += "SKU: " + res['stock'][i][0] + " Faltan: " + res['stock'][i][1] + "\n"
+                }
+                if(hay_errores){
+                    mensaje(2,"error", "Error", msg_error + faltan);
+                }
+                else{
+                    if(faltan.length > 0){
+                        mensaje(2,"success", "El archivo se ha cargado con éxito", faltan)
+                    }
+                    else{
+                        mensaje(1,"success","El archivo se ha cargado con éxito");
+                    }
+                }
         }
     };
     fd.append('file_name', archivo);
@@ -121,8 +220,7 @@ function asignacionAutomatica(){
     })
 }
     
-async function mostrarAsignadas(){
-            
+async function mostrarAsignadas(){        
     await $.post("../php/mostrarElementosBD.php", {
             variable: "Control",
             columnas : "control_id,sku,numero_control,id_sucursal,apartado",
@@ -170,96 +268,37 @@ async function mostrarSinAsignar(){
     );
 }
 function download(filename, text) {
-    var pom = document.createElement('a');
-    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    pom.setAttribute('download', filename);
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
 
-    if (document.createEvent) {
-        var event = document.createEvent('MouseEvents');
-        event.initEvent('click', true, true);
-        pom.dispatchEvent(event);
-    }
-    else {
-        pom.click();
-    }
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
 }
 function generarReporte(){
     $.post("../php/apartados/generarReporte.php",{},
-    function(data){
+      function(data){
+          data = JSON.parse(data);
+          if(data['error'] != null && data['error'].length > 0){
+              mensaje(1,"error","Hubo un error al generar el archivo", "");
+          }
+          else{
+            mensaje(1,"success","Archivo generado con exito", "");
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); 
             var yyyy = today.getFullYear();
             today = mm + '-' + dd + '-' + yyyy;
-            download('reporte' + today + '.csv', data);
-    }  
+            download('reporte' + today + '.csv', data['archivo']);
+          }
+      }  
     );
 }
 function initModal(){
     document.getElementById("btn-archivo").disabled=true;
     document.getElementById("targetLayer").innerHTML = document.getElementById("modalInicio").innerHTML;
-}
-
-function showOperators() {
-    $.get("../php/apartados/getOperadores.php").done(e=>{
-        var array = JSON.parse(e);
-        array = array.reverse();
-        array.push("Selecciona Operador");
-        array = array.reverse();
-        const options = [];
-        for (const e of array) {
-            options.push(`<option>${e}</option>`)
-        }
-        document.getElementById("zonaSelectEmpleados").innerHTML = options.join();
-    }).fail((xhr,status,error)=>{
-        alert("Error al listar operadores")
-    })
-}
-
-function onchangeSelectOperators() {
-
-    var idEmpleado = document.getElementById("zonaSelectEmpleados").value;
-    var divControls = document.getElementById("numControl");
-    var tableControls = document.getElementById("assignedControls");
-
-    if (idEmpleado == "Selecciona Operador") {
-        divControls.innerHTML = `Numero de controles asignados`
-        tableControls.innerHTML = ``
-        return;
-    }
-
-    idEmpleado = idEmpleado.split("-")[0];
-
-
-    //obtener número de controles
-    //var nControles = 25;
-
-    
-
-    divControls.innerHTML = `Numero de controles asignados: ${idEmpleado}` //prueba para probar función 
-    showControls();
-}
-
-function showControls(){
-        $.post("../php/mostrarElementosBD.php", {
-        variable: "Control",
-        columnas : "control_id,numero_control,id_sucursal",
-        condicion : "estado=1",
-    },
-    function(data){
-        if(data==""){
-            alert("No hay apartados asignados");
-        }
-        else{
-            document.getElementById("assignedControls").innerHTML = data;
-            rowHandlers(
-                ["control_id", "numero_control", "id_sucursal"],
-                "control_id,numero_control,id_sucursal",
-                "assignedControls",
-                ["control_id",0],
-                "Control"
-            );
-        }
-    }
-    );
 }

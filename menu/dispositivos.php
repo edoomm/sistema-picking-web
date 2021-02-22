@@ -35,7 +35,7 @@
     <main>
         <nav class="navbar  navbar-expand-lg navbar-custom fixed-top">
             <div class="collapse navbar-collapse container-fluid">
-                <img src="./resources/grand_vision.jpg" alt="" width="100" class="d-inline-block align-top">
+                <img src="./resources/grand_vision.png" alt="" width="100" class="d-inline-block align-top">
                 <h1 style="color:beige">Dispositivos</h1>
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link nav-brand" href="menuPrincipal.html" style="color:beige">Menú principal</a></li>
@@ -255,7 +255,7 @@
                           <option value="">Seleccione al encargado de este dispositivo.</option>
                           <?php
                                 $link = open_database();
-                                foreach ($link->query('SELECT * from operador') as $row){
+                                foreach ($link->query("SELECT * from operador") as $row){
                           ?>
 
                                 <option value="<?php echo $row['num_empleado'] ?>"><?php echo $row['num_empleado'] ?>

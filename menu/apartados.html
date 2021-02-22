@@ -39,7 +39,7 @@
     <main>
         <nav class="navbar  navbar-expand-lg navbar-custom fixed-top">
             <div class="collapse navbar-collapse container-fluid">
-                <img src="./resources/grand_vision.jpg" alt="" width="100" class="d-inline-block align-top">
+                <img src="./resources/grand_vision.png" alt="" width="100" class="d-inline-block align-top">
                 <h1 style="color:beige"> Apartados </h1>
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link nav-brand" href="menuPrincipal.html" style="color:beige">Menú principal</a></li>
@@ -116,15 +116,18 @@
                         </form>
                     </div>
                     <div class="card-footer">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo" onclick="initModal()">Cargar apartados</button>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#subirArchivo" onclick="initModal()" >Cargar apartados</button>
                             </div>
-                            <div class="col-sm-4">
-                                <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#asignarApartados" onclick="mostrarOperadores()">Asignar apartados</button>
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#asignarApartados" onclick="mostrarOperadores()" >Asignar apartados</button>
                             </div>
-                            <div clas="col-sm-5">
-                                <button class="btn btn-primary" type="button" onclick="generarReporte()">Reporte</button>
+                            <div class="col-8">
+                                <button class="btn btn-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#contenedores"> Registrar contenedores </button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-primary btn-lg" type="button" onclick="generarReporte()">Reporte</button>
                             </div>
                         </div>
                     </div>
@@ -204,40 +207,67 @@
         </div>
         </div>
         <div class="modal fade" id="subirArchivo" tabindex="-1" aria-labelledby="subirArchivoLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="subirArchivoLabel">Cargar archivo</h5>
-                    <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>-->
-                </div>
-                <div class="modal-body">
-                    <div class="box" method="post" enctype="multipart/form-data" id="targetLayer"></div>
-                    <div class="container box-center" style="display: none;" id="archivoCargado">
-                        <div class="svg-container box-center" id="imagenSubido">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload scaling-svg" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                            </svg>
-                        </div>
-                        <div style="text-align: center;">
-                            <p id="mostrarNombreArchivo">Se cargó correctamente el archivo: </p>
-                        </div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="subirArchivoLabel">Cargar archivo</h5>
+                        <!--<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>-->
                     </div>
-                    <div class="container box-center" style="display: none;" id="modalInicio">
-                        <div class="svg-container box-center" id="imagen-drop">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download scaling-svg" viewBox="0 0 16 16">
+                    <div class="modal-body">
+                        <div class="box" method="post" enctype="multipart/form-data" id="targetLayer"></div>
+                        <div class="container box-center" style="display: none;" id="archivoCargado">
+                            <div class="svg-container box-center" id="imagenSubido">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload scaling-svg" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                    <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                            </svg>
+                                    <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                </svg>
+                            </div>
+                            <div style="text-align: center;">
+                                <p id="mostrarNombreArchivo">Se cargó correctamente el archivo: </p>
+                            </div>
                         </div>
-                        <div class="box-center" style="text-align: center;">
-                            <p style="text-align: center;">Arrastra tus archivos aquí</p>
-                        </div> 
+                        <div class="container box-center" style="display: none;" id="modalInicio">
+                            <div class="svg-container box-center" id="imagen-drop">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download scaling-svg" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                </svg>
+                            </div>
+                            <div class="box-center" style="text-align: center;">
+                                <p style="text-align: center;">Arrastra tus archivos aquí</p>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btn-cancelar-archivo" class="btn btn-secondary" data-bs-dismiss="modal" onclick="initModal();">Cancelar</button>
+                        <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" id="btn-cancelar-archivo" class="btn btn-secondary" data-bs-dismiss="modal" onclick="initModal();">Cancelar</button>
-                    <button type="button" id="btn-archivo" class="btn btn-primary" onclick="sendFile()">Cargar archivo</button>
+            </div>
+        </div>
+
+        <!-- Pop up contenedores -->
+        <div class="modal fade" id="contenedores" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registrar contenedores</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="limpiarFormularioContenedores()">
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row g-3" name="contenedorForm" id="contenedorForm" method="POST" onSubmit="return false;">
+                            <div class="form-label-group">
+                                <label for="numeroContenedores">Ingresa el número de contenedores</label>
+                                <input type="text" id="numeroContenedores" class="form-control" placeholder="Número de contenedores"
+                                    required autofocus>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="limpiarFormularioContenedores()">Cerrar</button>
+                        <button type="button" onClick="return generarContenedores()" class="btn btn-primary">Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -249,6 +279,7 @@
 
     <!-- For better performance this script should go at the very bottom of the body -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../js/initFile.js"></script>
     <script src="../js/apartados.js"></script>
     <script>
