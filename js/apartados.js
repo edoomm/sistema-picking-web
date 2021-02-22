@@ -283,7 +283,7 @@ function generarReporte(){
     $.post("../php/apartados/generarReporte.php",{},
       function(data){
           data = JSON.parse(data);
-          if(data['error'] != null){
+          if(data['error'] != null && data['error'].length > 0){
               mensaje(1,"error","Hubo un error al generar el archivo", "");
           }
           else{
