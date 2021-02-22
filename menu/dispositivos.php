@@ -255,7 +255,7 @@
                           <option value="">Seleccione al encargado de este dispositivo.</option>
                           <?php
                                 $link = open_database();
-                                foreach ($link->query('SELECT * from operador') as $row){
+                                foreach ($link->query("SELECT * from operador") as $row){
                           ?>
 
                                 <option value="<?php echo $row['num_empleado'] ?>"><?php echo $row['num_empleado'] ?>
