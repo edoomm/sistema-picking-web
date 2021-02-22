@@ -19,6 +19,8 @@ var stockVal;
 var medidaVal;
 var id_lineaVal;
 var genericoVal;
+var numUbicaciones;
+var ubicacionesOri = [];
 
 /* $(document).ready(function(){
   $('#txtSrch').keyup(function(){
@@ -69,12 +71,11 @@ function generarUbicaciones()
   var numCasillas = document.getElementById("numeroUbicaciones").value;
   if(numCasillas > 0 && !isNaN(numCasillas))
   {
-    console.log(numCasillas);
     var casillas = "";
-    for (i = 1; i <= numCasillas; i++) {
+    for (i = 1; i <= numCasillas; i++) 
+    {
       casillas += '<div class="form-label-group"> <label for="ubicacion' + i + '">Ubicacion ' + i + '</label> <input type="text" id="ubicacion' + i + '" class="form-control" placeholder="A.01.01.0' + i + '" required autofocus></div> <div id="ubicacionError'+ i +'" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>';
     }
-    console.log(casillas);
     document.getElementById("ubicaciones").innerHTML = casillas;
   }
   else
@@ -110,15 +111,160 @@ function validarUbicacion(ubicacionInput,ubicacionID,ubicacionErrorID,tipo)
   }
 }
 
-function llenarFormularioUbicacion()
+function cargarUbicaciones(skuVal)
 {
-  skuVal = document.getElementById("sku").value;
-  document.getElementById("skuUbicacion").value = skuVal;
+  console.log(skuVal);
+  const uri = '../php/productos/productosCargarUbicaciones.php';
+  const xhr  = new XMLHttpRequest();
+  const fd = new FormData();
+  xhr.open("POST", uri, true);
+  xhr.onreadystatechange = function(){
+      if(xhr.readyState == 4 && xhr.status == 200){
+        var respuesta = JSON.parse(xhr.responseText);
+        console.log(respuesta);
+        if(respuesta.mensaje === "EXITO")
+        {
+          if(respuesta.numUbicaciones == 0)
+          {
+            console.log(respuesta);
+            mensaje(1,"error","El sku seleccionado no tiene ninguna ubicación asignada","");
+          }
+          else
+          {
+            numUbicaciones = respuesta.numUbicaciones;
+            console.log(respuesta);
+            var casillas = "";
+            for (var i = 1; i <= respuesta.numUbicaciones; i++) 
+            {
+              
+              casillas += '<div class="form-label-group"> <label for="ubicacion' + i + '">Ubicacion ' + i + '</label> <input type="text" id="ubicacion' + i + '" class="form-control" placeholder="A.01.01.0' + i + '" required autofocus></div> <div id="ubicacionError'+ i +'" class="invalid-feedback" style="margin-bottom: 0px;"><p></p></div>';
+            }
+            document.getElementById("modificarUbicaciones").innerHTML = casillas;
+            for(var i =1; i<= respuesta.numUbicaciones;i++)
+            {
+              var id = "ubicacion"+i;
+              console.log(respuesta[id]);
+              ubicacionesOri.push(respuesta[id]);
+              document.getElementById(id).value = respuesta[id];
+            }
+          }
+        }
+        else
+        {
+          mensaje(2,"error,","Hubo un problema al realizar la operación",respuesta.mensaje);
+        }
+      }
+  };
+  fd.append("sku",skuVal);
+  xhr.send(fd);
+}
+
+function llenarFormularioUbicacion(tipo)
+{
+  if(tipo == 1)
+  {
+    skuVal = document.getElementById("sku").value;
+    document.getElementById("skuUbicacion").value = skuVal;
+  }
+  else
+  {
+    skuVal = document.getElementById("sku").value;
+    document.getElementById("skuUbicacionMod").value = skuVal;
+    cargarUbicaciones(skuVal);
+  }
 }
 
 function modificarUbicaciones()
 {
-  
+  console.log(ubicacionesOri);
+  var numeroUbicaciones = numUbicaciones;
+  var ubicaciones = [];
+  var bandera = true;
+  var repetido = false;
+  var repetidotemp = false; 
+  if(numeroUbicaciones > 0 && !isNaN(numeroUbicaciones))
+  {
+    for(var i = 1;i<=numeroUbicaciones;i++)
+    {
+      var ubicacionID = "ubicacion" + i.toString();
+      var ubicacionErrorID = "ubicacionError" + i.toString();
+      var ubicacion = document.getElementById(ubicacionID).value;
+      if(!validarUbicacion(ubicacion,ubicacionID,ubicacionErrorID,1))
+      {
+        bandera = false;
+        continue;
+      }
+      for(var y=i-1;y>=1;y--)
+      {
+        if(ubicacion === "SIN ASIGNAR")
+        {
+          continue;
+        }
+        if(ubicacion === ubicaciones[y-1])
+        {
+          repetido = true;
+          repetidotemp = true;
+        }
+      }
+      if(!repetidotemp)
+        ubicaciones.push(ubicacion);
+      repetidotemp = false;
+    }
+    if(bandera)
+    {
+      if(!repetido)
+      {
+        const uri = '../php/productos/productosModificarUbicacion.php';
+        const xhr  = new XMLHttpRequest();
+        const fd = new FormData();
+        xhr.open("POST", uri, true);
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4 && xhr.status == 200){
+              console.log(xhr.responseText);
+              if(xhr.responseText === "La operación se realizo con éxito")
+              {
+                mensaje(1,"success","Se realizo con éxito la operación","");
+              }
+              else
+              {
+                mensaje(2,"error","Hubo un error al realizar la operación",xhr.responseText);
+              }
+            }
+        };
+        fd.append('numeroUbicaciones',numeroUbicaciones);
+        fd.append("sku",skuVal)
+        for(var i=0;i<ubicaciones.length;i++)
+        {
+          var ubicacionID = "ubicacion" + i.toString();
+          var ubicacionIDOri = "ubicacionMod" + i.toString();
+          fd.append(ubicacionID,ubicaciones[i]);
+          fd.append(ubicacionIDOri,ubicacionesOri[i]);
+        }
+        xhr.send(fd);
+      }
+      else
+      {
+        swal({
+          icon: "error",
+          title: "Verificalo los datos ingresados, hay datos repetidos"
+        });
+      }
+    }
+    else
+    {
+      swal({
+        icon: "error",
+        title: "Hay errores en los datos ingresados, verificalos"
+      });
+    }
+  }
+  else
+  {
+    swal({
+      icon: "error",
+      title: "El numero de casillas debe ser mayor a 0"
+    });
+  }
 }
 
 function buscarProducto()
