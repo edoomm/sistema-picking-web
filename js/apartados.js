@@ -107,7 +107,6 @@ function sendFile(){
     xhr.open("POST", uri, true);
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4 && xhr.status == 200){
-            console.log(xhr.responseText);
                 let res = JSON.parse(xhr.responseText);
                 let hay_errores = false;
                 let msg_error = String();
