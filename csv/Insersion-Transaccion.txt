@@ -1,8 +1,15 @@
-INSERT INTO Transaccion VALUES('1','123456','3','5633','2','2021-01-14 12:00:00', 'P', '15') ;
-INSERT INTO Transaccion VALUES('2','123456','3','5633','2','2021-01-14 12:00:00', 'P', '3') ;
-INSERT INTO Transaccion VALUES('3','123456','3','10053','2','2021-01-14 12:00:00', 'P', '4') ;
-INSERT INTO Transaccion VALUES('4','123456','3','10055','2','2021-01-14 11:30:00', 'P', '5') ;
-INSERT INTO Transaccion VALUES('5','123456','3','15755','2','2021-01-13 13:00:00', 'R', '55') ;
+INSERT INTO Transaccion (num_empleado, contenedor_id, sku, control_id, hora_realizada, tipo_movimiento, cantidad) 
+VALUES('123456',3,5633,2,'2021-02-21 12:00:00', 'P', 15) ;
+INSERT INTO Transaccion (num_empleado, contenedor_id, sku, control_id, hora_realizada, tipo_movimiento, cantidad) 
+VALUES('123456',3,5633,2,'2021-01-14 12:00:00', 'P', 3);
+INSERT INTO Transaccion (num_empleado, contenedor_id, sku, control_id, hora_realizada, tipo_movimiento, cantidad) 
+VALUES('123456','3','5633','2','2021-02-21 12:00:00', 'P', '3') ;
+INSERT INTO Transaccion (num_empleado, contenedor_id, sku, control_id, hora_realizada, tipo_movimiento, cantidad) 
+VALUES('123456','3','10053','2','2021-01-14 12:00:00', 'P', '4') ;
+INSERT INTO Transaccion (num_empleado, contenedor_id, sku, control_id, hora_realizada, tipo_movimiento, cantidad) 
+VALUES('123456','3','10055','2','2021-02-21 11:30:00', 'P', '5') ;
+INSERT INTO Transaccion (num_empleado, contenedor_id, sku, control_id, hora_realizada, tipo_movimiento, cantidad) 
+VALUES('123456','3','15755','3','2021-02-21 13:00:00', 'P', '55') ;
 INSERT INTO Transaccion VALUES('6','123456','4','15755','2','2021-01-13 13:00:00', 'R', '32') ;
 INSERT INTO Transaccion VALUES('7','123456','7','15755','2','2021-01-13 13:00:00', 'P', '33') ;
 INSERT INTO Transaccion VALUES('8','123456','7','11522','2','2021-01-13 13:00:00', 'P', '13') ;

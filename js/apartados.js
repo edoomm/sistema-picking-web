@@ -302,3 +302,68 @@ function initModal(){
     document.getElementById("btn-archivo").disabled=true;
     document.getElementById("targetLayer").innerHTML = document.getElementById("modalInicio").innerHTML;
 }
+
+function showOperators() {
+    $.get("../php/apartados/getOperadores.php").done(e=>{
+        var array = JSON.parse(e);
+        array = array.reverse();
+        array.push("Selecciona Operador");
+        array = array.reverse();
+        const options = [];
+        for (const e of array) {
+            options.push(`<option>${e}</option>`)
+        }
+        document.getElementById("zonaSelectEmpleados").innerHTML = options.join();
+    }).fail((xhr,status,error)=>{
+        alert("Error al listar operadores")
+    })
+}
+
+function onchangeSelectOperators() {
+
+    var idEmpleado = document.getElementById("zonaSelectEmpleados").value;
+    var divControls = document.getElementById("numControl");
+    var tableControls = document.getElementById("assignedControls");
+
+    if (idEmpleado == "Selecciona Operador") {
+        divControls.innerHTML = `Numero de controles asignados`
+        tableControls.innerHTML = ``
+        return;
+    }
+
+    idEmpleado = idEmpleado.split("-")[0];
+
+
+    //obtener número de controles
+    //var nControles = 25;
+
+    
+
+    divControls.innerHTML = `Numero de controles asignados: ${idEmpleado}` //prueba para probar función 
+    showControls();
+}
+
+function showControls(){
+        $.post("../php/mostrarElementosBD.php", {
+        variable: "Control",
+        columnas : "control_id,numero_control,id_sucursal",
+        condicion : "estado=1",
+    },
+    function(data){
+        if(data==""){
+            alert("No hay apartados asignados");
+        }
+        else{
+            document.getElementById("assignedControls").innerHTML = data;
+            rowHandlers(
+                ["control_id", "numero_control", "id_sucursal"],
+                "control_id,numero_control,id_sucursal",
+                "assignedControls",
+                ["control_id",0],
+                "Control"
+            );
+        }
+    }
+    );
+}
+//me falta hacer un post para pintar en pantalla cuando se seleccione un operador y calcular el numero de apartados que le fueron asignados
