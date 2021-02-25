@@ -1,3 +1,24 @@
+function filtrar() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("busqueda");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("dispositivo");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
 function formValidate(formId, formMsg, numeroDeSerie) {
   var flag = 0;
 
@@ -150,11 +171,8 @@ function resetForm(formActual) {
 function Validate_NumeroDeSerie(actual) {
   var valueReturn;
 
-  if (actual.length == 6 && !isNaN(actual)) {
-    /*
-      Y el número de serie no es necesariamente igual a 6
-      Acá no sé porque le pones "numeroSerie=", le estorba a tu query
-    */
+  if (actual.length >=10 && actual.length <=17 && !isNaN(actual)) {
+
     var dataString = 'numeroSerie=' + actual; 
     $.ajax({
       async: false,

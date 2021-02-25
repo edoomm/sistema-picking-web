@@ -35,7 +35,7 @@
     <main>
         <nav class="navbar  navbar-expand-lg navbar-custom fixed-top">
             <div class="collapse navbar-collapse container-fluid">
-                <img src="./resources/grand_vision.png" alt="" width="100" class="d-inline-block align-top">
+            <img src="./resources/grand_vision.png" alt="" width="100" class="d-inline-block align-top">
                 <h1 style="color:beige">Dispositivos</h1>
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link nav-brand" href="menuPrincipal.html" style="color:beige">Menú principal</a></li>
@@ -52,7 +52,7 @@
                     <div class="card-body">
                         <div class="container">
                             <input class="form-control mb-4" id="busqueda" onkeyup="filtrar()" type="text" placeholder="Ingresa el numero de serie del dispositivo " required
-                            pattern="^[0-9]{1,6}$">
+                            pattern="^[0-9]{1,17}$">
                             <table class="table table-hover" id="tablaDispositivos">
                                 <thead>
                                     <tr>
@@ -61,24 +61,7 @@
                                         <th scope="col">Activo</th>
                                     </tr>
                                 </thead>
-                                <tbody id="serie">
-                                  <?php
-                                        $link = open_database();
-                                        foreach ($link->query('SELECT * from dispositivo') as $row){
-                                  ?>
-                                  <tr>
-                                    <td><?php echo $row['dispositivo_id'] ?></td>
-                                    <td><?php echo $row['operador_num_empleado'] ?></td>
-                                    <td><?php echo $row['activo'] ?></td>
-                                    <td style="display:none;"><?php echo $row['tipo'] ?></td>
-
-                                  </tr>
-                                  <?php
-                                      }
-                                      $link->close();
-                                  ?>
-
-                                </tbody>
+                                <tbody id="dispositivo"></tbody>
                             </table>
                         </div>
                     </div>
@@ -110,19 +93,19 @@
                         <form>
                             <div class="mb-3">
                                 <label for="tipo" class="form-label">Tipo</label>
-                                <input type="text" class="form-control" id="tipo">
+                                <input type="text" class="form-control" id="tipo" disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="numeroSerie" class="form-label">Número de Serie</label>
-                                <input type="text" class="form-control" id="numeroSerie">
+                                <input type="text" class="form-control" id="numeroSerie" disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="encargado" class="form-label">Encargado</label>
-                                <input type="text" class="form-control" id="encargado">
+                                <input type="text" class="form-control" id="encargado" disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="estado" class="form-label">Activo</label>
-                                <input type="text" class="form-control" id="estado">
+                                <input type="text" class="form-control" id="estado" disabled>
                             </div>
                         </form>
                     </div>
@@ -255,7 +238,7 @@
                           <option value="">Seleccione al encargado de este dispositivo.</option>
                           <?php
                                 $link = open_database();
-                                foreach ($link->query("SELECT * from operador") as $row){
+                                foreach ($link->query('SELECT * from operador') as $row){
                           ?>
 
                                 <option value="<?php echo $row['num_empleado'] ?>"><?php echo $row['num_empleado'] ?>
@@ -344,83 +327,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"> </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../js/dispositivos1.js"></script>
-</body>
+    <script src="../js/initFile.js"></script>
 
-</html>
 <script>
-    function filtrar() {
-      // Declare variables
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("busqueda");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("serie");
-      tr = table.getElementsByTagName("tr");
-
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
-          }
+    $.post("../php/mostrarElementosBD.php", {
+          variable: "Dispositivo",
+          columnas: "dispositivo_id,operador_num_empleado,activo",
+          condicion: "dispositivo_id=dispositivo_id"
+        },
+        function(data) {
+          document.getElementById("dispositivo").innerHTML = data;
+          rowHandlers(
+            ["tipo", "numeroSerie","encargado","estado"],
+            "tipo,dispositivo_id,operador_num_empleado,activo",
+            "dispositivo",
+            ["dispositivo_id", 0],
+            "Dispositivo"
+          );
         }
-      }
-    }
-    function init(){
-        document.getElementById("tipo").value = "";
-        document.getElementById("tipo").disabled = true;
-        document.getElementById("numeroSerie").value = "";
-        document.getElementById("numeroSerie").disabled = true;
-        document.getElementById("encargado").value = "";
-        document.getElementById("encargado").disabled = true;
-        document.getElementById("estado").value = ""
-        document.getElementById("estado").disabled = true;
-        document.getElementById("busqueda").value="";
-        rowHandlers();
-    }
-    /*
-        correo_operador
-        horario_entrada
-        horario_salida
-    */
-    function llenarFormulario(row){
-        console.log(row[0]);
-        console.log(row[1]);
-        console.log(row[2]);
-        console.log(row[3]);
-        document.getElementById("tipo").value = row[3];
-        document.getElementById("tipo").disabled = true;
-        document.getElementById("numeroSerie").value = row[0];
-        document.getElementById("numeroSerie").disabled = true;
-        document.getElementById("encargado").value = row[1];
-        document.getElementById("encargado").disabled = true;
-        document.getElementById("estado").value = row[2];
-        document.getElementById("estado").disabled = true;
-    }
-
-    function rowHandlers(){
-        //cleanForm();
-        var table = document.getElementById("tablaDispositivos");
-        var rows = table.getElementsByTagName("tr");
-        for(var i = 0; i < rows.length; i++){
-            var currentRow = table.rows[i];
-            var clickHandler = function(row){
-                return function(){
-                    var cells = row.getElementsByTagName("td");
-                    var fila = [];
-                    for(var j = 0; j < cells.length; j++){
-                        console.log(cells[j].innerHTML);
-                        fila.push(cells[j].innerHTML);
-                    }
-                    llenarFormulario(fila);
-                };
-            };
-            currentRow.onclick = clickHandler(currentRow);
-        }
-    }
-
-
-    window.onload = init();
+      );
+      /*window.onload = init(
+      ["tipo", "numeroSerie","encargado","estado"],
+      "tipo,dispositivo_id,operador_num_empleado",
+      "Dispositivo",
+      "dispositivo",
+      "tipo,dispositivo_id,operador_num_empleado",
+      ["dispositivo_id", 0]
+      );*/
 </script>
+
+</body>
+</html>
